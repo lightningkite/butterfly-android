@@ -27,18 +27,24 @@ fun Video.thumbnail(timeMs: Long = 2000L, size: PointF? = null): Single<Image> {
                 }
             }
             if (size != null && Build.VERSION.SDK_INT >= 27) {
-                em.onSuccess(
-                    ImageBitmap(
-                        mMMR.getScaledFrameAtTime(
-                            timeMs ,
-                            MediaMetadataRetriever.OPTION_CLOSEST_SYNC,
-                            size.x.toInt(),
-                            size.y.toInt()
-                        )
-                    )
+                val frame = mMMR.getScaledFrameAtTime(
+                    timeMs ,
+                    MediaMetadataRetriever.OPTION_CLOSEST_SYNC,
+                    size.x.toInt(),
+                    size.y.toInt()
                 )
+                if(frame != null){
+                    em.onSuccess(ImageBitmap(frame))
+                } else {
+                    em.onError(Exception("No frame could be retrieved"))
+                }
             } else {
-                em.onSuccess(ImageBitmap(mMMR.getFrameAtTime(timeMs)))
+                val frame = mMMR.getFrameAtTime(timeMs)
+                if(frame != null){
+                    em.onSuccess(ImageBitmap(frame))
+                } else {
+                    em.onError(Exception("No frame could be retrieved"))
+                }
             }
         } catch (e: Exception) {
             em.onError(e)

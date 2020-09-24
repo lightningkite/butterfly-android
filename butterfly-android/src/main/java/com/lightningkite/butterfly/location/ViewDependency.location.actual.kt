@@ -43,14 +43,6 @@ fun ViewDependency.requestLocation(
         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
 
         }
-
-        override fun onProviderEnabled(p0: String?) {
-
-        }
-
-        override fun onProviderDisabled(p0: String?) {
-
-        }
     }
     requestPermission(Manifest.permission.ACCESS_FINE_LOCATION) {
         if (it) {
