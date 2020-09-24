@@ -6,7 +6,7 @@ import com.lightningkite.butterfly.ApplicationAccess
 import com.lightningkite.butterfly.Preferences
 import com.lightningkite.butterfly.net.HttpClient
 
-open class KhrysalisApplication: Application() {
+open class ButterflyApplication: Application() {
     companion object {
         fun setup(application: Application){
             HttpClient.appContext = application

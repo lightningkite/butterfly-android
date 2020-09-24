@@ -75,7 +75,7 @@ fun <T> Spinner.bind(
     }
 }
 
-@PlatformSpecific var khrysalisSpinnerRow: Int = android.R.layout.simple_spinner_item
+@PlatformSpecific var butterflySpinnerRow: Int = android.R.layout.simple_spinner_item
 
 @JsName("spinnerBind")
 fun <T> Spinner.bind(
@@ -96,7 +96,7 @@ fun <T> Spinner.bind(
                 val event = StandardObservableProperty<T>(
                     options.value.getOrNull(position) ?: selected.value
                 )
-                val subview = LayoutInflater.from(this@bind.context).inflate(khrysalisSpinnerRow, parent, false)
+                val subview = LayoutInflater.from(this@bind.context).inflate(butterflySpinnerRow, parent, false)
                 val padding = (context.resources.displayMetrics.density * 8).toInt()
                 subview.setPadding(padding,padding,padding,padding)
                 val textView = subview.findViewById<TextView>(android.R.id.text1)
@@ -152,7 +152,7 @@ fun <T> Spinner.bindString(
                 val event = StandardObservableProperty<T>(
                     options.value.getOrNull(position) ?: selected.value
                 )
-                val subview = LayoutInflater.from(this@bindString.context).inflate(khrysalisSpinnerRow, parent, false)
+                val subview = LayoutInflater.from(this@bindString.context).inflate(butterflySpinnerRow, parent, false)
                 val padding = (context.resources.displayMetrics.density * 8).toInt()
                 subview.setPadding(padding,padding,padding,padding)
                 val textView = subview.findViewById<TextView>(android.R.id.text1)

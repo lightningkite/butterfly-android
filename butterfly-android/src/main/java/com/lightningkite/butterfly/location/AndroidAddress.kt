@@ -2,7 +2,7 @@ package com.lightningkite.butterfly.location
 
 import android.location.Address
 
-fun Address.toKhrysalis(): GeoAddress = GeoAddress(
+fun Address.toButterfly(): GeoAddress = GeoAddress(
     coordinate = coordinate,
     name = null,
     street = street,

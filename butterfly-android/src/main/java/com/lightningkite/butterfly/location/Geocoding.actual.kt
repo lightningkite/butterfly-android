@@ -23,7 +23,7 @@ fun ViewDependency.geocode(
             val result = Geocoder(context)
                 .getFromLocation(coordinate.latitude, coordinate.longitude, 1)
             post {
-                onResult(result.map { it -> it.toKhrysalis() })
+                onResult(result.map { it -> it.toButterfly() })
             }
         } catch (e: Exception) {
             showDialog(DialogRequest(string = ViewStringRaw(e.message ?: "An unknown error occured")))
@@ -45,7 +45,7 @@ fun ViewDependency.geocode(
             val result = Geocoder(context)
                 .getFromLocationName(address, 1)
             post {
-                onResult(result.map { it -> it.toKhrysalis() })
+                onResult(result.map { it -> it.toButterfly() })
             }
         } catch (e: Exception) {
             showDialog(ViewStringRaw(e.message ?: "An unknown error occured"))
@@ -64,7 +64,7 @@ fun ViewDependency.geocode(
         Thread {
             try {
                 emitter.onSuccess(Geocoder(context)
-                    .getFromLocationName(address, maxResults).map { it -> it.toKhrysalis() })
+                    .getFromLocationName(address, maxResults).map { it -> it.toButterfly() })
             } catch (e: Exception) {
                 emitter.tryOnError(e)
             }
@@ -83,7 +83,7 @@ fun ViewDependency.geocode(
         Thread {
             try {
                 emitter.onSuccess(Geocoder(context)
-                    .getFromLocation(coordinate.latitude, coordinate.longitude, maxResults).map { it -> it.toKhrysalis() })
+                    .getFromLocation(coordinate.latitude, coordinate.longitude, maxResults).map { it -> it.toButterfly() })
 
             } catch (e: Exception) {
                 emitter.tryOnError(e)

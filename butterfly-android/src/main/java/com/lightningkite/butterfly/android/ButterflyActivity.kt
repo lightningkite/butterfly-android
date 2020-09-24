@@ -29,7 +29,7 @@ import io.reactivex.rxkotlin.subscribeBy
  *
  * Created by jivie on 10/12/15.
  */
-abstract class KhrysalisActivity(val changeToTheme: Int? = null) : AccessibleActivity() {
+abstract class ButterflyActivity(val changeToTheme: Int? = null) : AccessibleActivity() {
 
     abstract val main: ViewGenerator
     lateinit var view: View
@@ -75,7 +75,7 @@ abstract class KhrysalisActivity(val changeToTheme: Int? = null) : AccessibleAct
     private var keyboardSubscriber: Disposable? = null
     private val keyboardTreeObs: ViewTreeObserver.OnGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         val keyboardHeight = view.rootView.height - view.height
-        Log.v("KhrysalisActivity", "Keyboard height is now $keyboardHeight")
+        Log.v("ButterflyActivity", "Keyboard height is now $keyboardHeight")
         if (keyboardHeight.toFloat() > displayMetrics.heightPixels * 0.15f) {
             suppressKeyboardChange = true
             ApplicationAccess.softInputActive.value = true
