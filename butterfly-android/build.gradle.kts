@@ -23,6 +23,8 @@ apply(plugin = "com.lightningkite.khrysalis")
 configure<KhrysalisPluginExtension> {
     projectName = "Butterfly"
     organizationName = "Lightning Kite"
+    overrideIosFolder = project.projectDir.resolve("../../butterfly-ios").toString()
+    overrideWebFolder = project.projectDir.resolve("../../butterfly-web").toString()
 }
 
 group = "com.lightningkite.butterfly"

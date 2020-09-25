@@ -14,13 +14,7 @@ import okhttp3.Response
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-@Deprecated("Use it directly instead.", ReplaceWith("Response", "okhttp3.Response"))
-typealias HttpResponse = Response
-
 val Response.code: Int get() = this.code()
-/* SHARED DECLARATIONS
-val HttpResponse.isSuccessful: Boolean get() = true
-*/
 val Response.headers: Map<String, String> get() = this.headers().toMultimap().mapValues { it.value.joinToString(";") }
 
 fun Response.discard(): Single<Unit> {

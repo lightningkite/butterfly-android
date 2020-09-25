@@ -24,11 +24,6 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 
 
-@Deprecated("Use it directly instead.", ReplaceWith("RequestBody", "okhttp3.RequestBody"))
-typealias HttpBody = RequestBody
-@Deprecated("Use it directly instead.", ReplaceWith("MultipartBody.Part", "okhttp3.MultipartBody"))
-typealias HttpBodyPart = MultipartBody.Part
-
 fun IsCodable.toJsonHttpBody(): RequestBody {
     val sending = HttpClient.mapper.writeValueAsString(this)
     Log.i("HttpClient", "with body $sending")

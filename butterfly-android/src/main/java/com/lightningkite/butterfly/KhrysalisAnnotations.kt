@@ -13,6 +13,9 @@ interface Hashable {}
 interface Equatable {}
 typealias SomeEnum = Enum<*>
 
+@Target(AnnotationTarget.FILE)
+annotation class SharedCode
+
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 @Target(

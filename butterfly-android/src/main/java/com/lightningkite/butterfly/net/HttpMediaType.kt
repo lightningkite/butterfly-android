@@ -2,9 +2,6 @@ package com.lightningkite.butterfly.net
 
 import okhttp3.MediaType
 
-@Deprecated("Use it directly instead.", ReplaceWith("MediaType", "okhttp3.MediaType"))
-typealias HttpMediaType = MediaType
-
 object HttpMediaTypes {
     val JSON = MediaType.parse("application/json")!!
     val TEXT = MediaType.parse("text/plain")!!

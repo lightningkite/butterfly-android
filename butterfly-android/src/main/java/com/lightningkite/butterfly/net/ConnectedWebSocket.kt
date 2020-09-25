@@ -93,16 +93,16 @@ class ConnectedWebSocket(val url: String) : WebSocketListener(),
     override fun onSubscribe(d: Disposable) {
     }
 
-    override fun onNext(t: WebSocketFrame) {
-        t.text?.let {
+    override fun onNext(frame: WebSocketFrame) {
+        frame.text?.let {
             underlyingSocket?.send(it)
         }
-        t.binary?.let { binary ->
+        frame.binary?.let { binary ->
             underlyingSocket?.send(ByteString.of(binary, 0, binary.size))
         }
     }
 
-    override fun onError(e: Throwable) {
-        underlyingSocket?.close(1011, e.message)
+    override fun onError(error: Throwable) {
+        underlyingSocket?.close(1011, error.message)
     }
 }
