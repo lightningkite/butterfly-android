@@ -1,4 +1,4 @@
-package com.lightningkite.butterfly.views
+package com.lightningkite.butterfly.views.widget
 
 //Original: https://github.com/hyogeunpark/ColorRatingBar
 

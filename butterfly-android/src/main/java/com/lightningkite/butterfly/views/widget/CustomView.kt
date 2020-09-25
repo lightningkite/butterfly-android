@@ -1,4 +1,4 @@
-package com.lightningkite.butterfly.views
+package com.lightningkite.butterfly.views.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,6 +13,7 @@ import com.lightningkite.butterfly.PlatformSpecific
 import com.lightningkite.butterfly.R
 import com.lightningkite.butterfly.rx.DisposableLambda
 import com.lightningkite.butterfly.rx.removed
+import com.lightningkite.butterfly.views.CustomViewDelegate
 import kotlin.math.min
 
 class CustomView @JvmOverloads constructor(

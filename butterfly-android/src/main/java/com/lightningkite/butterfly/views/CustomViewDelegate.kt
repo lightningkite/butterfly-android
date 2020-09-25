@@ -6,7 +6,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import com.lightningkite.butterfly.rx.DisposeCondition
 import com.lightningkite.butterfly.weak
-import com.lightningkite.butterfly.views.CustomView
+import com.lightningkite.butterfly.views.widget.CustomView
 import com.lightningkite.butterfly.views.geometry.GFloat
 import io.reactivex.disposables.Disposable
 

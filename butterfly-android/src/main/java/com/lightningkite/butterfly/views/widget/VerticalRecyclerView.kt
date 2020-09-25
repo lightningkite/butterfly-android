@@ -1,27 +1,15 @@
-package com.lightningkite.butterfly.views
+package com.lightningkite.butterfly.views.widget
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.view.Gravity
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.*
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
 import com.lightningkite.butterfly.R
-import com.lightningkite.butterfly.observables.StandardObservableProperty
-import com.lightningkite.butterfly.observables.addAndRunWeak
-import java.text.SimpleDateFormat
-import java.util.*
 
 class VerticalRecyclerView @JvmOverloads constructor(
     context: Context,

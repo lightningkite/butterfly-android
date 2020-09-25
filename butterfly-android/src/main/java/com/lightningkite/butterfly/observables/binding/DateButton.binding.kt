@@ -4,8 +4,8 @@ import com.lightningkite.butterfly.observables.*
 import com.lightningkite.butterfly.rx.removed
 import com.lightningkite.butterfly.rx.until
 import com.lightningkite.butterfly.time.*
-import com.lightningkite.butterfly.views.DateButton
-import com.lightningkite.butterfly.views.TimeButton
+import com.lightningkite.butterfly.views.widget.DateButton
+import com.lightningkite.butterfly.views.widget.TimeButton
 import java.util.*
 
 /**

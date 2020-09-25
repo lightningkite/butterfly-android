@@ -1,4 +1,4 @@
-package com.lightningkite.butterfly.views
+package com.lightningkite.butterfly.views.widget
 
 import android.content.Context
 import android.os.Build

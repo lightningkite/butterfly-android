@@ -1,19 +1,21 @@
-package com.lightningkite.butterfly.views
+package com.lightningkite.butterfly.views.widget
 
-import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.Button
 import androidx.appcompat.widget.AppCompatButton
 import io.reactivex.subjects.PublishSubject
 import java.text.DateFormat
 import java.util.*
 
-class DateButton(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : AppCompatButton(context, attrs, defStyleAttr) {
+class TimeButton(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
+    AppCompatButton(context, attrs, defStyleAttr) {
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    var format = DateFormat.getDateInstance(DateFormat.SHORT)
+    var minuteInterval: Int = 1
+
+    var format = DateFormat.getTimeInstance(DateFormat.SHORT)
 
     var date: Date = Date()
         set(value) {
@@ -25,26 +27,26 @@ class DateButton(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Ap
 
     init {
         setOnClickListener {
-            context.dateSelectorDialog(date) {
+            context.timeSelectorDialog(date, minuteInterval) {
                 date = it
                 onDateEntered.onNext(it)
             }
         }
     }
 }
-fun Context.dateSelectorDialog(start: Date, onResult: (Date) -> Unit) {
+
+fun Context.timeSelectorDialog(start: Date, minuteInterval: Int = 1, onResult: (Date) -> Unit) {
     val cal = Calendar.getInstance()
     cal.time = start
-    DatePickerDialog(
+    TimePickerDialog(
         this,
-        DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, month)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        TimePickerDialog.OnTimeSetListener { view, hour, minute ->
+            cal.set(Calendar.HOUR_OF_DAY, hour)
+            cal.set(Calendar.MINUTE, minute)
             onResult(cal.time)
         },
-        cal.get(Calendar.YEAR),
-        cal.get(Calendar.MONTH),
-        cal.get(Calendar.DAY_OF_MONTH)
+        cal.get(Calendar.HOUR_OF_DAY),
+        cal.get(Calendar.MINUTE),
+        false
     ).show()
 }

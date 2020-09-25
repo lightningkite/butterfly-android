@@ -2,7 +2,6 @@ package com.lightningkite.butterfly.observables.binding
 
 import android.net.Uri
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -14,7 +13,7 @@ import com.lightningkite.butterfly.observables.observableNN
 import com.lightningkite.butterfly.observables.subscribeBy
 import com.lightningkite.butterfly.rx.removed
 import com.lightningkite.butterfly.rx.until
-import com.lightningkite.butterfly.views.VideoPlayer
+import com.lightningkite.butterfly.views.widget.VideoPlayer
 import com.lightningkite.butterfly.views.onClick
 
 fun VideoPlayer.bind(video: ObservableProperty<Video?>){

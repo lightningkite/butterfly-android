@@ -8,7 +8,7 @@ import com.lightningkite.butterfly.android.runKeyboardUpdate
 import com.lightningkite.butterfly.observables.*
 import com.lightningkite.butterfly.rx.removed
 import com.lightningkite.butterfly.rx.until
-import com.lightningkite.butterfly.views.SwapView
+import com.lightningkite.butterfly.views.widget.SwapView
 import com.lightningkite.butterfly.views.ViewGenerator
 import com.lightningkite.butterfly.views.ViewTransition
 

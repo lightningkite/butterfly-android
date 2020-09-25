@@ -1,13 +1,11 @@
 //! This file is Khrysalis compatible.
 package com.lightningkite.butterfly.views
 
-import android.media.MediaMetadataRetriever
 import android.widget.ImageView
 import com.lightningkite.butterfly.Video
-import com.lightningkite.butterfly.VideoReference
-import com.lightningkite.butterfly.VideoRemoteUrl
 import com.lightningkite.butterfly.rx.forever
 import com.lightningkite.butterfly.thumbnail
+import com.lightningkite.butterfly.views.loadImage
 import io.reactivex.rxkotlin.subscribeBy
 
 
