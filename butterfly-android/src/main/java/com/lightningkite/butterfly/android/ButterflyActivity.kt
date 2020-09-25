@@ -17,7 +17,6 @@ import com.lightningkite.butterfly.ApplicationAccess
 import com.lightningkite.butterfly.R
 import com.lightningkite.butterfly.animationFrame
 import com.lightningkite.butterfly.delay
-import com.lightningkite.butterfly.lifecycle.appInForeground
 import com.lightningkite.butterfly.observables.observableNN
 import com.lightningkite.butterfly.observables.onChangeNN
 import com.lightningkite.butterfly.views.*

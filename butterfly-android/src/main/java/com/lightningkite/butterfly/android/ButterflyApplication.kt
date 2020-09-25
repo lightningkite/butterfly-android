@@ -1,9 +1,12 @@
 package com.lightningkite.butterfly.android
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.lightningkite.butterfly.ApplicationAccess
 import com.lightningkite.butterfly.Preferences
+import com.lightningkite.butterfly.SecurePreferences
 import com.lightningkite.butterfly.net.HttpClient
 
 open class ButterflyApplication: Application() {
@@ -11,6 +14,7 @@ open class ButterflyApplication: Application() {
         fun setup(application: Application){
             HttpClient.appContext = application
             Preferences.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
+            SecurePreferences.sharedPreferences = application.getSharedPreferences("secure", Context.MODE_PRIVATE)
             ApplicationAccess.applicationIsActiveStartup(application)
         }
     }

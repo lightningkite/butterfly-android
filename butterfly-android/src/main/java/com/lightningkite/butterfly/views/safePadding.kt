@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.lightningkite.butterfly.views.android.activity
+import com.lightningkite.butterfly.views.activity
 import java.util.*
 
 object SafePaddingFlags {

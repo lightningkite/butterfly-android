@@ -11,10 +11,3 @@ fun EditText.setOnDoneClick(action: () -> Unit) {
         true
     }
 }
-
-private val View_focusAtStartup = WeakHashMap<View, Boolean>()
-var View.focusAtStartup: Boolean
-    get() = View_focusAtStartup[this] ?: true
-    set(value) {
-        View_focusAtStartup[this] = value
-    }
