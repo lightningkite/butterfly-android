@@ -1,4 +1,4 @@
-import com.lightningkite.khrysalis.gradle.KhrysalisPluginExtension
+
 
 buildscript {
     repositories {
@@ -7,9 +7,6 @@ buildscript {
         mavenCentral()
         mavenLocal()
     }
-    dependencies {
-        classpath("com.lightningkite.khrysalis:plugin:0.1.0")
-    }
 }
 
 plugins {
@@ -17,14 +14,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("digital.wup.android-maven-publish") version "3.6.2"
-}
-apply(plugin = "com.lightningkite.khrysalis")
-
-configure<KhrysalisPluginExtension> {
-    projectName = "Butterfly"
-    organizationName = "Lightning Kite"
-    overrideIosFolder = project.projectDir.resolve("../../butterfly-ios").toString()
-    overrideWebFolder = project.projectDir.resolve("../../butterfly-web").toString()
 }
 
 group = "com.lightningkite.butterfly"
