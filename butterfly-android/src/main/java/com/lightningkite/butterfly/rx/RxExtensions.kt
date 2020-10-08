@@ -29,10 +29,15 @@ fun <IN : Any> List<Observable<IN>>.combineLatest(): Observable<List<IN>>
 fun <IN : Any> List<Single<IN>>.zip(): Single<List<IN>>
         = Single.zip(this) { stupidArray: Array<Any?> -> stupidArray.toList() as List<IN>}
 
+@JvmName("filterNotNullB")
 fun <Element> Observable<Box<Element>>.filterNotNull(): Observable<Element> =
     this.filter { it.value != null }.map { it.value }
 
-fun <Element : Any, Destination : Any> Observable<Element>.mapNotNull(transform: (Element) -> Destination?): Observable<Destination> =
+@JvmName("filterNotNullA")
+fun <Element: Any> Observable<Box<Element?>>.filterNotNull(): Observable<Element> =
+    this.filter { it.value != null }.map { it.value }
+
+fun <Element, Destination : Any> Observable<Element>.mapNotNull(transform: (Element) -> Destination?): Observable<Destination> =
     this.flatMap {
         val result = transform(it)
         if (result == null)
