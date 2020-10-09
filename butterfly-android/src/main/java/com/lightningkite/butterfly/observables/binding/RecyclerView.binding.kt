@@ -46,6 +46,11 @@ var RecyclerView.reverseDirection: Boolean
         (this.layoutManager as? LinearLayoutManager)?.reverseLayout = value
     }
 
+private fun RecyclerView.defaultLayoutManager(){
+    if(layoutManager == null) {
+        layoutManager = LinearLayoutManager(context)
+    }
+}
 
 /**
  *
@@ -71,7 +76,7 @@ fun <T> RecyclerView.bind(
     defaultValue: T,
     makeView: (ObservableProperty<T>) -> View
 ) {
-    layoutManager = LinearLayoutManager(context)
+    defaultLayoutManager()
     adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         init {
             data.subscribeBy { _ ->
@@ -156,7 +161,7 @@ fun RecyclerView.bindMulti(
     typeHandlerSetup: (RVTypeHandler)->Unit
 ) {
     val typeHandler = RVTypeHandler(viewDependency).apply(typeHandlerSetup)
-    layoutManager = LinearLayoutManager(context)
+    defaultLayoutManager()
     adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         init {
             data.subscribeBy { _ ->
@@ -226,7 +231,7 @@ fun <T> RecyclerView.bindMulti(
     determineType: (T)->Int,
     makeView: (Int, ObservableProperty<T>) -> View
 ) {
-    layoutManager = LinearLayoutManager(context)
+    defaultLayoutManager()
     adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         init {
             data.subscribeBy { _ ->
