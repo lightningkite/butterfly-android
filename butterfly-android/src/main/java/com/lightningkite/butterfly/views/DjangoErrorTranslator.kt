@@ -2,7 +2,13 @@
 package com.lightningkite.butterfly.views
 
 import com.lightningkite.butterfly.*
+import com.lightningkite.butterfly.net.HttpResponseException
+import com.lightningkite.butterfly.net.code
+import com.lightningkite.butterfly.net.readText
 import com.lightningkite.butterfly.views.StringResource
+import io.reactivex.Single
+import java.lang.Exception
+import java.net.SocketTimeoutException
 
 class DjangoErrorTranslator(
     val connectivityErrorResource: StringResource,
@@ -31,25 +37,24 @@ class DjangoErrorTranslator(
             }
         }
     }
-    fun parseError(code: Int, error: String?): ViewString? {
-        var resultError: ViewString? = null
+    fun parseError(code: Int, error: String?): ViewString {
         when(code / 100){
-            0 -> resultError = ViewStringResource(connectivityErrorResource)
+            0 -> return ViewStringResource(connectivityErrorResource)
             1, 2, 3 -> {}
             4 -> {
                 val errorJson = error?.fromJsonStringUntyped()
                 if(errorJson != null){
                     val builder = StringBuilder()
                     handleNode(builder, errorJson)
-                    resultError = ViewStringRaw(builder.toString())
+                    return ViewStringRaw(builder.toString())
                 } else {
-                    resultError = ViewStringRaw(error ?: "")
+                    return ViewStringRaw(error ?: "")
                 }
             }
-            5 -> resultError = ViewStringResource(serverErrorResource)
-            else -> resultError = ViewStringResource(otherErrorResource)
+            5 -> return ViewStringResource(serverErrorResource)
+            else -> {}
         }
-        return resultError
+        return ViewStringResource(otherErrorResource)
     }
 
     fun <T> wrap(
@@ -68,4 +73,12 @@ class DjangoErrorTranslator(
         }
     }
 
+    fun parseException(exception: Any): Single<ViewString> {
+        return when(exception){
+            is HttpResponseException -> exception.response.readText()
+                .map { parseError(exception.response.code, it) }
+            is SocketTimeoutException -> Single.just(ViewStringResource(connectivityErrorResource))
+            else -> Single.just(ViewStringResource(otherErrorResource))
+        }
+    }
 }

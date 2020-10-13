@@ -15,6 +15,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.lightningkite.butterfly.net.HttpClient
 import com.lightningkite.butterfly.net.unsuccessfulAsError
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlin.math.max
 
 
@@ -104,3 +106,22 @@ private fun ImageRemoteUrl.load(): Single<Bitmap> {
             })
     }
 }
+
+//fun Image.shrink(maxDimension: Int = 800): Single<ImageBitmap> {
+//    if(this is ImageBitmap && this.bitmap.width <= maxDimension && this.bitmap.height <= maxDimension) {
+//        return Single.just(this)
+//    }
+//    return load()
+//        .map {
+//            if(it.width <= maxDimension && it.height <= maxDimension){
+//                return@map it
+//            }
+//            val originalAspectRatio = it.width.toFloat() / it.height.toFloat()
+//            val newWidth = if(it.width > it.height) maxDimension else (maxDimension * originalAspectRatio).toInt()
+//            val newHeight = if(it.width <= it.height) maxDimension else (maxDimension / originalAspectRatio).toInt()
+//            return@map Bitmap.createScaledBitmap(it, newWidth, newHeight, true)
+//        }
+//        .map { ImageBitmap(it) }
+//        .subscribeOn(Schedulers.computation())
+//        .observeOn(AndroidSchedulers.mainThread())
+//}
