@@ -26,7 +26,7 @@ class ConnectedWebSocket(val url: String) : WebSocketListener(),
     override fun onOpen(webSocket: WebSocket, response: Response) {
         justStarted = true
         post {
-            println("Socket to $url opened successfully.")
+            Log.v("ConnectedWebSocket", "Socket to $url opened successfully.")
             ownConnection.onNext(this)
             post {
                 justStarted = false
@@ -38,7 +38,7 @@ class ConnectedWebSocket(val url: String) : WebSocketListener(),
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
         post {
             try {
-                println("Socket to $url failed with $t.")
+                Log.v("ConnectedWebSocket", "Socket to $url failed with $t.")
                 ownConnection.onError(t)
                 _read.onError(t)
             } catch (e: Exception) {
@@ -51,7 +51,7 @@ class ConnectedWebSocket(val url: String) : WebSocketListener(),
     @PlatformSpecific
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         post {
-            println("Socket to $url closing.")
+            Log.v("ConnectedWebSocket", "Socket to $url closing.")
             ownConnection.onComplete()
             _read.onComplete()
         }
@@ -62,11 +62,11 @@ class ConnectedWebSocket(val url: String) : WebSocketListener(),
         post {
             if(justStarted){
                 post {
-                    println("Socket to $url got message '$text'.")
+                    Log.v("ConnectedWebSocket", "Socket to $url got message '$text'.")
                     _read.onNext(WebSocketFrame(text = text))
                 }
             } else {
-                println("Socket to $url got message '$text'.")
+                Log.v("ConnectedWebSocket", "Socket to $url got message '$text'.")
                 _read.onNext(WebSocketFrame(text = text))
             }
         }
@@ -75,14 +75,14 @@ class ConnectedWebSocket(val url: String) : WebSocketListener(),
     @PlatformSpecific
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
         post {
-            println("Socket to $url got binary message of length ${bytes.size()}.")
+            Log.v("ConnectedWebSocket", "Socket to $url got binary message of length ${bytes.size()}.")
             _read.onNext(WebSocketFrame(binary = bytes.toByteArray()))
         }
     }
 
     @PlatformSpecific
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-        println("Socket to $url closed.")
+        Log.v("ConnectedWebSocket", "Socket to $url closed.")
     }
 
     override fun onComplete() {
