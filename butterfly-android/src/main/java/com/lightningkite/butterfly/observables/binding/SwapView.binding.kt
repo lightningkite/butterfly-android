@@ -31,6 +31,7 @@ fun <T: ViewGenerator>SwapView.bindStack(dependency: ActivityAccess, obs: Observ
         )
     )
     obs.subscribeBy { datas ->
+        visibility = if(datas.isEmpty()) View.GONE else View.VISIBLE
         post {
             if (currentData == datas.lastOrNull()) return@post
 
@@ -40,9 +41,6 @@ fun <T: ViewGenerator>SwapView.bindStack(dependency: ActivityAccess, obs: Observ
             var newView = obs.stack.lastOrNull()?.generate(dependency)
             if (newView == null) {
                 newView = View(context)
-                visibility = View.GONE
-            } else {
-                visibility = View.VISIBLE
             }
             addView(
                 newView, FrameLayout.LayoutParams(
