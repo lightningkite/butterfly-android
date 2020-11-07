@@ -22,12 +22,13 @@ import com.lightningkite.butterfly.observables.asObservableProperty
 import com.lightningkite.butterfly.time.DateAlone
 import com.lightningkite.butterfly.time.TimeAlone
 import com.lightningkite.butterfly.time.iso8601
+import io.reactivex.*
 import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.Single
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import okhttp3.*
 import okio.*
 import java.io.ByteArrayOutputStream
@@ -144,13 +145,15 @@ object HttpClient {
         HttpCacheMode.OnlyIfCached -> CacheControl.Builder().onlyIfCached().build()
     }
 
-    fun call(
+    private fun callInternal(
         url: String,
         method: String = HttpClient.GET,
         headers: Map<String, String> = mapOf(),
         body: RequestBody? = null,
-        options: HttpOptions = HttpClient.defaultOptions
-    ): Single<Response> {
+        options: HttpOptions = HttpClient.defaultOptions,
+        client: OkHttpClient
+    ): Call {
+        Log.d("HttpClient", "Sending $method request to $url with headers $headers")
         val request = Request.Builder()
             .url(url)
             .method(method, body)
@@ -158,122 +161,140 @@ object HttpClient {
             .addHeader("Accept-Language", Locale.getDefault().language)
             .cacheControl(getCacheControl(options.cacheMode))
             .build()
-        return Single.create<Response> { emitter ->
-            try {
-                Log.d("HttpClient", "Sending $method request to $url with headers $headers")
-                val clientBuilder = client.newBuilder()
-                options.callTimeout?.let {
-                    clientBuilder.callTimeout(it, TimeUnit.MILLISECONDS)
-                } ?: run {
-                    clientBuilder.callTimeout(5, TimeUnit.MINUTES)
-                }
-                options.writeTimeout?.let {
-                    clientBuilder.writeTimeout(it, TimeUnit.MILLISECONDS)
-                } ?: run {
-                    clientBuilder.writeTimeout(5, TimeUnit.MINUTES)
-                }
-                options.readTimeout?.let {
-                    clientBuilder.readTimeout(it, TimeUnit.MILLISECONDS)
-                } ?: run {
-                    clientBuilder.readTimeout(5, TimeUnit.MINUTES)
-                }
-                options.connectTimeout?.let {
-                    clientBuilder.connectTimeout(it, TimeUnit.MILLISECONDS)
-                } ?: run {
-                    clientBuilder.connectTimeout(5, TimeUnit.MINUTES)
-                }
-                val client = clientBuilder.build()
-                val response = client.newCall(request).execute()
-                Log.d("HttpClient", "Response from $method request to $url with headers $headers: ${response.code()}")
-                emitter.onSuccess(response)
-            } catch (e: Exception) {
-                emitter.tryOnError(e)
-            }
-        }.threadCorrectly()
+        return client.newCall(request)
     }
 
-    fun callWithProgress(
+    private fun OkHttpClient.Builder.apply(options: HttpOptions): OkHttpClient.Builder {
+        options.callTimeout?.let {
+            callTimeout(it, TimeUnit.MILLISECONDS)
+        } ?: run {
+            callTimeout(5, TimeUnit.MINUTES)
+        }
+        options.writeTimeout?.let {
+            writeTimeout(it, TimeUnit.MILLISECONDS)
+        } ?: run {
+            writeTimeout(5, TimeUnit.MINUTES)
+        }
+        options.readTimeout?.let {
+            readTimeout(it, TimeUnit.MILLISECONDS)
+        } ?: run {
+            readTimeout(5, TimeUnit.MINUTES)
+        }
+        options.connectTimeout?.let {
+            connectTimeout(it, TimeUnit.MILLISECONDS)
+        } ?: run {
+            connectTimeout(5, TimeUnit.MINUTES)
+        }
+        return this
+    }
+
+    fun call(
         url: String,
         method: String = HttpClient.GET,
         headers: Map<String, String> = mapOf(),
         body: RequestBody? = null,
         options: HttpOptions = HttpClient.defaultOptions
-    ): Pair<ObservableProperty<HttpProgress>, Single<Response>> {
-        val progressSubject = PublishSubject.create<HttpProgress>()
-        val trackingBody = if (body != null) object : RequestBody() {
-            override fun contentType(): MediaType? = body.contentType()
-            override fun writeTo(sink: BufferedSink) {
-                val bufferedSink: BufferedSink
-                val knownSize = body.contentLength()
-                val countingSink = if (knownSize == -1L) CountingSink(sink) {
-                    progressSubject.onNext(HttpProgress(
-                        HttpPhase.Write,
-                        estimateProgress(it)
-                    ))
-                } else CountingSink(sink) {
-                    progressSubject.onNext(HttpProgress(
-                        HttpPhase.Write,
-                        (it.toDouble() / knownSize.toDouble()).toFloat()
-                    ))
-                }
-                bufferedSink = Okio.buffer(countingSink)
-                body.writeTo(bufferedSink)
-                bufferedSink.flush()
-                progressSubject.onNext(HttpProgress.waiting)
-            }
-
-            override fun contentLength(): Long = body.contentLength()
-        } else null
-        val request = Request.Builder()
-            .url(url)
-            .method(method, trackingBody)
-            .headers(Headers.of(headers))
-            .addHeader("Accept-Language", Locale.getDefault().language)
-            .cacheControl(getCacheControl(options.cacheMode))
-            .build()
-        val single = Single.create<Response> { emitter ->
+    ): Single<Response> {
+        return Single.create<Response> { emitter ->
             try {
-                Log.d("HttpClient", "Sending $method request to $url with headers $headers")
-                val clientBuilder = client.newBuilder()
-                options.callTimeout?.let {
-                    clientBuilder.callTimeout(it, TimeUnit.MILLISECONDS)
-                } ?: run {
-                    clientBuilder.callTimeout(5, TimeUnit.MINUTES)
-                }
-                options.writeTimeout?.let {
-                    clientBuilder.writeTimeout(it, TimeUnit.MILLISECONDS)
-                } ?: run {
-                    clientBuilder.writeTimeout(5, TimeUnit.MINUTES)
-                }
-                options.readTimeout?.let {
-                    clientBuilder.readTimeout(it, TimeUnit.MILLISECONDS)
-                } ?: run {
-                    clientBuilder.readTimeout(5, TimeUnit.MINUTES)
-                }
-                options.connectTimeout?.let {
-                    clientBuilder.connectTimeout(it, TimeUnit.MILLISECONDS)
-                } ?: run {
-                    clientBuilder.connectTimeout(5, TimeUnit.MINUTES)
-                }
-                clientBuilder.addNetworkInterceptor {
-                    val original = it.proceed(it.request())
-                    original.newBuilder()
-                        .body(original.body()?.let {
-                            ProgressResponseBody(it) {
-                                progressSubject.onNext(it)
-                            }
-                        })
-                        .build()
-                }
-                val client = clientBuilder.build()
-                val response = client.newCall(request).execute()
+                val response = callInternal(
+                    url = url,
+                    method = method,
+                    headers = headers,
+                    body = body,
+                    options = options,
+                    client = client.newBuilder().apply(options).build()
+                ).execute()
                 Log.d("HttpClient", "Response from $method request to $url with headers $headers: ${response.code()}")
                 emitter.onSuccess(response)
             } catch (e: Exception) {
                 emitter.tryOnError(e)
             }
+        }.cache().threadCorrectly()
+    }
+
+    fun <T> callWithProgress(
+        url: String,
+        method: String = HttpClient.GET,
+        headers: Map<String, String> = mapOf(),
+        body: RequestBody? = null,
+        options: HttpOptions = HttpClient.defaultOptions,
+        parse: @Escaping() (Response) -> Single<T>
+    ): Observable<HttpProgress<T>> {
+        var finished = false
+        return Observable.create<HttpProgress<T>> { em ->
+            val call = callInternal(
+                url = url,
+                method = method,
+                headers = headers,
+                body = body?.let {
+                    ProgressRequestBody<T>(it) {
+                        if (!finished) {
+                            em.onNext(it)
+                        }
+                    }
+                },
+                options = options,
+                client = client.newBuilder().apply(options).addNetworkInterceptor {
+                    val original = it.proceed(it.request())
+                    original.newBuilder()
+                        .body(original.body()?.let {
+                            ProgressResponseBody<T>(it) {
+                                if (!finished) {
+                                    em.onNext(it)
+                                }
+                            }
+                        })
+                        .build()
+                }.build()
+            )
+            try {
+                val response = call.execute()
+                Log.d("HttpClient", "Response from $method request to $url with headers $headers: ${response.code()}")
+                parse(response).subscribe(
+                    { parsed ->
+                        finished = true
+                        em.onNext(HttpProgress(HttpPhase.Done, response = parsed))
+                        em.onComplete()
+                    },
+                    { e ->
+                        em.tryOnError(e)
+                    }
+                )
+            } catch (e: Exception) {
+                em.tryOnError(e)
+            }
+        }.share().threadCorrectly()
+    }
+
+    private class ProgressRequestBody<T>(val base: RequestBody, val onProgress: (HttpProgress<T>) -> Unit) :
+        RequestBody() {
+        override fun contentType(): MediaType? = base.contentType()
+        override fun writeTo(sink: BufferedSink) {
+            val bufferedSink: BufferedSink
+            val knownSize = base.contentLength()
+            val countingSink = if (knownSize == -1L) CountingSink(sink) {
+                onProgress(
+                    HttpProgress(
+                        HttpPhase.Write,
+                        estimateProgress(it)
+                    )
+                )
+            } else CountingSink(sink) {
+                onProgress(
+                    HttpProgress(
+                        HttpPhase.Write,
+                        (it.toDouble() / knownSize.toDouble()).toFloat()
+                    )
+                )
+            }
+            bufferedSink = Okio.buffer(countingSink)
+            base.writeTo(bufferedSink)
+            bufferedSink.flush()
+            onProgress(HttpProgress(phase = HttpPhase.Waiting))
         }
-        return progressSubject.threadCorrectly().asObservableProperty(HttpProgress.connecting) to single.threadCorrectly()
+
+        override fun contentLength(): Long = base.contentLength()
     }
 
     private fun estimateProgress(bytes: Long): Float = 1f - (1.0 / (bytes.toDouble() / 100_000.0 + 1.0)).toFloat()
@@ -287,7 +308,8 @@ object HttpClient {
         }
     }
 
-    private class ProgressResponseBody(val body: ResponseBody, val onProgress: (HttpProgress) -> Unit) : ResponseBody() {
+    private class ProgressResponseBody<T>(val body: ResponseBody, val onProgress: (HttpProgress<T>) -> Unit) :
+        ResponseBody() {
         override fun contentType(): MediaType? = body.contentType()
         override fun contentLength(): Long = body.contentLength()
         var src: BufferedSource? = null
@@ -309,7 +331,6 @@ object HttpClient {
 
                     override fun close() {
                         super.close()
-                        onProgress(HttpProgress.done)
                     }
                 }
             } else {
@@ -321,13 +342,17 @@ object HttpClient {
                         val bytesRead = super.read(sink, byteCount)
                         // read() returns the number of bytes read, or -1 if this source is exhausted.
                         totalBytesRead += if (bytesRead != -1L) bytesRead else 0
-                        onProgress(HttpProgress(HttpPhase.Read, (totalBytesRead.toDouble() / knownLength.toDouble()).toFloat()))
+                        onProgress(
+                            HttpProgress(
+                                HttpPhase.Read,
+                                (totalBytesRead.toDouble() / knownLength.toDouble()).toFloat()
+                            )
+                        )
                         return bytesRead
                     }
 
                     override fun close() {
                         super.close()
-                        onProgress(HttpProgress.done)
                     }
                 }
             }

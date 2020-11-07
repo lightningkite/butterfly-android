@@ -212,6 +212,7 @@ fun ActivityAccess.requestMediasGallery(
         }
     }
 }
+
 fun ActivityAccess.requestMediaGallery(
     callback: (Uri) -> Unit
 ) {
@@ -316,15 +317,19 @@ fun ActivityAccess.getFileName(uri: Uri): String? {
 }
 
 fun ActivityAccess.downloadFile(url: String) {
-    val uri: Uri = Uri.parse(url)
-    val fileName = url.substringAfterLast('/')
+    requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+        if(it) {
+            val uri: Uri = Uri.parse(url)
+            val fileName = url.substringAfterLast('/')
 
-    val downloadmanager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-    val request = DownloadManager.Request(uri)
-    request.setTitle(fileName)
-    request.setDescription("Downloading")
-    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+            val downloadmanager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val request = DownloadManager.Request(uri)
+            request.setTitle(fileName)
+            request.setDescription("Downloading")
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
 
-    downloadmanager.enqueue(request)
+            downloadmanager.enqueue(request)
+        }
+    }
 }

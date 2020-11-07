@@ -53,7 +53,7 @@ inline fun <reified T> Response.readJson(): Single<T> = readJson(jacksonTypeRef(
     }
 }
 
-inline fun <reified T> Response.readJsonDebug(): Single<T> = readJson(jacksonTypeRef())
+inline fun <reified T> Response.readJsonDebug(): Single<T> = readJsonDebug(jacksonTypeRef())
 
 @PlatformSpecific fun <T> Response.readJsonDebug(typeToken: TypeReference<T>): Single<T> {
     return with(HttpClient){

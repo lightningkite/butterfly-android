@@ -11,9 +11,10 @@ enum class HttpPhase {
     Read,
     Done
 }
-data class HttpProgress(
+class HttpProgress<T>(
     val phase: HttpPhase,
-    val ratio: Float
+    val ratio: Float = 0.5f,
+    val response: T? = null
 ) {
     val approximate: Float get() = when(phase){
         HttpPhase.Connect -> 0f
@@ -22,11 +23,6 @@ data class HttpProgress(
         HttpPhase.Read -> 0.7f + 0.3f * ratio
         HttpPhase.Done -> 1f
         else -> 0f
-    }
-    companion object {
-        val connecting: HttpProgress = HttpProgress(HttpPhase.Connect, 0f)
-        val waiting: HttpProgress = HttpProgress(HttpPhase.Waiting, 0f)
-        val done: HttpProgress = HttpProgress(HttpPhase.Done, 0f)
     }
 }
 
