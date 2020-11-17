@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
+import androidx.core.graphics.scale
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -38,7 +39,7 @@ fun String.toHttpBody(mediaType: HttpMediaType = HttpMediaTypes.TEXT): RequestBo
     return RequestBody.create(mediaType, this)
 }
 
-fun Image.toHttpBody(maxDimension: Int = 2048): Single<RequestBody> = Single.create { em ->
+fun Image.toHttpBody(maxDimension: Int = 2048, maxBytes: Long = 10_000_000): Single<RequestBody> = Single.create { em ->
     val glide = Glide.with(HttpClient.appContext).asBitmap()
     val task = when (this) {
         is ImageReference -> glide.load(this.uri)
@@ -73,7 +74,7 @@ fun Image.toHttpBody(maxDimension: Int = 2048): Single<RequestBody> = Single.cre
         .into(object : CustomTarget<Bitmap>() {
             override fun onLoadCleared(placeholder: Drawable?) {}
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                em.onSuccess(resource.toHttpBody())
+                em.onSuccess(resource.toHttpBody(maxDimension, maxBytes))
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
@@ -82,16 +83,18 @@ fun Image.toHttpBody(maxDimension: Int = 2048): Single<RequestBody> = Single.cre
         })
 }
 
-fun Bitmap.toHttpBody(maxBytes: Long = 10_000_000): RequestBody {
+fun Bitmap.toHttpBody(maxDimension: Int = 2048, maxBytes: Long = 10_000_000): RequestBody {
     var qualityToTry = 100
+    val ratio = this.width.toFloat()/this.height.toFloat()
+    val scaledBimap = this.scale(maxDimension, (maxDimension/ratio).toInt())
     var data = ByteArrayOutputStream().use {
-        this.compress(Bitmap.CompressFormat.JPEG, qualityToTry, it)
+        scaledBimap.compress(Bitmap.CompressFormat.JPEG, qualityToTry, it)
         it.toByteArray()
     }
     while (data.size > maxBytes) {
         qualityToTry -= 5
         data = ByteArrayOutputStream().use {
-            this.compress(Bitmap.CompressFormat.JPEG, qualityToTry, it)
+            scaledBimap.compress(Bitmap.CompressFormat.JPEG, qualityToTry, it)
             it.toByteArray()
         }
     }
