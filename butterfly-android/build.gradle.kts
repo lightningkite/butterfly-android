@@ -54,7 +54,7 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-core:2.9.10")
     api("com.fasterxml.jackson.core:jackson-annotations:2.9.10")
     api("com.fasterxml.jackson.core:jackson-databind:2.9.10.6")
-    api("com.squareup.okhttp3:okhttp:3.12.1")
+    api("com.squareup.okhttp3:okhttp:3.14.9")
     api("de.hdodenhof:circleimageview:2.2.0")
     implementation("com.github.bumptech.glide:glide:4.11.0")
     implementation("com.squareup.picasso:picasso:2.71828")
