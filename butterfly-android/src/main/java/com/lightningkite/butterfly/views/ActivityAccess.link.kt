@@ -55,7 +55,7 @@ fun ActivityAccess.share(shareTitle: String, message: String? = null, url: Strin
     context.startActivity(Intent.createChooser(i, shareTitle))
 }
 
-fun ActivityAccess.openUrl(url: String): Boolean {
+fun ActivityAccess.openUrl(url: String, newWindow: Boolean = true): Boolean {
     val mgr = context.packageManager
     val intent = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) }
     val list = mgr.queryIntentActivities(
