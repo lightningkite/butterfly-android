@@ -193,11 +193,11 @@ fun ActivityAccess.requestMediasGallery(
     requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE) {
         if (it) {
             val getIntent = Intent(Intent.ACTION_GET_CONTENT)
-            getIntent.type = "video/* image/*"
+            getIntent.type = "video/*,image/*"
             getIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 
             val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            pickIntent.type = "video/* image/*"
+            pickIntent.type = "video/*,image/*"
 
             val chooserIntent = Intent.createChooser(getIntent, "Select Media")
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
@@ -219,10 +219,10 @@ fun ActivityAccess.requestMediaGallery(
     requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE) {
         if (it) {
             val getIntent = Intent(Intent.ACTION_GET_CONTENT)
-            getIntent.type = "video/* image/*"
+            getIntent.type = "video/*,image/*"
 
             val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            pickIntent.type = "video/* image/*"
+            pickIntent.type = "video/*,image/*"
 
             val chooserIntent = Intent.createChooser(getIntent, "Select Media")
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
