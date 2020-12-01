@@ -124,6 +124,7 @@ fun multipartFormBody(vararg parts: MultipartBody.Part): RequestBody {
     }.build()
 }
 
+fun multipartFormValuePart(name: String, value: String): MultipartBody.Part = MultipartBody.Part.createFormData(name, value)
 fun multipartFormFilePart(name: String, value: String): MultipartBody.Part = MultipartBody.Part.createFormData(name, value)
 fun multipartFormFilePart(name: String, filename: String? = null, body: RequestBody): MultipartBody.Part =
     MultipartBody.Part.createFormData(name, filename, body)
