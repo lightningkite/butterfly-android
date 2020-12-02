@@ -19,7 +19,7 @@ class CombineObservableProperty<T, A, B>(
         get() {
             val combinerCopy = combiner
             return observableA.onChange.startWith(Box.wrap(observableA.value))
-                .combineLatest(observableB.onChange.startWith(Box.wrap(observableB.value))) @CaptureUnowned("combiner") { a: Box<A>, b: Box<B> -> boxWrap(combinerCopy(a.value, b.value)) }
+                .combineLatest(observableB.onChange.startWith(Box.wrap(observableB.value))) { a: Box<A>, b: Box<B> -> boxWrap(combinerCopy(a.value, b.value)) }
                 .skip(1)
         }
 }
