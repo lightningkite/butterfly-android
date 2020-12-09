@@ -102,7 +102,7 @@ fun Bitmap.toHttpBody(maxDimension: Int = 2048, maxBytes: Long = 10_000_000): Re
 }
 
 fun Uri.toHttpBody(): Single<RequestBody> {
-    val type = HttpMediaTypes.fromString(HttpClient.appContext.contentResolver.getType(this) ?: "*/*")
+    val type = HttpMediaTypes.fromString(HttpClient.appContext.contentResolver.getType(this) ?: "application/octet-stream")
     return Single.just<RequestBody>(object : RequestBody() {
         override fun contentType(): MediaType = type
 
