@@ -12,15 +12,14 @@ enum class ViewTransition(
     val exitPop: TransitionAnimation
 ) {
     PUSH_POP(enterPush = { view ->
-        view.translationX = view.width.toFloat()
-        view.visibility = View.VISIBLE
+        view.translationX = (view.parent as View).width.toFloat()
         view.animate()
             .translationX(0f)
     }, exitPush = { view ->
         view.animate()
             .translationX(-1f * view.width.toFloat())
     }, enterPop = { view ->
-        view.translationX = -1f * view.width.toFloat()
+        view.translationX = -1f * (view.parent as View).width.toFloat()
         view.animate()
             .translationX(0f)
     }, exitPop = { view ->
@@ -29,21 +28,21 @@ enum class ViewTransition(
     }),
 
     UP_DOWN(enterPush = { view ->
-        view.translationY = view.height.toFloat()
-        view.visibility = View.VISIBLE
+        view.translationY = (view.parent as View).height.toFloat()
         view.animate()
             .translationY(0f)
     }, exitPush = { view ->
         view.animate()
             .translationY(-1f * view.height.toFloat())
     }, enterPop = { view ->
-        view.translationY = -1f * view.height.toFloat()
+        view.translationY = -1f * (view.parent as View).height.toFloat()
         view.animate()
             .translationY(0f)
     }, exitPop = { view ->
         view.animate()
             .translationY(view.width.toFloat())
     }),
+
     FADE_IN_OUT(enterPush = { view ->
         view.alpha = 0f
         view.visibility = View.VISIBLE
@@ -60,15 +59,15 @@ enum class ViewTransition(
         view.animate()
             .alpha(0f)
     }),
-    NONE(
-        enterPush = { view ->
-            view.animate()
-        }, exitPush = { view ->
-            view.animate()
-        }, enterPop = { view ->
-            view.animate()
-        }, exitPop = { view ->
-            view.animate()
-        }
+
+    NONE(enterPush = { view ->
+        view.animate()
+    }, exitPush = { view ->
+        view.animate()
+    }, enterPop = { view ->
+        view.animate()
+    }, exitPop = { view ->
+        view.animate()
+    }
     )
 }
