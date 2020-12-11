@@ -89,12 +89,11 @@ fun SwapView.bindStackWithAnimation(dependency: ActivityAccess, obs: ObservableS
     var currentData = obs.stack.lastOrNull()
     var currentStackSize = obs.stack.size
     var currentView = currentData?.first?.generate(dependency) ?: View(context)
-    addView(
-        currentView, FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-    )
+
+    addView(currentView, FrameLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT))
+
     obs.subscribeBy { datas ->
         if (currentData == datas.lastOrNull()) return@subscribeBy
 
@@ -102,6 +101,8 @@ fun SwapView.bindStackWithAnimation(dependency: ActivityAccess, obs: ObservableS
         val oldStackSize = currentStackSize
 
         var newView = obs.stack.lastOrNull()?.first?.generate(dependency)
+        val transition = obs.stack.lastOrNull()?.second
+
         if (newView == null) {
             newView = View(context)
             visibility = View.GONE
@@ -115,41 +116,32 @@ fun SwapView.bindStackWithAnimation(dependency: ActivityAccess, obs: ObservableS
             addView(
                 newView, FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            )
+                    ViewGroup.LayoutParams.MATCH_PARENT))
+
             when {
                 oldStackSize == 0 -> {
-                    currentData?.second?.enterPush?.invoke(newView)?.start()
-                    currentData?.second?.exitPush?.invoke(oldView)?.setListener(object : android.animation.AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: android.animation.Animator?) {
-                            this@bindStackWithAnimation.removeView(oldView)
-                        }
-                    })?.start()
+                    transition?.enterPush?.invoke(newView)?.start()
+                    transition?.exitPush?.invoke(oldView)?.withEndAction {
+                        removeView(oldView)
+                    }
                 }
                 oldStackSize > newStackSize -> {
-                    datas.lastOrNull()?.second?.enterPop?.invoke(newView)?.start()
-                    datas.lastOrNull()?.second?.exitPop?.invoke(oldView)?.setListener(object : android.animation.AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: android.animation.Animator?) {
-                            this@bindStackWithAnimation.removeView(oldView)
-                        }
-                    })?.start()
+                    currentData?.second?.enterPop?.invoke(newView)?.start()
+                    currentData?.second?.exitPop?.invoke(oldView)?.withEndAction {
+                        removeView(oldView)
+                    }
                 }
                 oldStackSize < newStackSize -> {
-                    currentData?.second?.enterPush?.invoke(newView)?.start()
-                    currentData?.second?.exitPush?.invoke(oldView)?.setListener(object : android.animation.AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: android.animation.Animator?) {
-                            this@bindStackWithAnimation.removeView(oldView)
-                        }
-                    })?.start()
+                    transition?.enterPush?.invoke(newView)?.start()
+                    transition?.exitPush?.invoke(oldView)?.withEndAction {
+                        removeView(oldView)
+                    }
                 }
                 else -> {
-                    currentData?.second?.enterPush?.invoke(newView)?.start()
-                    currentData?.second?.exitPush?.invoke(oldView)?.setListener(object : android.animation.AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: android.animation.Animator?) {
-                            this@bindStackWithAnimation.removeView(oldView)
-                        }
-                    })?.start()
+                    transition?.enterPush?.invoke(newView)?.start()
+                    transition?.exitPush?.invoke(oldView)?.withEndAction {
+                        removeView(oldView)
+                    }
                 }
             }
 
@@ -160,9 +152,6 @@ fun SwapView.bindStackWithAnimation(dependency: ActivityAccess, obs: ObservableS
     }.until(this.removed)
 }
 
-//fun SwapView.bind(dependency: ViewDependency, obs: Observable<Pair<ViewGenerator, Transition>>) {
-//
-//}
 /**
  *
  * Binds the view in the swap view to the top ViewGenerator in the ObservableStack.
