@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  *
- * adding a comment here, testing something out.
+ * adding a comment here, testing something out.... trying again with the comment
  */
 public class ExampleUnitTest {
     @Test
