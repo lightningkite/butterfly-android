@@ -85,7 +85,7 @@ fun <T: ViewGenerator>SwapView.bindStack(dependency: ActivityAccess, obs: Observ
     }.until(this.removed)
 }
 
-fun SwapView.bindStackWithAnimation(dependency: ActivityAccess, obs: ObservableStack<Pair<ViewGenerator, ViewTransition>>) {
+fun <T: ViewGenerator>SwapView.bindStackWithAnimation(dependency: ActivityAccess, obs: ObservableStack<Pair<T, ViewTransition>>) {
     var currentData = obs.stack.lastOrNull()
     var currentStackSize = obs.stack.size
     var currentView = currentData?.first?.generate(dependency) ?: View(context)
