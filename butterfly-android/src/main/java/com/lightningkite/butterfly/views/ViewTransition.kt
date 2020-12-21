@@ -40,7 +40,7 @@ enum class ViewTransition(
             .translationY(0f)
     }, exitPop = { view ->
         view.animate()
-            .translationY(view.width.toFloat())
+            .translationY(view.height.toFloat())
     }),
 
     FADE_IN_OUT(enterPush = { view ->
@@ -62,12 +62,16 @@ enum class ViewTransition(
 
     NONE(enterPush = { view ->
         view.animate()
+            .translationX(0f)
     }, exitPush = { view ->
         view.animate()
+            .translationX(0f)
     }, enterPop = { view ->
         view.animate()
+            .translationX(0f)
     }, exitPop = { view ->
         view.animate()
+            .translationX(0f)
     }
     )
 }
