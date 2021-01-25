@@ -1,9 +1,12 @@
 package com.lightningkite.butterfly.observables.binding
 
+import com.lightningkite.butterfly.android.ActivityAccess
 import com.lightningkite.butterfly.observables.*
 import com.lightningkite.butterfly.rx.removed
 import com.lightningkite.butterfly.rx.until
 import com.lightningkite.butterfly.time.*
+import com.lightningkite.butterfly.views.ViewDependency
+import com.lightningkite.butterfly.views.ViewString
 import com.lightningkite.butterfly.views.widget.DateButton
 import com.lightningkite.butterfly.views.widget.TimeButton
 import java.util.*
@@ -92,5 +95,25 @@ fun TimeButton.bindTimeAlone(date: MutableObservableProperty<TimeAlone>, minuteI
     }.until(this.removed)
     this.onDateEntered.subscribe { it ->
         date.value = it.timeAlone
+    }.until(this.removed)
+}
+
+/**
+ *
+ * Binds the date buttons internal time to the ObservableProperty<DateAlone?>.
+ * When the date button updates it will update the observables date and vice versa.
+ *
+ *  Example
+ *  val dateAloneNullable = StandardObservableProperty(Date().dateAlone)
+ *  timeButton.bind(dateAlone)
+ *
+ */
+fun DateButton.bindDateAloneNull(dependency: ActivityAccess, date: MutableObservableProperty<DateAlone?>, startText: ViewString) {
+    this.startText = startText.get(dependency)
+    date.subscribeBy { it ->
+        this.date = it?.let { dateFrom(it, Date().timeAlone) }
+    }.until(this.removed)
+    this.onDateEntered.subscribe { it ->
+        date.value = it.dateAlone
     }.until(this.removed)
 }

@@ -13,18 +13,19 @@ class DateButton(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Ap
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
     var format = DateFormat.getDateInstance(DateFormat.SHORT)
+    var startText = ""
 
-    var date: Date = Date()
+    var date: Date? = null
         set(value) {
             field = value
-            text = format.format(value)
+            text = value?.let { format.format(it) } ?: startText
         }
 
     var onDateEntered = PublishSubject.create<Date>()
 
     init {
         setOnClickListener {
-            context.dateSelectorDialog(date) {
+            context.dateSelectorDialog(date ?: Date()) {
                 date = it
                 onDateEntered.onNext(it)
             }
