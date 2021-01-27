@@ -81,7 +81,7 @@ object HttpClient {
     const val DELETE = "DELETE"
 
     @PlatformSpecific
-    val client = OkHttpClient.Builder().build()
+    var client = OkHttpClient.Builder().build()
 
     @PlatformSpecific
     val mapper = ObjectMapper()

@@ -14,3 +14,14 @@ fun Matrix.inverted(): Matrix = Matrix().also { this.invert(it) }
 fun Matrix.setInvert(other: Matrix) {
     other.invert(this)
 }
+
+inline fun Matrix.setValues(
+    a: GFloat,
+    b: GFloat,
+    c: GFloat,
+    d: GFloat,
+    e: GFloat,
+    f: GFloat
+) {
+    this.setValues(floatArrayOf(a, b, c, d, e, f, 0f, 0f, 1f))
+}
