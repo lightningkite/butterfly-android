@@ -27,14 +27,12 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
 import com.lightningkite.butterfly.*
 import com.lightningkite.butterfly.android.ActivityAccess
+import com.lightningkite.butterfly.bytes.Data
 import com.lightningkite.butterfly.location.GeoCoordinate
 import com.lightningkite.butterfly.net.HttpClient
 import com.lightningkite.butterfly.views.startIntent
 import io.reactivex.schedulers.Schedulers
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import java.io.*
 import java.util.*
 
@@ -503,6 +501,51 @@ fun ActivityAccess.downloadFile(url: String) {
                         }
                     }
                 })
+        }
+    }
+}
+
+/**
+ * Using this requires a file provider to be present with the authority '${applicationId}.provider'.
+ * See the URL below:
+ * https://medium.com/@ali.muzaffar/what-is-android-os-fileuriexposedexception-and-what-you-can-do-about-it-70b9eb17c6d0
+ */
+fun ActivityAccess.downloadFileData(data: Data, name: String, type: MediaType) {
+    requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+        if (it) {
+            try {
+                val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    HttpClient.appContext.contentResolver.insert(
+                        MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                        ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                            put(
+                                MediaStore.MediaColumns.MIME_TYPE,
+                                type.toString()
+                            )
+                            put(
+                                MediaStore.MediaColumns.RELATIVE_PATH,
+                                Environment.DIRECTORY_DOWNLOADS + "/DIR-S"
+                            )
+                        })!!
+                } else {
+                    HttpClient.appContext.contentResolver.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                            put(
+                                MediaStore.MediaColumns.MIME_TYPE,
+                                type.toString()
+                            )
+                        })!!
+                }
+                HttpClient.appContext.contentResolver.openOutputStream(uri)!!.use { output ->
+                    output.write(data)
+                }
+            } catch (e: Exception) {
+                Log.e("ActivityAccess.media", "Download had an exception $e.")
+                e.printStackTrace()
+            }
         }
     }
 }

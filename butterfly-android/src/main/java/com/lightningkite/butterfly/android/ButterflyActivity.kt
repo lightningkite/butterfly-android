@@ -73,7 +73,10 @@ abstract class ButterflyActivity(val changeToTheme: Int? = null) : AccessibleAct
     private var suppressKeyboardChange = false
     private var keyboardSubscriber: Disposable? = null
     private val keyboardTreeObs: ViewTreeObserver.OnGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-        val keyboardHeight = view.rootView.height - view.height
+        val rect = Rect()
+        window.decorView.getWindowVisibleDisplayFrame(rect)
+        val keyboardHeight = displayMetrics.heightPixels - rect.bottom
+//        val keyboardHeight = view.rootView.height - view.height
         Log.v("ButterflyActivity", "Keyboard height is now $keyboardHeight")
         if (keyboardHeight.toFloat() > displayMetrics.heightPixels * 0.15f) {
             suppressKeyboardChange = true
