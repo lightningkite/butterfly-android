@@ -511,6 +511,23 @@ fun ActivityAccess.downloadFile(url: String) {
  * https://medium.com/@ali.muzaffar/what-is-android-os-fileuriexposedexception-and-what-you-can-do-about-it-70b9eb17c6d0
  */
 fun ActivityAccess.downloadFileData(data: Data, name: String, type: MediaType) {
+    val notificationManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && try {
+            notificationManager.getNotificationChannel(
+                DownloadNotificationId
+            ) == null
+        } catch (e: Throwable) {
+            true
+        }
+    ) {
+        // Create the NotificationChannel
+        val mChannel =
+            NotificationChannel(DownloadNotificationId, "Downloads", NotificationManager.IMPORTANCE_LOW)
+        mChannel.description = "Downloads"
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        notificationManager.createNotificationChannel(mChannel)
+    }
     requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
         if (it) {
             try {
@@ -542,6 +559,27 @@ fun ActivityAccess.downloadFileData(data: Data, name: String, type: MediaType) {
                 HttpClient.appContext.contentResolver.openOutputStream(uri)!!.use { output ->
                     output.write(data)
                 }
+
+                fun builder() = NotificationCompat.Builder(HttpClient.appContext, DownloadNotificationId)
+                    .setSmallIcon(R.drawable.khrysalis_download_notification)
+                    .setPriority(NotificationCompat.PRIORITY_LOW)
+                NotificationManagerCompat.from(context).notify(
+                    name.hashCode(),
+                    builder()
+                        .setContentTitle("Downloaded $name.")
+                        .setContentIntent(
+                            PendingIntent.getActivity(
+                                HttpClient.appContext,
+                                0,
+                                Intent(Intent.ACTION_VIEW).apply {
+                                    this.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                    this.data = uri
+                                },
+                                PendingIntent.FLAG_CANCEL_CURRENT
+                            )
+                        )
+                        .build()
+                )
             } catch (e: Exception) {
                 Log.e("ActivityAccess.media", "Download had an exception $e.")
                 e.printStackTrace()
