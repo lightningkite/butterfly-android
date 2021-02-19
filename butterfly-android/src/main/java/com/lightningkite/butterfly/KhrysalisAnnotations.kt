@@ -13,6 +13,13 @@ interface Hashable {}
 interface Equatable {}
 typealias SomeEnum = Enum<*>
 
+interface Codable
+typealias IsCodable = Any
+typealias IsCodableAndHashable = Any
+typealias IsCodableAndEquatable = Any
+typealias JsonList = List<*>
+typealias JsonMap = Map<*, *>
+
 @Target(AnnotationTarget.FILE)
 annotation class SharedCode
 

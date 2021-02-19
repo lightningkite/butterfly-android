@@ -8,12 +8,6 @@ import com.lightningkite.butterfly.net.HttpClient
  * Codable is used to indicate that the class in question will be serialized/deserialized using Jackson JSON.
  */
 
-interface Codable
-typealias IsCodable = Any
-typealias IsCodableAndHashable = Any
-typealias IsCodableAndEquatable = Any
-typealias JsonList = List<*>
-typealias JsonMap = Map<*, *>
 
 fun IsCodable?.toJsonString(): String {
     return HttpClient.mapper.writeValueAsString(this)
