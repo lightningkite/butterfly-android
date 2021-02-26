@@ -1,0 +1,17 @@
+name: PublishToMavin
+
+on:
+  release:
+    types: published
+    branches: ci_setup
+
+jobs:
+  public-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Print Tag of release
+        run: |
+          echo Hello, world!,
+          echo Release ${GITHUB_REF##*/} was created
+
