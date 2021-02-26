@@ -1,6 +1,6 @@
 package com.lightningkite.butterfly.net
 
-import android.util.Log
+import com.lightningkite.butterfly.Log
 import com.lightningkite.butterfly.PlatformSpecific
 import com.lightningkite.butterfly.post
 import io.reactivex.Observable
@@ -17,67 +17,53 @@ class ConnectedWebSocket(val url: String) : WebSocketListener(),
     internal var underlyingSocket: WebSocket? = null
     private val _read =
         PublishSubject.create<WebSocketFrame>()
-    val ownConnection =
-        PublishSubject.create<ConnectedWebSocket>()
-    val read: Observable<WebSocketFrame> = _read
+    val _ownConnection = PublishSubject.create<ConnectedWebSocket>()
+    val ownConnection: Observable<ConnectedWebSocket> get() = HttpClient.run { _ownConnection.threadCorrectly() }
+    val read: Observable<WebSocketFrame> get() = HttpClient.run { _read.threadCorrectly() }
     var justStarted = false
 
     @PlatformSpecific
     override fun onOpen(webSocket: WebSocket, response: Response) {
         justStarted = true
-        post {
-            Log.v("ConnectedWebSocket", "Socket to $url opened successfully.")
-            ownConnection.onNext(this)
-            post {
-                justStarted = false
-            }
-        }
+        Log.v("ConnectedWebSocket", "Socket to $url opened successfully.")
+        _ownConnection.onNext(this)
+        justStarted = false
     }
 
     @PlatformSpecific
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-        post {
-            try {
-                Log.v("ConnectedWebSocket", "Socket to $url failed with $t.")
-                ownConnection.onError(t)
-                _read.onError(t)
-            } catch (e: Exception) {
-                Log.e("ConnectedWebSocket", "Failed to deliver error")
-                e.printStackTrace()
-            }
+        try {
+            Log.v("ConnectedWebSocket", "Socket to $url failed with $t.")
+            _ownConnection.onError(t)
+            _read.onError(t)
+        } catch (e: Exception) {
+            Log.e("ConnectedWebSocket", "Failed to deliver error")
+            e.printStackTrace()
         }
     }
 
     @PlatformSpecific
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-        post {
-            Log.v("ConnectedWebSocket", "Socket to $url closing.")
-            ownConnection.onComplete()
-            _read.onComplete()
-        }
+        Log.v("ConnectedWebSocket", "Socket to $url closing.")
+        _ownConnection.onComplete()
+        _read.onComplete()
     }
 
     @PlatformSpecific
     override fun onMessage(webSocket: WebSocket, text: String) {
-        post {
-            if(justStarted){
-                post {
-                    Log.v("ConnectedWebSocket", "Socket to $url got message '$text'.")
-                    _read.onNext(WebSocketFrame(text = text))
-                }
-            } else {
-                Log.v("ConnectedWebSocket", "Socket to $url got message '$text'.")
-                _read.onNext(WebSocketFrame(text = text))
-            }
+        if(justStarted){
+            Log.v("ConnectedWebSocket", "Socket to $url got message '$text'.")
+            _read.onNext(WebSocketFrame(text = text))
+        } else {
+            Log.v("ConnectedWebSocket", "Socket to $url got message '$text'.")
+            _read.onNext(WebSocketFrame(text = text))
         }
     }
 
     @PlatformSpecific
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-        post {
-            Log.v("ConnectedWebSocket", "Socket to $url got binary message of length ${bytes.size()}.")
-            _read.onNext(WebSocketFrame(binary = bytes.toByteArray()))
-        }
+        Log.v("ConnectedWebSocket", "Socket to $url got binary message of length ${bytes.size()}.")
+        _read.onNext(WebSocketFrame(binary = bytes.toByteArray()))
     }
 
     @PlatformSpecific
