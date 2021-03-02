@@ -1,3 +1,5 @@
+import java.util.Properties
+
 buildscript {
     repositories {
         google()
@@ -104,7 +106,15 @@ afterEvaluate {
         }
     }
     signing {
-        this.sign(publishing.publications)
+        val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
+            Properties().apply { load(stream) }
+        }
+        if (props != null && props.size > 0) {
+            val signingKey = props.getProperty("signingKey")
+            val signingPassword = props.getProperty("signingPassword")
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(configurations.archives.get())
+        }
     }
 }
 
@@ -117,40 +127,55 @@ tasks.named<Upload>("uploadArchives") {
         }
     }
 
-    repositories.withGroovyBuilder {
-        "mavenDeployer"{
-            "repository"("url" to "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                "authentication"("userName" to project.properties["ossrhUsername"], "password" to project.properties["ossrhPassword"])
-            }
-            "snapshotRepository"("url" to "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                "authentication"("userName" to project.properties["ossrhUsername"], "password" to project.properties["ossrhPassword"])
-            }
-            "pom" {
-                "project" {
-                    setProperty("name", "Butterfly-Android")
-                    setProperty("packaging", "jar")
-                    setProperty("description", "A library to help with the development of android Projects")
-                    setProperty("url", "https://github.com/lightningkite/butterfly-android")
+    val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
+        Properties().apply { load(stream) }
+    }
+    if (props != null && props.size > 0) {
 
-                    "scm" {
-                        setProperty("connection", "scm:git:https://github.com/lightningkite/butterfly-android.git")
-                        setProperty("developerConnection", "scm:git:https://github.com/lightningkite/butterfly-android.git")
+        repositories.withGroovyBuilder {
+            "mavenDeployer"{
+                "repository"("url" to "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    "authentication"(
+                        "userName" to props.getProperty("ossrhUsername"),
+                        "password" to props.getProperty("ossrhPassword")
+                    )
+                }
+                "snapshotRepository"("url" to "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                    "authentication"(
+                        "userName" to props.getProperty("ossrhUsername"),
+                        "password" to props.getProperty("ossrhPassword")
+                    )
+                }
+                "pom" {
+                    "project" {
+                        setProperty("name", "Butterfly-Android")
+                        setProperty("packaging", "aar")
+                        setProperty("description", "An Android framework for consistent and stable app development.  Built for easy use with Khrysalis, a code conversion tool.")
                         setProperty("url", "https://github.com/lightningkite/butterfly-android")
-                    }
 
-                    "licenses" {
-                        "license"{
-                            setProperty("name", "The MIT License (MIT)")
-                            setProperty("url", "https://www.mit.edu/~amini/LICENSE.md")
-                            setProperty("distribution", "repo")
+                        "scm" {
+                            setProperty("connection", "scm:git:https://github.com/lightningkite/butterfly-android.git")
+                            setProperty(
+                                "developerConnection",
+                                "scm:git:https://github.com/lightningkite/butterfly-android.git"
+                            )
+                            setProperty("url", "https://github.com/lightningkite/butterfly-android")
                         }
 
-                    }
-                    "developers"{
-                        "developer"{
-                            setProperty("id", "bjsvedin")
-                            setProperty("name", "Brady Svedin")
-                            setProperty("email", "brady@lightningkite.com")
+                        "licenses" {
+                            "license"{
+                                setProperty("name", "The MIT License (MIT)")
+                                setProperty("url", "https://www.mit.edu/~amini/LICENSE.md")
+                                setProperty("distribution", "repo")
+                            }
+
+                        }
+                        "developers"{
+                            "developer"{
+                                setProperty("id", "bjsvedin")
+                                setProperty("name", "Brady Svedin")
+                                setProperty("email", "brady@lightningkite.com")
+                            }
                         }
                     }
                 }
