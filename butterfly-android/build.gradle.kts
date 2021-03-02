@@ -1,3 +1,5 @@
+import java.util.Properties
+
 buildscript {
     repositories {
         google()
@@ -11,6 +13,9 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-android-extensions")
+    id("maven")
+    id("signing")
+    id("org.jetbrains.dokka") version "1.4.20"
     `maven-publish`
 }
 
@@ -62,10 +67,21 @@ dependencies {
     api("com.google.android.exoplayer:exoplayer:2.11.8")
 }
 
-tasks.create("sourceJar", Jar::class) {
-    archiveClassifier.set("sources")
-    from(android.sourceSets["main"].java.srcDirs)
-    from(project.projectDir.resolve("src/include"))
+tasks {
+    val sourceJar by creating(Jar::class) {
+        archiveClassifier.set("sources")
+        from(android.sourceSets["main"].java.srcDirs)
+        from(project.projectDir.resolve("src/include"))
+    }
+    val javadocJar by creating(Jar::class) {
+        dependsOn("dokkaJavadoc")
+        archiveClassifier.set("javadoc")
+        from(project.file("build/dokka/javadoc"))
+    }
+    artifacts {
+        archives(sourceJar)
+        archives(javadocJar)
+    }
 }
 
 afterEvaluate {
@@ -74,6 +90,7 @@ afterEvaluate {
             val release by creating(MavenPublication::class) {
                 from(components["release"])
                 artifact(tasks.getByName("sourceJar"))
+                artifact(tasks.getByName("javadocJar"))
                 groupId = project.group.toString()
                 artifactId = project.name
                 version = project.version.toString()
@@ -81,9 +98,87 @@ afterEvaluate {
             val debug by creating(MavenPublication::class) {
                 from(components["debug"])
                 artifact(tasks.getByName("sourceJar"))
+                artifact(tasks.getByName("javadocJar"))
                 groupId = project.group.toString()
                 artifactId = project.name
                 version = project.version.toString()
+            }
+        }
+    }
+    signing {
+        val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
+            Properties().apply { load(stream) }
+        }
+        if (props != null && props.size > 0) {
+            val signingKey = props.getProperty("signingKey")
+            val signingPassword = props.getProperty("signingPassword")
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(configurations.archives.get())
+        }
+    }
+}
+
+tasks.named<Upload>("uploadArchives") {
+    repositories.withConvention(MavenRepositoryHandlerConvention::class) {
+        mavenDeployer {
+            beforeDeployment {
+                signing.signPom(this)
+            }
+        }
+    }
+
+    val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
+        Properties().apply { load(stream) }
+    }
+    if (props != null && props.size > 0) {
+
+        repositories.withGroovyBuilder {
+            "mavenDeployer"{
+                "repository"("url" to "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    "authentication"(
+                        "userName" to props.getProperty("ossrhUsername"),
+                        "password" to props.getProperty("ossrhPassword")
+                    )
+                }
+                "snapshotRepository"("url" to "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                    "authentication"(
+                        "userName" to props.getProperty("ossrhUsername"),
+                        "password" to props.getProperty("ossrhPassword")
+                    )
+                }
+                "pom" {
+                    "project" {
+                        setProperty("name", "Butterfly-Android")
+                        setProperty("packaging", "aar")
+                        setProperty("description", "An Android framework for consistent and stable app development.  Built for easy use with Khrysalis, a code conversion tool.")
+                        setProperty("url", "https://github.com/lightningkite/butterfly-android")
+
+                        "scm" {
+                            setProperty("connection", "scm:git:https://github.com/lightningkite/butterfly-android.git")
+                            setProperty(
+                                "developerConnection",
+                                "scm:git:https://github.com/lightningkite/butterfly-android.git"
+                            )
+                            setProperty("url", "https://github.com/lightningkite/butterfly-android")
+                        }
+
+                        "licenses" {
+                            "license"{
+                                setProperty("name", "The MIT License (MIT)")
+                                setProperty("url", "https://www.mit.edu/~amini/LICENSE.md")
+                                setProperty("distribution", "repo")
+                            }
+
+                        }
+                        "developers"{
+                            "developer"{
+                                setProperty("id", "bjsvedin")
+                                setProperty("name", "Brady Svedin")
+                                setProperty("email", "brady@lightningkite.com")
+                            }
+                        }
+                    }
+                }
             }
         }
     }

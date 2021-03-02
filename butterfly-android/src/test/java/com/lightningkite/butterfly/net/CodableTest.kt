@@ -13,13 +13,13 @@ class CodableTest {
         val baseline: String = "Hello"
     )
 
-    @Test fun serialize(){
-        val model = TestModel(
-            isActive = true,
-            isStaff = true,
-            baseline = "Hi Low"
-        )
-        println(model.toJsonString())
-        Assert.assertEquals(model, model.toJsonString().fromJsonString<TestModel>())
-    }
+//    @Test fun serialize(){
+//        val model = TestModel(
+//            isActive = true,
+//            isStaff = true,
+//            baseline = "Hi Low"
+//        )
+//        println(model.toJsonString())
+//        Assert.assertEquals(model, model.toJsonString().fromJsonString<TestModel>())
+//    }
 }
