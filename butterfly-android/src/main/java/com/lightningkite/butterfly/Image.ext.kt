@@ -61,20 +61,30 @@ fun Image.load(): Single<Bitmap> {
  */
 private fun ImageReference.load(maxDimension: Int = 2048): Single<Bitmap> {
     return Single.create { emitter ->
+        var emitted = false
         Glide.with(HttpClient.appContext)
             .asBitmap()
             .load(this.uri)
             .into(object : CustomTarget<Bitmap>() {
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    emitter.onError(Exception("Failed to load drawable"))
+                    if(!emitted) {
+                        emitted = true
+                        emitter.onError(Exception("Failed to load drawable"))
+                    }
                 }
 
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    emitter.onSuccess(resource)
+                    if(!emitted) {
+                        emitted = true
+                        emitter.onSuccess(resource)
+                    }
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
-                    emitter.onError(Exception())
+                    if(!emitted) {
+                        emitted = true
+                        emitter.onError(Exception())
+                    }
                 }
             })
     }
@@ -87,21 +97,30 @@ private fun ImageReference.load(maxDimension: Int = 2048): Single<Bitmap> {
  */
 private fun ImageRemoteUrl.load(): Single<Bitmap> {
     return Single.create { emitter ->
-
+        var emitted = false
         Glide.with(HttpClient.appContext)
             .asBitmap()
             .load(this.url)
             .into(object : CustomTarget<Bitmap>() {
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    emitter.onError(Exception("Failed to load drawable"))
+                    if(!emitted) {
+                        emitted = true
+                        emitter.onError(Exception("Failed to load drawable"))
+                    }
                 }
 
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    emitter.onSuccess(resource)
+                    if(!emitted) {
+                        emitted = true
+                        emitter.onSuccess(resource)
+                    }
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
-                    emitter.onError(Exception())
+                    if(!emitted) {
+                        emitted = true
+                        emitter.onError(Exception())
+                    }
                 }
             })
     }
