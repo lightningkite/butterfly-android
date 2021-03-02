@@ -109,12 +109,11 @@ afterEvaluate {
         val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
             Properties().apply { load(stream) }
         }
-        if (props != null && props.size > 0) {
-            val signingKey = props.getProperty("signingKey")
-            val signingPassword = props.getProperty("signingPassword")
-            useInMemoryPgpKeys(signingKey, signingPassword)
-            sign(configurations.archives.get())
-        }
+        val signingKey: String? = props?.getProperty("signingKey") ?: project.properties["signingKey"]?.toString()
+        val signingPassword: String? =
+            props?.getProperty("signingPassword") ?: project.properties["signingPassword"]?.toString()
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign(configurations.archives.get())
     }
 }
 
@@ -130,52 +129,57 @@ tasks.named<Upload>("uploadArchives") {
     val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
         Properties().apply { load(stream) }
     }
-    if (props != null && props.size > 0) {
 
-        repositories.withGroovyBuilder {
-            "mavenDeployer"{
-                "repository"("url" to "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    "authentication"(
-                        "userName" to props.getProperty("ossrhUsername"),
-                        "password" to props.getProperty("ossrhPassword")
+    repositories.withGroovyBuilder {
+        "mavenDeployer"{
+            "repository"("url" to "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                "authentication"(
+                    "userName" to (props?.getProperty("ossrhUsername")
+                        ?: project.properties["ossrhUsername"]?.toString()),
+                    "password" to (props?.getProperty("ossrhPassword")
+                        ?: project.properties["ossrhPassword"]?.toString())
+                )
+            }
+            "snapshotRepository"("url" to "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                "authentication"(
+                    "userName" to (props?.getProperty("ossrhUsername")
+                        ?: project.properties["ossrhUsername"]?.toString()),
+                    "password" to (props?.getProperty("ossrhPassword")
+                        ?: project.properties["ossrhPassword"]?.toString())
+                )
+            }
+            "pom" {
+                "project" {
+                    setProperty("name", "Butterfly-Android")
+                    setProperty("packaging", "aar")
+                    setProperty(
+                        "description",
+                        "An Android framework for consistent and stable app development.  Built for easy use with Khrysalis, a code conversion tool."
                     )
-                }
-                "snapshotRepository"("url" to "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                    "authentication"(
-                        "userName" to props.getProperty("ossrhUsername"),
-                        "password" to props.getProperty("ossrhPassword")
-                    )
-                }
-                "pom" {
-                    "project" {
-                        setProperty("name", "Butterfly-Android")
-                        setProperty("packaging", "aar")
-                        setProperty("description", "An Android framework for consistent and stable app development.  Built for easy use with Khrysalis, a code conversion tool.")
+                    setProperty("url", "https://github.com/lightningkite/butterfly-android")
+
+                    "scm" {
+                        setProperty("connection", "scm:git:https://github.com/lightningkite/butterfly-android.git")
+                        setProperty(
+                            "developerConnection",
+                            "scm:git:https://github.com/lightningkite/butterfly-android.git"
+                        )
                         setProperty("url", "https://github.com/lightningkite/butterfly-android")
+                    }
 
-                        "scm" {
-                            setProperty("connection", "scm:git:https://github.com/lightningkite/butterfly-android.git")
-                            setProperty(
-                                "developerConnection",
-                                "scm:git:https://github.com/lightningkite/butterfly-android.git"
-                            )
-                            setProperty("url", "https://github.com/lightningkite/butterfly-android")
+                    "licenses" {
+                        "license"{
+                            setProperty("name", "The MIT License (MIT)")
+                            setProperty("url", "https://www.mit.edu/~amini/LICENSE.md")
+                            setProperty("distribution", "repo")
                         }
 
-                        "licenses" {
-                            "license"{
-                                setProperty("name", "The MIT License (MIT)")
-                                setProperty("url", "https://www.mit.edu/~amini/LICENSE.md")
-                                setProperty("distribution", "repo")
-                            }
-
-                        }
-                        "developers"{
-                            "developer"{
-                                setProperty("id", "bjsvedin")
-                                setProperty("name", "Brady Svedin")
-                                setProperty("email", "brady@lightningkite.com")
-                            }
+                    }
+                    "developers"{
+                        "developer"{
+                            setProperty("id", "bjsvedin")
+                            setProperty("name", "Brady Svedin")
+                            setProperty("email", "brady@lightningkite.com")
                         }
                     }
                 }
