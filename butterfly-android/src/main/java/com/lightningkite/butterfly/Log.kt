@@ -24,4 +24,4 @@ object SystemOutLog: LogInterface {
     override fun e(label: String, value: String) { println("--Error  -- $label: $value") }
     override fun wtf(label: String, value: String) { println("--WTF    -- $label: $value") }
 }
-var Log: LogInterface = AndroidLog
+var Log: LogInterface = SystemOutLog

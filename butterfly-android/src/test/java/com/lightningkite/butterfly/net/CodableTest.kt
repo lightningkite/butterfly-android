@@ -8,7 +8,7 @@ import org.junit.Test
 
 class CodableTest {
     data class TestModel(
-        val isActive: Boolean = false,
+        @get:JsonProperty("is_active")  val isActive: Boolean = false,
         @get:JsonProperty("is_staff") val isStaff: Boolean = false,
         val baseline: String = "Hello"
     )
