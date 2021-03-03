@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.lightningkite.butterfly.rx.removed
+import com.lightningkite.butterfly.rx.setRemovedCondition
 import com.lightningkite.butterfly.rx.until
 
 
@@ -64,6 +65,7 @@ fun <T> AutoCompleteTextView.bind(
                 val size = (context.resources.displayMetrics.density * 8).toInt()
                 setPadding(size, size, size, size)
             }
+            view.setRemovedCondition(this@bind.removed)
             view.text = filtered.getOrNull(position)?.let(toString)
             return view
         }

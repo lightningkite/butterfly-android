@@ -2,11 +2,11 @@ package com.lightningkite.butterfly.rx
 
 import android.view.View
 import android.view.ViewParent
-import android.widget.AbsListView
-import android.widget.AdapterView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.lightningkite.butterfly.Escaping
 import io.reactivex.disposables.Disposable
+import java.util.*
 
 val View.removed: DisposeCondition
     get() {
@@ -18,15 +18,19 @@ val View.removed: DisposeCondition
                 }
 
                 override fun onViewAttachedToWindow(v: View) {
-                    v.parent?.recyclingParent()?.let {
+                    findReplacedRemovedCondition()?.let {
                         v.removeOnAttachStateChangeListener(this)
-                        disposable.until(it.removed)
+                        disposable.until(it)
                     }
                 }
             })
         }
     }
 
-private fun ViewParent.recyclingParent(): View? = this as? RecyclerView
-    ?: this as? AdapterView<*>
-    ?: this.parent?.recyclingParent()
+val View_lifecycleDeferTo = WeakHashMap<View, DisposeCondition>()
+fun View.setRemovedCondition(condition: DisposeCondition) {
+    View_lifecycleDeferTo[this] = condition
+}
+fun View.findReplacedRemovedCondition(): DisposeCondition? {
+    return View_lifecycleDeferTo[this] ?: (this.parent as? View)?.findReplacedRemovedCondition()
+}
