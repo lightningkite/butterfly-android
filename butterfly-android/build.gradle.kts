@@ -84,6 +84,14 @@ tasks {
     }
 }
 
+tasks.register("uploadSnapshot"){
+    group="upload"
+    finalizedBy("uploadArchives")
+    doLast{
+        project.version = project.version.toString() + "-SNAPSHOT"
+    }
+}
+
 afterEvaluate {
     publishing {
         publications {
