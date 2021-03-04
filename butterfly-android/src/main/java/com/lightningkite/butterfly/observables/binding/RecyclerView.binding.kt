@@ -12,6 +12,7 @@ import com.lightningkite.butterfly.JsName
 import com.lightningkite.butterfly.android.ActivityAccess
 import com.lightningkite.butterfly.observables.*
 import com.lightningkite.butterfly.rx.removed
+import com.lightningkite.butterfly.rx.setRemovedCondition
 import com.lightningkite.butterfly.rx.until
 import com.lightningkite.butterfly.views.newEmptyView
 import kotlin.reflect.KClass
@@ -87,6 +88,7 @@ fun <T> RecyclerView.bind(
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val event = StandardObservableProperty<T>(defaultValue)
             val subview = makeView(event)
+            subview.setRemovedCondition(this@bind.removed)
             subview.tag = event
             subview.layoutParams = RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             return object : RecyclerView.ViewHolder(subview) {}
@@ -171,6 +173,7 @@ fun RecyclerView.bindMulti(
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val subview = typeHandler.make(viewType)
+            subview.setRemovedCondition(this@bindMulti.removed)
             return object : RecyclerView.ViewHolder(subview) {}
         }
 
@@ -246,6 +249,7 @@ fun <T> RecyclerView.bindMulti(
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val event = StandardObservableProperty<T>(defaultValue)
             val subview = makeView(viewType, event)
+            subview.setRemovedCondition(this@bindMulti.removed)
             subview.tag = event
             subview.layoutParams = RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             return object : RecyclerView.ViewHolder(subview) {}

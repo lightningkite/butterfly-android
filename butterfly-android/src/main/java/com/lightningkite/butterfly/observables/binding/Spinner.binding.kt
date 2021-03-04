@@ -12,6 +12,7 @@ import com.lightningkite.butterfly.JsName
 import com.lightningkite.butterfly.PlatformSpecific
 import com.lightningkite.butterfly.observables.*
 import com.lightningkite.butterfly.rx.removed
+import com.lightningkite.butterfly.rx.setRemovedCondition
 import com.lightningkite.butterfly.rx.until
 
 
@@ -44,6 +45,7 @@ fun <T> Spinner.bind(
                     options.value.getOrNull(position) ?: selected.value
                 )
                 val subview = makeView(event)
+                subview.setRemovedCondition(this@bind.removed)
                 subview.tag = event
                 return subview
             }
@@ -97,6 +99,7 @@ fun <T> Spinner.bind(
                     options.value.getOrNull(position) ?: selected.value
                 )
                 val subview = LayoutInflater.from(this@bind.context).inflate(butterflySpinnerRow, parent, false)
+                subview.setRemovedCondition(this@bind.removed)
                 val padding = (context.resources.displayMetrics.density * 8).toInt()
                 subview.setPadding(padding,padding,padding,padding)
                 val textView = subview.findViewById<TextView>(android.R.id.text1)
@@ -158,6 +161,7 @@ fun <T> Spinner.bindString(
                 val textView = subview.findViewById<TextView>(android.R.id.text1)
                 textView.bindString(event.flatMap(toString))
                 subview.tag = event
+                subview.setRemovedCondition(this@bindString.removed)
                 return subview
             }
             (view.tag as? StandardObservableProperty<T>)?.let {
