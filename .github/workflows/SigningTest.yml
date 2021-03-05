@@ -2,6 +2,10 @@ name: PublishToMaven
 
 on:
   workflow_dispatch:
+    inputs:
+      hype:
+        description: "How hype do you need it?"
+        default: "Very"
 
 jobs:
   public-release:
