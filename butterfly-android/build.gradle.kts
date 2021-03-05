@@ -26,14 +26,12 @@ version = "0.1.2"
 val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
     Properties().apply { load(stream) }
 }
-val signingKey: String? = (props?.getProperty("signingKey")
-    ?: System.getenv("SIGNING_KEY")?.takeUnless { it.isEmpty() }
+val signingKey: String? = (System.getenv("SIGNING_KEY")?.takeUnless { it.isEmpty() }
     ?: project.properties["signingKey"]?.toString())
     ?.lineSequence()
-    ?.filter { it.trim().firstOrNull() != '-' }
+    ?.filter { it.trim().firstOrNull()?.let { it.isLetterOrDigit() || it == '=' || it == '/' || it == '+' } == true }
     ?.joinToString("\n")
-val signingPassword: String? = props?.getProperty("signingPassword")
-    ?: System.getenv("SIGNING_PASSWORD")?.takeUnless { it.isEmpty() }
+val signingPassword: String? = System.getenv("SIGNING_PASSWORD")?.takeUnless { it.isEmpty() }
     ?: project.properties["signingPassword"]?.toString()
 val useSigning = signingKey != null && signingPassword != null
 
@@ -46,13 +44,16 @@ if(signingKey != null) {
     }
 }
 
-val deploymentUser = (props?.getProperty("ossrhUsername")
-    ?: System.getenv("OSSRH_USERNAME")?.takeUnless { it.isEmpty() }
+val deploymentUser = (System.getenv("OSSRH_USERNAME")?.takeUnless { it.isEmpty() }
     ?: project.properties["ossrhUsername"]?.toString())
-val deploymentPassword = (props?.getProperty("ossrhPassword")
-    ?: System.getenv("OSSRH_PASSWORD")?.takeUnless { it.isEmpty() }
+    ?.trim()
+val deploymentPassword = (System.getenv("OSSRH_PASSWORD")?.takeUnless { it.isEmpty() }
     ?: project.properties["ossrhPassword"]?.toString())
+    ?.trim()
 val useDeployment = deploymentUser != null || deploymentPassword != null
+println(useDeployment)
+println(deploymentUser)
+println(deploymentPassword)
 
 repositories {
     jcenter()
@@ -168,18 +169,14 @@ if(useDeployment){
             "mavenDeployer"{
                 "repository"("url" to "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
                     "authentication"(
-                        "userName" to (props?.getProperty("ossrhUsername")
-                            ?: project.properties["ossrhUsername"]?.toString()),
-                        "password" to (props?.getProperty("ossrhPassword")
-                            ?: project.properties["ossrhPassword"]?.toString())
+                        "userName" to deploymentUser,
+                        "password" to deploymentPassword
                     )
                 }
                 "snapshotRepository"("url" to "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
                     "authentication"(
-                        "userName" to (props?.getProperty("ossrhUsername")
-                            ?: project.properties["ossrhUsername"]?.toString()),
-                        "password" to (props?.getProperty("ossrhPassword")
-                            ?: project.properties["ossrhPassword"]?.toString())
+                        "userName" to deploymentUser,
+                        "password" to deploymentPassword
                     )
                 }
                 "pom" {
