@@ -51,9 +51,6 @@ val deploymentPassword = (System.getenv("OSSRH_PASSWORD")?.takeUnless { it.isEmp
     ?: project.properties["ossrhPassword"]?.toString())
     ?.trim()
 val useDeployment = deploymentUser != null || deploymentPassword != null
-println(useDeployment)
-println(deploymentUser)
-println(deploymentPassword)
 
 repositories {
     jcenter()
