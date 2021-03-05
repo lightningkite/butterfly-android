@@ -26,13 +26,25 @@ version = "0.1.2"
 val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
     Properties().apply { load(stream) }
 }
-val signingKey: String? = props?.getProperty("signingKey")
+val signingKey: String? = (props?.getProperty("signingKey")
     ?: System.getenv("SIGNING_KEY")?.takeUnless { it.isEmpty() }
-    ?: project.properties["signingKey"]?.toString()
+    ?: project.properties["signingKey"]?.toString())
+    ?.lineSequence()
+    ?.filter { it.trim().firstOrNull() != '-' }
+    ?.joinToString("\n")
 val signingPassword: String? = props?.getProperty("signingPassword")
     ?: System.getenv("SIGNING_PASSWORD")?.takeUnless { it.isEmpty() }
     ?: project.properties["signingPassword"]?.toString()
 val useSigning = signingKey != null && signingPassword != null
+
+if(signingKey != null) {
+    if(!signingKey.contains('\n')){
+        throw IllegalArgumentException("Expected signing key to have multiple lines")
+    }
+    if(signingKey.contains('"')){
+        throw IllegalArgumentException("Signing key has quote outta nowhere")
+    }
+}
 
 val deploymentUser = (props?.getProperty("ossrhUsername")
     ?: System.getenv("OSSRH_USERNAME")?.takeUnless { it.isEmpty() }
