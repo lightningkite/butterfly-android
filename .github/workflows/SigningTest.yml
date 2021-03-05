@@ -1,4 +1,4 @@
-name: PublishToMaven
+name: SigningTest
 
 on:
   workflow_dispatch:
