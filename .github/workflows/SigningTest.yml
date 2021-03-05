@@ -14,8 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: |
-          echo "$FAKE_MULTILINE_SECRET"
+      - run: 'echo "$FAKE_MULTILINE_SECRET"'
         env:
           $FAKE_MULTILINE_SECRET: ${{ secrets.$FAKE_MULTILINE_SECRET }}
 #      - uses: actions/setup-java@v1
