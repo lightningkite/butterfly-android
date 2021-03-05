@@ -1,4 +1,4 @@
-name: PublishToMaven
+name: PublishSnapshot
 
 on:
   push:
