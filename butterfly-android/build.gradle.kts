@@ -22,6 +22,26 @@ plugins {
 group = "com.lightningkite.butterfly"
 version = "0.1.2"
 
+
+val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
+    Properties().apply { load(stream) }
+}
+val signingKey: String? = props?.getProperty("signingKey")
+    ?: System.getenv("SIGNING_KEY")?.takeUnless { it.isEmpty() }
+    ?: project.properties["signingKey"]?.toString()
+val signingPassword: String? = props?.getProperty("signingPassword")
+    ?: System.getenv("SIGNING_PASSWORD")?.takeUnless { it.isEmpty() }
+    ?: project.properties["signingPassword"]?.toString()
+val useSigning = signingKey != null && signingPassword != null
+
+val deploymentUser = (props?.getProperty("ossrhUsername")
+    ?: System.getenv("OSSRH_USERNAME")?.takeUnless { it.isEmpty() }
+    ?: project.properties["ossrhUsername"]?.toString())
+val deploymentPassword = (props?.getProperty("ossrhPassword")
+    ?: System.getenv("OSSRH_PASSWORD")?.takeUnless { it.isEmpty() }
+    ?: project.properties["ossrhPassword"]?.toString())
+val useDeployment = deploymentUser != null || deploymentPassword != null
+
 repositories {
     jcenter()
     mavenCentral()
@@ -106,89 +126,83 @@ afterEvaluate {
             }
         }
     }
-    signing {
-        val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
-            Properties().apply { load(stream) }
+    if(useSigning){
+        signing {
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(configurations.archives.get())
         }
-        val signingKey: String? = props?.getProperty("signingKey") ?: project.properties["signingKey"]?.toString()
-        val signingPassword: String? =
-            props?.getProperty("signingPassword") ?: project.properties["signingPassword"]?.toString()
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign(configurations.archives.get())
     }
 }
 
-tasks.register("uploadSnapshot"){
-    group="upload"
-    finalizedBy("uploadArchives")
-    doLast{
-        project.version = project.version.toString() + "-SNAPSHOT"
-    }
-}
-
-tasks.named<Upload>("uploadArchives") {
-    repositories.withConvention(MavenRepositoryHandlerConvention::class) {
-        mavenDeployer {
-            beforeDeployment {
-                signing.signPom(this)
-            }
+if(useDeployment){
+    tasks.register("uploadSnapshot"){
+        group="upload"
+        finalizedBy("uploadArchives")
+        doLast{
+            project.version = project.version.toString() + "-SNAPSHOT"
         }
     }
 
-    val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
-        Properties().apply { load(stream) }
-    }
+    tasks.named<Upload>("uploadArchives") {
+        repositories.withConvention(MavenRepositoryHandlerConvention::class) {
+            mavenDeployer {
+                beforeDeployment {
+                    signing.signPom(this)
+                }
+            }
+        }
 
-    repositories.withGroovyBuilder {
-        "mavenDeployer"{
-            "repository"("url" to "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                "authentication"(
-                    "userName" to (props?.getProperty("ossrhUsername")
-                        ?: project.properties["ossrhUsername"]?.toString()),
-                    "password" to (props?.getProperty("ossrhPassword")
-                        ?: project.properties["ossrhPassword"]?.toString())
-                )
-            }
-            "snapshotRepository"("url" to "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                "authentication"(
-                    "userName" to (props?.getProperty("ossrhUsername")
-                        ?: project.properties["ossrhUsername"]?.toString()),
-                    "password" to (props?.getProperty("ossrhPassword")
-                        ?: project.properties["ossrhPassword"]?.toString())
-                )
-            }
-            "pom" {
-                "project" {
-                    setProperty("name", "Butterfly-Android")
-                    setProperty("packaging", "aar")
-                    setProperty(
-                        "description",
-                        "An Android framework for consistent and stable app development.  Built for easy use with Khrysalis, a code conversion tool."
+        repositories.withGroovyBuilder {
+            "mavenDeployer"{
+                "repository"("url" to "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    "authentication"(
+                        "userName" to (props?.getProperty("ossrhUsername")
+                            ?: project.properties["ossrhUsername"]?.toString()),
+                        "password" to (props?.getProperty("ossrhPassword")
+                            ?: project.properties["ossrhPassword"]?.toString())
                     )
-                    setProperty("url", "https://github.com/lightningkite/butterfly-android")
-
-                    "scm" {
-                        setProperty("connection", "scm:git:https://github.com/lightningkite/butterfly-android.git")
+                }
+                "snapshotRepository"("url" to "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                    "authentication"(
+                        "userName" to (props?.getProperty("ossrhUsername")
+                            ?: project.properties["ossrhUsername"]?.toString()),
+                        "password" to (props?.getProperty("ossrhPassword")
+                            ?: project.properties["ossrhPassword"]?.toString())
+                    )
+                }
+                "pom" {
+                    "project" {
+                        setProperty("name", "Butterfly-Android")
+                        setProperty("packaging", "aar")
                         setProperty(
-                            "developerConnection",
-                            "scm:git:https://github.com/lightningkite/butterfly-android.git"
+                            "description",
+                            "An Android framework for consistent and stable app development.  Built for easy use with Khrysalis, a code conversion tool."
                         )
                         setProperty("url", "https://github.com/lightningkite/butterfly-android")
-                    }
 
-                    "licenses" {
-                        "license"{
-                            setProperty("name", "The MIT License (MIT)")
-                            setProperty("url", "https://www.mit.edu/~amini/LICENSE.md")
-                            setProperty("distribution", "repo")
+                        "scm" {
+                            setProperty("connection", "scm:git:https://github.com/lightningkite/butterfly-android.git")
+                            setProperty(
+                                "developerConnection",
+                                "scm:git:https://github.com/lightningkite/butterfly-android.git"
+                            )
+                            setProperty("url", "https://github.com/lightningkite/butterfly-android")
                         }
 
-                    }
-                    "developers"{
-                        "developer"{
-                            setProperty("id", "bjsvedin")
-                            setProperty("name", "Brady Svedin")
-                            setProperty("email", "brady@lightningkite.com")
+                        "licenses" {
+                            "license"{
+                                setProperty("name", "The MIT License (MIT)")
+                                setProperty("url", "https://www.mit.edu/~amini/LICENSE.md")
+                                setProperty("distribution", "repo")
+                            }
+
+                        }
+                        "developers"{
+                            "developer"{
+                                setProperty("id", "bjsvedin")
+                                setProperty("name", "Brady Svedin")
+                                setProperty("email", "brady@lightningkite.com")
+                            }
                         }
                     }
                 }
