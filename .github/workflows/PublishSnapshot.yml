@@ -1,9 +1,8 @@
-name: SigningTest
+name: PublishToMaven
 
 on:
   push:
     branches: [ master ]
-  workflow_dispatch:
 
 jobs:
   public-release:
@@ -14,6 +13,18 @@ jobs:
         with:
           java-version: 8
       - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: ":butterfly-android:test"
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: test_results
+          path: butterfly-android/build/reports/tests/testDebugUnitTest/
+          retention-days: 10
+      - uses: eskatos/gradle-command-action@v1
         env:
           CI: true
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
@@ -21,7 +32,7 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         with:
-          arguments: :butterfly-android:signArchives
+          arguments: :butterfly-android:uploadSnapshot
           wrapper-cache-enabled: true
           dependencies-cache-enabled: true
           configuration-cache-enabled: true
