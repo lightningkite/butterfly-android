@@ -1,2 +1,2 @@
 # butterfly-android
-[![UnitTests](https://github.com/lightningkite/butterfly-android/actions/workflows/PublishSnapshot.yml/badge.svg)](https://github.com/lightningkite/butterfly-android/actions/workflows/PublishSnapshot.yml)
+[![UnitTest](https://github.com/lightningkite/butterfly-android/actions/workflows/UnitTestAndSnapshot.yml/badge.svg)](https://github.com/lightningkite/butterfly-android/actions/workflows/UnitTestAndSnapshot.yml)
