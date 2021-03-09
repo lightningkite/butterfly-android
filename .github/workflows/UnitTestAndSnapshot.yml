@@ -6,7 +6,7 @@ on:
 
 jobs:
   unit_test:
-    name: UnitTest
+    name: Unit Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -26,8 +26,8 @@ jobs:
           path: butterfly-android/build/reports/tests/testDebugUnitTest/
           retention-days: 10
   public-snapshot:
-    name: Publish
-    needs: UnitTest
+    name: Publish SnapShot
+    needs: unit_test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
