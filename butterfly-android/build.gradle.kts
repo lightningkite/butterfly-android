@@ -27,12 +27,12 @@ val props = project.rootProject.file("local.properties").takeIf { it.exists() }?
     Properties().apply { load(stream) }
 }
 val signingKey: String? = (System.getenv("SIGNING_KEY")?.takeUnless { it.isEmpty() }
-    ?: project.properties["signingKey"]?.toString())
+    ?: props?.getProperty("signingKey")?.toString())
     ?.lineSequence()
     ?.filter { it.trim().firstOrNull()?.let { it.isLetterOrDigit() || it == '=' || it == '/' || it == '+' } == true }
     ?.joinToString("\n")
 val signingPassword: String? = System.getenv("SIGNING_PASSWORD")?.takeUnless { it.isEmpty() }
-    ?: project.properties["signingPassword"]?.toString()
+    ?: props?.getProperty("signingPassword")?.toString()
 val useSigning = signingKey != null && signingPassword != null
 
 if(signingKey != null) {
@@ -45,10 +45,10 @@ if(signingKey != null) {
 }
 
 val deploymentUser = (System.getenv("OSSRH_USERNAME")?.takeUnless { it.isEmpty() }
-    ?: project.properties["ossrhUsername"]?.toString())
+    ?: props?.getProperty("ossrhUsername")?.toString())
     ?.trim()
 val deploymentPassword = (System.getenv("OSSRH_PASSWORD")?.takeUnless { it.isEmpty() }
-    ?: project.properties["ossrhPassword"]?.toString())
+    ?: props?.getProperty("ossrhPassword")?.toString())
     ?.trim()
 val useDeployment = deploymentUser != null || deploymentPassword != null
 
