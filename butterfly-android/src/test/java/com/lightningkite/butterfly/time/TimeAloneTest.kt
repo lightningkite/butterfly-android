@@ -1,7 +1,9 @@
+@file:SharedCode
 package com.lightningkite.butterfly.time
 
+import com.lightningkite.butterfly.SharedCode
 import com.lightningkite.butterfly.time.TimeAlone
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class TimeAloneTest {

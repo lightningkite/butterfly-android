@@ -1,3 +1,4 @@
+@file:SharedCode
 package com.lightningkite.butterfly
 
 import org.junit.Test

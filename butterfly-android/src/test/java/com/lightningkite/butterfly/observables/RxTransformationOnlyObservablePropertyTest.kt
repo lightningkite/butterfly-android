@@ -1,6 +1,8 @@
+@file: SharedCode
 package com.lightningkite.butterfly.observables
 
 import com.lightningkite.butterfly.Box
+import com.lightningkite.butterfly.SharedCode
 import org.junit.Assert.*
 import org.junit.Test
 

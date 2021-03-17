@@ -1,8 +1,8 @@
+@file: SharedCode
 package com.lightningkite.butterfly.observables
 
-import com.lightningkite.butterfly.rx.addWeak
+import com.lightningkite.butterfly.SharedCode
 import com.lightningkite.butterfly.rx.forever
-import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.subjects.PublishSubject
 import org.junit.Assert.*
@@ -34,7 +34,7 @@ class ObservablePropertiesTest {
         val sourceA = StandardObservableProperty("walk")
         val sourceB = StandardObservableProperty("ing")
         var read = ""
-        val r = sourceA.combine(sourceB){ a, b -> a + b }
+        val r = sourceA.combine(sourceB){ a, b -> "$a$b" }
         r.observableNN.subscribeBy { value ->
             println(value)
             assertEquals(value, r.value)
@@ -53,7 +53,7 @@ class ObservablePropertiesTest {
         val sourceA = StandardObservableProperty<String?>(null)
         val sourceB = StandardObservableProperty<String?>(null)
         var read = ""
-        val r = sourceA.combine(sourceB){ a, b -> a + b }
+        val r = sourceA.combine(sourceB){ a, b -> "$a$b" }
         r.observableNN.subscribeBy { value ->
             println(value)
             assertEquals(value, r.value)

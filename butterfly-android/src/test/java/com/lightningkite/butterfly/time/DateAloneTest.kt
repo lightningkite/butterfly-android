@@ -1,5 +1,7 @@
+@file:SharedCode
 package com.lightningkite.butterfly.time
 
+import com.lightningkite.butterfly.SharedCode
 import com.lightningkite.butterfly.time.ClockPartSize
 import com.lightningkite.butterfly.time.DateAlone
 import com.lightningkite.butterfly.time.TimeAlone
@@ -18,8 +20,9 @@ class DateAloneTest {
     }
 
     @Test fun createFromMonthInEra(){
-        val dates = generateSequence(Date().dateAlone) { it.setAddDayOfMonth(1) }.take(400)
-        for(date in dates){
+        val date = Date().dateAlone
+        for(i in 0 .. 400){
+            date.setAddDayOfMonth(1)
             assertEquals("Failed for ${date.iso8601()}", date.monthInEra, DateAlone.fromMonthInEra(date.monthInEra).monthInEra)
         }
     }

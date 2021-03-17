@@ -1,6 +1,8 @@
+@file:SharedCode
 package com.lightningkite.butterfly.net
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.lightningkite.butterfly.SharedCode
 import com.lightningkite.butterfly.fromJsonString
 import com.lightningkite.butterfly.toJsonString
 import org.junit.Assert
@@ -13,13 +15,13 @@ class CodableTest {
         val baseline: String = "Hello"
     )
 
-//    @Test fun serialize(){
-//        val model = TestModel(
-//            isActive = true,
-//            isStaff = true,
-//            baseline = "Hi Low"
-//        )
-//        println(model.toJsonString())
-//        Assert.assertEquals(model, model.toJsonString().fromJsonString<TestModel>())
-//    }
+    @Test fun serialize(){
+        val model = TestModel(
+            isActive = true,
+            isStaff = true,
+            baseline = "Hi Low"
+        )
+        println(model.toJsonString())
+        Assert.assertEquals(model, model.toJsonString().fromJsonString<TestModel>())
+    }
 }
