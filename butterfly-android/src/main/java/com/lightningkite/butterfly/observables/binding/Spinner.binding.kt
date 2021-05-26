@@ -14,6 +14,8 @@ import com.lightningkite.butterfly.observables.*
 import com.lightningkite.butterfly.rx.removed
 import com.lightningkite.butterfly.rx.setRemovedCondition
 import com.lightningkite.butterfly.rx.until
+import com.lightningkite.butterfly.views.spinnerTextColor
+import com.lightningkite.butterfly.views.spinnerTextSize
 
 
 /**
@@ -26,6 +28,7 @@ import com.lightningkite.butterfly.rx.until
 
 @JsName("spinnerBindAdvanced")
 @JvmName("bindComplex")
+@Deprecated("Doesn't translate to web")
 fun <T> Spinner.bind(
     options: ObservableProperty<List<T>>,
     selected: MutableObservableProperty<T>,
@@ -103,6 +106,8 @@ fun <T> Spinner.bind(
                 val padding = (context.resources.displayMetrics.density * 8).toInt()
                 subview.setPadding(padding,padding,padding,padding)
                 val textView = subview.findViewById<TextView>(android.R.id.text1)
+                textView.setTextColor(this@bind.spinnerTextColor)
+                textView.textSize = this@bind.spinnerTextSize.toFloat()
                 textView.bindString(event.map(toString))
                 subview.tag = event
                 return subview
@@ -159,6 +164,8 @@ fun <T> Spinner.bindString(
                 val padding = (context.resources.displayMetrics.density * 8).toInt()
                 subview.setPadding(padding,padding,padding,padding)
                 val textView = subview.findViewById<TextView>(android.R.id.text1)
+                textView.setTextColor(this@bindString.spinnerTextColor)
+                textView.textSize = this@bindString.spinnerTextSize.toFloat()
                 textView.bindString(event.flatMap(toString))
                 subview.tag = event
                 subview.setRemovedCondition(this@bindString.removed)
