@@ -124,6 +124,14 @@ fun multipartFormBody(vararg parts: MultipartBody.Part): RequestBody {
     }.build()
 }
 
+fun multipartFormBody(parts: List<MultipartBody.Part>): RequestBody {
+    return MultipartBody.Builder().setType(MultipartBody.FORM).also {
+        for (part in parts) {
+            it.addPart(part)
+        }
+    }.build()
+}
+
 fun multipartFormValuePart(name: String, value: String): MultipartBody.Part = MultipartBody.Part.createFormData(name, value)
 fun multipartFormFilePart(name: String, value: String): MultipartBody.Part = MultipartBody.Part.createFormData(name, value)
 fun multipartFormFilePart(name: String, filename: String? = null, body: RequestBody): MultipartBody.Part =
