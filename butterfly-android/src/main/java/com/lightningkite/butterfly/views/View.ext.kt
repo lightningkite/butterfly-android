@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import com.lightningkite.rxkotlinproperty.android.ColorResource
 import java.util.*
 
 var View.backgroundDrawable: Drawable?

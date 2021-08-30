@@ -2,14 +2,10 @@ package com.lightningkite.butterfly.net
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.os.Handler
-import android.os.Looper
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.core.Version
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
@@ -17,21 +13,16 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer
 import com.fasterxml.jackson.databind.util.StdDateFormat
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.lightningkite.butterfly.*
-import com.lightningkite.butterfly.observables.ObservableProperty
-import com.lightningkite.butterfly.observables.asObservableProperty
 import com.lightningkite.butterfly.time.DateAlone
 import com.lightningkite.butterfly.time.TimeAlone
 import com.lightningkite.butterfly.time.iso8601
+import com.lightningkite.rxkotlinproperty.viewgenerators.Log
 import io.reactivex.*
 import io.reactivex.Observable
-import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.Subject
 import okhttp3.*
 import okio.*
-import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit

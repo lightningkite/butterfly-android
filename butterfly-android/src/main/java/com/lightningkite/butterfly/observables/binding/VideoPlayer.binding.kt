@@ -8,13 +8,10 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.lightningkite.butterfly.*
 import com.lightningkite.butterfly.observables.ObservableProperty
-import com.lightningkite.butterfly.observables.observable
-import com.lightningkite.butterfly.observables.observableNN
-import com.lightningkite.butterfly.observables.subscribeBy
-import com.lightningkite.butterfly.rx.removed
-import com.lightningkite.butterfly.rx.until
 import com.lightningkite.butterfly.views.widget.VideoPlayer
-import com.lightningkite.butterfly.views.onClick
+import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.observable
+import com.lightningkite.rxkotlinproperty.until
 
 fun VideoPlayer.bind(video: ObservableProperty<Video?>){
     bindVideoToView(this, video)

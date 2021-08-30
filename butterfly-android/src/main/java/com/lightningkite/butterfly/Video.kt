@@ -1,9 +1,7 @@
 //! This file will translate using Khrysalis.
 package com.lightningkite.butterfly
 
-import android.graphics.Bitmap
 import android.net.Uri
-import com.lightningkite.butterfly.bytes.Data
 
 /**
  *

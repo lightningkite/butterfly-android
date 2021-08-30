@@ -3,9 +3,8 @@ package com.lightningkite.butterfly.views
 
 import android.widget.ImageView
 import com.lightningkite.butterfly.Video
-import com.lightningkite.butterfly.rx.forever
 import com.lightningkite.butterfly.thumbnail
-import com.lightningkite.butterfly.views.loadImage
+import com.lightningkite.rxkotlinproperty.forever
 import io.reactivex.rxkotlin.subscribeBy
 
 

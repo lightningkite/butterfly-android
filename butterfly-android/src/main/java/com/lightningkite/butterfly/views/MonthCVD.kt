@@ -10,13 +10,14 @@ import com.lightningkite.butterfly.*
 import com.lightningkite.butterfly.observables.*
 import com.lightningkite.butterfly.floorDiv
 import com.lightningkite.butterfly.floorMod
-import com.lightningkite.butterfly.rx.addWeak
-import com.lightningkite.butterfly.rx.forever
-import com.lightningkite.butterfly.rx.until
 import com.lightningkite.butterfly.time.*
 import com.lightningkite.butterfly.views.draw.drawTextCentered
 import com.lightningkite.butterfly.views.geometry.GFloat
 import com.lightningkite.butterfly.views.geometry.toGFloat
+import com.lightningkite.rxkotlinproperty.forever
+import com.lightningkite.rxkotlinproperty.subscribeBy
+import com.lightningkite.rxkotlinproperty.until
+import com.lightningkite.rxkotlinproperty.viewgenerators.animationFrame
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
 import kotlin.math.absoluteValue

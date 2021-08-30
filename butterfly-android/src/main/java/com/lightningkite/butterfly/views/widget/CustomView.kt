@@ -11,9 +11,9 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.FrameLayout
 import com.lightningkite.butterfly.PlatformSpecific
 import com.lightningkite.butterfly.R
-import com.lightningkite.butterfly.rx.DisposableLambda
-import com.lightningkite.butterfly.rx.removed
 import com.lightningkite.butterfly.views.CustomViewDelegate
+import com.lightningkite.rxkotlinproperty.DisposableLambda
+import com.lightningkite.rxkotlinproperty.android.removed
 import kotlin.math.min
 
 class CustomView @JvmOverloads constructor(

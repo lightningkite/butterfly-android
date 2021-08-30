@@ -2,9 +2,7 @@ package com.lightningkite.butterfly
 
 import android.graphics.Bitmap
 import android.net.Uri
-import com.lightningkite.butterfly.AnyObject
-import com.lightningkite.butterfly.rx.forever
-import com.lightningkite.butterfly.weak
+import com.lightningkite.rxkotlinproperty.forever
 
 @Deprecated("Please use the correct import.", ReplaceWith("Uri", "android.net.Uri"))
 typealias Uri = Uri

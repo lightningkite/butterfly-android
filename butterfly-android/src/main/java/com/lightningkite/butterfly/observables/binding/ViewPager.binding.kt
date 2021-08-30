@@ -6,8 +6,10 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.lightningkite.butterfly.JsName
 import com.lightningkite.butterfly.observables.*
-import com.lightningkite.butterfly.rx.removed
-import com.lightningkite.butterfly.rx.until
+import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.map
+import com.lightningkite.rxkotlinproperty.subscribeBy
+import com.lightningkite.rxkotlinproperty.until
 
 /**
  *

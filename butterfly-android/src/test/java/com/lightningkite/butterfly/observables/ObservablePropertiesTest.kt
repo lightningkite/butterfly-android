@@ -1,7 +1,6 @@
 package com.lightningkite.butterfly.observables
 
-import com.lightningkite.butterfly.rx.addWeak
-import com.lightningkite.butterfly.rx.forever
+import com.lightningkite.rxkotlinproperty.*
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.subjects.PublishSubject
@@ -121,7 +120,7 @@ class ObservablePropertiesTest {
     @Test fun toObservableProperty(){
         val subject = PublishSubject.create<Int>()
         var read = -1
-        val r = subject.asObservableProperty(0)
+        val r = subject.asProperty(0)
         r.observableNN.subscribeBy { value ->
             println(value)
             assertEquals(value, r.value)

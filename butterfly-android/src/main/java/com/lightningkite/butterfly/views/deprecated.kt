@@ -6,7 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
-import com.lightningkite.butterfly.android.ActivityAccess
+import com.lightningkite.rxkotlinproperty.viewgenerators.ActivityAccess
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import java.lang.Exception

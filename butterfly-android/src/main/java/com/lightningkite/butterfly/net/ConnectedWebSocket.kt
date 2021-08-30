@@ -1,8 +1,7 @@
 package com.lightningkite.butterfly.net
 
-import com.lightningkite.butterfly.Log
 import com.lightningkite.butterfly.PlatformSpecific
-import com.lightningkite.butterfly.post
+import com.lightningkite.rxkotlinproperty.viewgenerators.Log
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable

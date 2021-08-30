@@ -1,14 +1,14 @@
 package com.lightningkite.butterfly.observables.binding
 
-import com.lightningkite.butterfly.android.ActivityAccess
 import com.lightningkite.butterfly.observables.*
-import com.lightningkite.butterfly.rx.removed
-import com.lightningkite.butterfly.rx.until
 import com.lightningkite.butterfly.time.*
-import com.lightningkite.butterfly.views.ViewDependency
-import com.lightningkite.butterfly.views.ViewString
 import com.lightningkite.butterfly.views.widget.DateButton
 import com.lightningkite.butterfly.views.widget.TimeButton
+import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.subscribeBy
+import com.lightningkite.rxkotlinproperty.until
+import com.lightningkite.rxkotlinproperty.viewgenerators.ActivityAccess
+import com.lightningkite.rxkotlinproperty.viewgenerators.ViewString
 import java.util.*
 
 /**

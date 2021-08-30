@@ -1,15 +1,13 @@
 package com.lightningkite.butterfly.observables.binding
 
-import android.graphics.BitmapFactory
-import android.provider.MediaStore
 import android.widget.ImageView
-import com.lightningkite.butterfly.net.HttpClient
 import com.lightningkite.butterfly.*
 import com.lightningkite.butterfly.observables.*
-import com.lightningkite.butterfly.rx.removed
-import com.lightningkite.butterfly.rx.until
 import com.lightningkite.butterfly.views.loadImage
 import com.lightningkite.butterfly.views.loadVideoThumbnail
+import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.subscribeBy
+import com.lightningkite.rxkotlinproperty.until
 
 /**
  *

@@ -1,6 +1,8 @@
 package com.lightningkite.butterfly.observables
 
 import com.lightningkite.butterfly.Box
+import com.lightningkite.rxkotlinproperty.distinctUntilChanged
+import com.lightningkite.rxkotlinproperty.subscribeBy
 import org.junit.Assert.*
 import org.junit.Test
 

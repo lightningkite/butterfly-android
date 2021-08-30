@@ -11,9 +11,10 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.ViewFlipper
 import com.lightningkite.butterfly.observables.*
-import com.lightningkite.butterfly.rx.removed
-import com.lightningkite.butterfly.rx.until
-import com.lightningkite.butterfly.views.ColorResource
+import com.lightningkite.rxkotlinproperty.android.ColorResource
+import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.subscribeBy
+import com.lightningkite.rxkotlinproperty.until
 
 /**
  *

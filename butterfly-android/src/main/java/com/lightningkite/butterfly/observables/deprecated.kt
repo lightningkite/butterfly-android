@@ -4,12 +4,10 @@ package com.lightningkite.butterfly.observables
 
 import com.lightningkite.butterfly.*
 import com.lightningkite.butterfly.rx.addWeak
+import com.lightningkite.rxkotlinproperty.observable
 import io.reactivex.Observable
 import io.reactivex.Observer
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.annotations.SchedulerSupport
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 

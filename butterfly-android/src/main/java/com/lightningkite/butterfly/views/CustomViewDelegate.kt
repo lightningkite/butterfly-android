@@ -4,10 +4,9 @@ package com.lightningkite.butterfly.views
 import android.graphics.Canvas
 import android.util.DisplayMetrics
 import android.view.View
-import com.lightningkite.butterfly.rx.DisposeCondition
-import com.lightningkite.butterfly.weak
 import com.lightningkite.butterfly.views.widget.CustomView
 import com.lightningkite.butterfly.views.geometry.GFloat
+import com.lightningkite.rxkotlinproperty.DisposeCondition
 import io.reactivex.disposables.Disposable
 
 abstract class CustomViewDelegate {

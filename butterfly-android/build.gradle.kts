@@ -52,10 +52,10 @@ val deploymentPassword = (System.getenv("OSSRH_PASSWORD")?.takeUnless { it.isEmp
 val useDeployment = deploymentUser != null || deploymentPassword != null
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven("https://jitpack.io")
     google()
-    mavenLocal()
     maven("https://maven.google.com")
 }
 
@@ -78,8 +78,8 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    api("androidx.appcompat:appcompat:1.3.1")
-    api("com.google.android.material:material:1.4.0")
+    api("androidx.appcompat:appcompat:1.2.0")
+    api("com.google.android.material:material:1.2.1")
     api("androidx.preference:preference-ktx:1.1.1")
     api("androidx.recyclerview:recyclerview:1.2.1")
     api("com.fasterxml.jackson.core:jackson-core:2.12.1")
@@ -94,6 +94,7 @@ dependencies {
     api("io.reactivex.rxjava2:rxkotlin:2.4.0")
     api("io.reactivex.rxjava2:rxandroid:2.1.1")
     api("com.google.android.exoplayer:exoplayer:2.15.0")
+    api("com.lightningkite.rxkotlinproperty:rxkotlin-property-view-generator:0.0.1")
 }
 
 tasks {

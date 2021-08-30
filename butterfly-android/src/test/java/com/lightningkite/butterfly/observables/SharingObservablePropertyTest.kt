@@ -1,5 +1,8 @@
 package com.lightningkite.butterfly.observables
 
+import com.lightningkite.rxkotlinproperty.map
+import com.lightningkite.rxkotlinproperty.share
+import com.lightningkite.rxkotlinproperty.subscribeBy
 import org.junit.Assert.*
 import org.junit.Test
 

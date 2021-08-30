@@ -2,6 +2,7 @@ package com.lightningkite.butterfly.views
 
 import android.widget.ToggleButton
 import android.widget.TextView
+import com.lightningkite.rxkotlinproperty.android.ColorResource
 
 var TextView.textResource: Int
     get() = 0

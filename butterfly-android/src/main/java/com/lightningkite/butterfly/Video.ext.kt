@@ -4,8 +4,6 @@ import android.graphics.PointF
 import android.media.MediaMetadataRetriever
 import android.os.Build
 import com.lightningkite.butterfly.net.HttpClient
-import com.lightningkite.butterfly.views.ViewStringRaw
-import com.lightningkite.butterfly.views.showDialog
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

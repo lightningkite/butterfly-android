@@ -7,11 +7,11 @@ import android.graphics.RectF
 import android.util.DisplayMetrics
 import android.view.View
 import com.lightningkite.butterfly.observables.*
-import com.lightningkite.butterfly.rx.addWeak
-import com.lightningkite.butterfly.rx.forever
 import com.lightningkite.butterfly.time.*
 import com.lightningkite.butterfly.views.geometry.GFloat
 import com.lightningkite.butterfly.weakSelf
+import com.lightningkite.rxkotlinproperty.forever
+import com.lightningkite.rxkotlinproperty.subscribeBy
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
 

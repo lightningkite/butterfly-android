@@ -4,6 +4,8 @@ import android.view.View
 import com.lightningkite.butterfly.AnyObject
 import com.lightningkite.butterfly.Escaping
 import com.lightningkite.butterfly.weak
+import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.until
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy

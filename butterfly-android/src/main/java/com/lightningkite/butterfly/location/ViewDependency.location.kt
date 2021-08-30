@@ -10,9 +10,9 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.lightningkite.butterfly.android.ActivityAccess
 import com.lightningkite.butterfly.location.GeoCoordinate
 import com.lightningkite.butterfly.location.LocationResult
+import com.lightningkite.rxkotlinproperty.viewgenerators.ActivityAccess
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 

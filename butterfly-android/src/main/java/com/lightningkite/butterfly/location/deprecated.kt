@@ -1,11 +1,7 @@
 package com.lightningkite.butterfly.location
 
 import android.location.Geocoder
-import com.lightningkite.butterfly.android.ActivityAccess
-import com.lightningkite.butterfly.post
-import com.lightningkite.butterfly.views.DialogRequest
-import com.lightningkite.butterfly.views.ViewStringRaw
-import com.lightningkite.butterfly.views.showDialog
+import com.lightningkite.rxkotlinproperty.viewgenerators.*
 
 
 @Deprecated("Use the new RX Style instead")
