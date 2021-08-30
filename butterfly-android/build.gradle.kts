@@ -3,7 +3,6 @@ import java.util.Properties
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         mavenLocal()
     }
@@ -15,7 +14,7 @@ plugins {
     id("kotlin-android-extensions")
     id("maven")
     id("signing")
-    id("org.jetbrains.dokka") version "1.4.20"
+    id("org.jetbrains.dokka") version "1.5.0"
     `maven-publish`
 }
 
@@ -53,7 +52,6 @@ val deploymentPassword = (System.getenv("OSSRH_PASSWORD")?.takeUnless { it.isEmp
 val useDeployment = deploymentUser != null || deploymentPassword != null
 
 repositories {
-    jcenter()
     mavenCentral()
     maven("https://jitpack.io")
     google()
@@ -76,14 +74,14 @@ android {
 
 dependencies {
     implementation(kotlin("reflect"))
-    testImplementation("junit:junit:4.12")
-    androidTestImplementation("androidx.test:runner:1.3.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    testImplementation("junit:junit:4.13.1")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    api("androidx.appcompat:appcompat:1.2.0")
-    api("com.google.android.material:material:1.2.1")
+    api("androidx.appcompat:appcompat:1.3.1")
+    api("com.google.android.material:material:1.4.0")
     api("androidx.preference:preference-ktx:1.1.1")
-    api("androidx.recyclerview:recyclerview:1.1.0")
+    api("androidx.recyclerview:recyclerview:1.2.1")
     api("com.fasterxml.jackson.core:jackson-core:2.12.1")
     api("com.fasterxml.jackson.core:jackson-annotations:2.12.1")
     api("com.fasterxml.jackson.core:jackson-databind:2.12.1")
@@ -92,10 +90,10 @@ dependencies {
     api("de.hdodenhof:circleimageview:2.2.0")
     implementation("com.github.bumptech.glide:glide:4.11.0")
     implementation("com.squareup.picasso:picasso:2.71828")
-    api("com.romandanylyk:pageindicatorview:1.0.3")
+    api("com.github.romandanylyk:PageIndicatorView:b1bad589b5")
     api("io.reactivex.rxjava2:rxkotlin:2.4.0")
     api("io.reactivex.rxjava2:rxandroid:2.1.1")
-    api("com.google.android.exoplayer:exoplayer:2.11.8")
+    api("com.google.android.exoplayer:exoplayer:2.15.0")
 }
 
 tasks {
