@@ -3,8 +3,9 @@
 package com.lightningkite.butterfly.observables
 
 import com.lightningkite.butterfly.*
+import com.lightningkite.butterfly.deprecatedaliases.*
 import com.lightningkite.butterfly.rx.addWeak
-import com.lightningkite.rxkotlinproperty.observable
+import com.lightningkite.rxkotlinproperty.*
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -120,4 +121,20 @@ fun <T> MutableObservableProperty<T>.serves(whilePresent: AnyObject, other: Muta
             suppress = false
         }
     })
+}
+
+@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.subscribeBy", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.subscribeBy"))
+inline fun <T> Property<T>.subscribeBy(
+    noinline onError: (Throwable) -> Unit = { it -> it.printStackTrace() },
+    noinline onComplete: () -> Unit = {},
+    crossinline onNext: (T) -> Unit = { it -> }
+): Disposable = new_subscribeBy(onError, onComplete, onNext)
+
+
+@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.combine", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.combine"))
+fun <T, B, C> Property<T>.combine(
+    other: Property<B>,
+    combiner: (T, B) -> C
+): Property<C> {
+    return new_combiner(other, combiner)
 }

@@ -12,6 +12,10 @@ import com.squareup.picasso.Target
 import java.lang.Exception
 
 
+@Deprecated("Use directly from RxKotlin property instead", ReplaceWith("ViewGenerator", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator"))
+typealias ViewGenerator = com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator
+
+
 @Deprecated("Use directly instead", ReplaceWith("ActivityAccess", "com.lightningkite.butterfly.android.ActivityAccess"))
 typealias ViewDependency = ActivityAccess
 
@@ -58,3 +62,14 @@ fun ActivityAccess.setSizeDrawable(drawable: Drawable, width: Int, height: Int):
         override fun getIntrinsicHeight(): Int = (height * scale).toInt()
     }
 }
+
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate"))
+typealias ViewStringTemplate = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringResource"))
+typealias ViewStringResource = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringResource
+@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.StringResource"))
+typealias StringResource = Int
+@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.ColorResource"))
+typealias ColorResource = Int
+@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.DrawableResource"))
+typealias DrawableResource = Int

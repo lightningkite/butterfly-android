@@ -99,3 +99,4 @@ fun <Z : AnyObject, A, B, C, D, E> captureWeak(
         lambda(actualCaptured!!, a, b, c, d, e)
     }
 }
+

@@ -3,10 +3,15 @@ package com.lightningkite.butterfly.rx
 import android.view.View
 import com.lightningkite.butterfly.AnyObject
 import com.lightningkite.butterfly.Escaping
+import com.lightningkite.butterfly.deprecatedaliases.*
 import com.lightningkite.butterfly.weak
+import com.lightningkite.rxkotlinproperty.DisposeCondition
+import com.lightningkite.rxkotlinproperty.MutableProperty
 import com.lightningkite.rxkotlinproperty.android.removed
 import com.lightningkite.rxkotlinproperty.until
+import com.lightningkite.rxkotlinproperty.working
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -87,3 +92,22 @@ fun <A: AnyObject, B: AnyObject, C: AnyObject, Element: Any> Observable<Element>
     disposable = disp
     return disp
 }
+
+@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.forever", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.forever"))
+fun <T : Disposable> T.forever(): T {
+    return this
+}
+
+@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.until", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.until"))
+fun <T : Disposable> T.until(condition: DisposeCondition): T {
+    condition.call(this)
+    return this
+}
+
+@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.android.removed", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.removed"))
+val View.removed:DisposeCondition
+    get() = new_removed
+
+
+@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.rx.working", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.rx.working"))
+fun <Element : Any> Single<Element>.working(observable: MutableProperty<Boolean>): Single<Element> = this.new_working(observable)
