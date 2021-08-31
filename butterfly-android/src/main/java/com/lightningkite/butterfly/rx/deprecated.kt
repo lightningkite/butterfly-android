@@ -9,19 +9,12 @@ import com.lightningkite.rxkotlinproperty.DisposeCondition
 import com.lightningkite.rxkotlinproperty.MutableProperty
 import com.lightningkite.rxkotlinproperty.android.removed
 import com.lightningkite.rxkotlinproperty.until
-import com.lightningkite.rxkotlinproperty.working
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 
-fun Disposable.solvePrivateDisposal(items: List<Any>) {
-    for(item in items){
-        if(item is View){
-            this.until(item.removed)
-        }
-    }
-}
+fun Disposable.solvePrivateDisposal(items: List<Any>) { for(item in items){ if(item is View){ this.until(item.removed) } } }
 
 @Deprecated("Just use RX stuff")
 fun <Element: Any> Observable<Element>.add(listener: @Escaping() (Element) -> Boolean): Disposable {
@@ -93,21 +86,15 @@ fun <A: AnyObject, B: AnyObject, C: AnyObject, Element: Any> Observable<Element>
     return disp
 }
 
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.forever", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.forever"))
-fun <T : Disposable> T.forever(): T {
-    return this
-}
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.until", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.until"))
-fun <T : Disposable> T.until(condition: DisposeCondition): T {
-    condition.call(this)
-    return this
-}
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.android.removed", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.removed"))
-val View.removed:DisposeCondition
-    get() = new_removed
-
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.rx.working", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.rx.working"))
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("DisposeCondition", "com.lightningkite.rxkotlinproperty.DisposeCondition"))
+typealias DisposeCondition = com.lightningkite.rxkotlinproperty.DisposeCondition
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("DisposableLambda", "com.lightningkite.rxkotlinproperty.DisposableLambda"))
+typealias DisposableLambda = com.lightningkite.rxkotlinproperty.DisposableLambda
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("forever", "com.lightningkite.rxkotlinproperty.forever"))
+fun <T : Disposable> T.forever(): T { return this }
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("until", "com.lightningkite.rxkotlinproperty.until"))
+fun <T : Disposable> T.until(condition: DisposeCondition): T { condition.call(this); return this }
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("removed", "com.lightningkite.rxkotlinproperty.android.removed"))
+val View.removed:DisposeCondition get() = new_removed
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("working", "com.lightningkite.rxkotlinproperty.rx.working"))
 fun <Element : Any> Single<Element>.working(observable: MutableProperty<Boolean>): Single<Element> = this.new_working(observable)

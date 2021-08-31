@@ -6,17 +6,20 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
-import com.lightningkite.rxkotlinproperty.viewgenerators.ActivityAccess
+import android.widget.Spinner
+import com.lightningkite.butterfly.deprecatedaliases.*
+import com.lightningkite.rxkotlinproperty.viewgenerators.*
+import com.lightningkite.rxkotlinproperty.viewgenerators.DialogRequest
+import com.lightningkite.rxkotlinproperty.viewgenerators.ViewString
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import java.lang.Exception
 
 
-@Deprecated("Use directly from RxKotlin property instead", ReplaceWith("ViewGenerator", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator"))
+@Deprecated("Use directly from RxKotlin Property instead", ReplaceWith("ViewGenerator", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator"))
 typealias ViewGenerator = com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator
 
-
-@Deprecated("Use directly instead", ReplaceWith("ActivityAccess", "com.lightningkite.butterfly.android.ActivityAccess"))
+@Deprecated("Use directly from RxKotlin Property instead", ReplaceWith("ActivityAccess", "com.lightningkite.rxkotlinproperty.viewgenerators.ActivityAccess"))
 typealias ViewDependency = ActivityAccess
 
 @Deprecated("")
@@ -63,13 +66,35 @@ fun ActivityAccess.setSizeDrawable(drawable: Drawable, width: Int, height: Int):
     }
 }
 
-@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate"))
-typealias ViewStringTemplate = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate
-@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringResource"))
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewString", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewString"))
+typealias ViewString = com.lightningkite.rxkotlinproperty.viewgenerators.ViewString
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringRaw", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringRaw"))
+typealias ViewStringRaw = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringRaw
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringResource", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringResource"))
 typealias ViewStringResource = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringResource
-@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.StringResource"))
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringTemplate", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate"))
+typealias ViewStringTemplate = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringComplex", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringComplex"))
+typealias ViewStringComplex = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringComplex
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringList", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringList"))
+typealias ViewStringList = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringList
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("DialogRequest", "com.lightningkite.rxkotlinproperty.viewgenerators.DialogRequest"))
+typealias DialogRequest = com.lightningkite.rxkotlinproperty.viewgenerators.DialogRequest
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("EntryPoint", "com.lightningkite.rxkotlinproperty.viewgenerators.EntryPoint"))
+typealias EntryPoint = com.lightningkite.rxkotlinproperty.viewgenerators.EntryPoint
+@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("StringResource", "com.lightningkite.rxkotlinproperty.android.StringResource"))
 typealias StringResource = Int
-@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.ColorResource"))
+@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("ColorResource", "com.lightningkite.rxkotlinproperty.android.ColorResource"))
 typealias ColorResource = Int
-@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.DrawableResource"))
+@Deprecated("Use the version from RxKotlin Properties Android instead.", replaceWith = ReplaceWith("DrawableResource", "com.lightningkite.rxkotlinproperty.android.DrawableResource"))
 typealias DrawableResource = Int
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("showDialog", "com.lightningkite.rxkotlinproperty.viewgenerators.showDialog"))
+fun showDialog(request: DialogRequest) = new_showDialog(request)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("showDialog", "com.lightningkite.rxkotlinproperty.viewgenerators.showDialog"))
+fun showDialog(message: ViewString) = new_showDialog(message)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("spinnerTextColor", "com.lightningkite.rxkotlinproperty.android.spinnerTextColor"))
+var Spinner.spinnerTextColor: Int get() = this.new_spinnerTextColor; set(value) { this.new_spinnerTextColor = value }
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("spinnerTextSize", "com.lightningkite.rxkotlinproperty.android.spinnerTextSize"))
+var Spinner.spinnerTextSize: Double get() = this.new_spinnerTextSize; set(value) {this.new_spinnerTextSize = value}
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("joinToViewString", "com.lightningkite.rxkotlinproperty.viewgenerators.joinToViewString"))
+fun List<ViewString>.joinToViewString(separator: String = "\n"): ViewString = this.new_joinToViewString(separator)

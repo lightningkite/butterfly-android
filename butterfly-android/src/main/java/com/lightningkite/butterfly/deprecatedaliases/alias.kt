@@ -1,59 +1,156 @@
 package com.lightningkite.butterfly.deprecatedaliases
 
+import android.graphics.drawable.Drawable
 import android.view.View
-import android.widget.TextView
+import android.widget.*
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import com.lightningkite.butterfly.observables.MutableObservableProperty
 import com.lightningkite.butterfly.observables.ObservableProperty
+import com.lightningkite.butterfly.observables.StandardObservableProperty
+import com.lightningkite.butterfly.views.reverseDirection
+import com.lightningkite.butterfly.views.whenScrolledToEnd
 import com.lightningkite.rxkotlinproperty.*
-import com.lightningkite.rxkotlinproperty.android.bindExists
-import com.lightningkite.rxkotlinproperty.android.bindString
-import com.lightningkite.rxkotlinproperty.android.bindVisible
-import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.android.*
+import com.lightningkite.rxkotlinproperty.viewgenerators.*
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.subscribeBy", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.subscribeBy"))
-inline fun <T> Property<T>.new_subscribeBy(
-    noinline onError: (Throwable) -> Unit = { it -> it.printStackTrace() },
-    noinline onComplete: () -> Unit = {},
-    crossinline onNext: (T) -> Unit = { it -> }
-): Disposable = subscribeBy(onError, onComplete, onNext)
-
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.forever", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.forever"))
-fun <T : Disposable> T.new_forever(): T {
-    return this.forever()
-}
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.until", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.until"))
-fun <T : Disposable> T.new_until(condition: DisposeCondition): T {
-    return this.until(condition)
-}
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.android.bindString", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.bindString"))
-fun TextView.new_bindString(observable:ObservableProperty<String>){
-    this.bindString(observable)
-}
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.android.bindExists", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.bindExists"))
-fun View.new_bindExists(observable:ObservableProperty<Boolean>){
-    this.bindExists(observable)
-}
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.android.bindVisible", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.bindVisible"))
-fun View.new_bindVisible(observable:ObservableProperty<Boolean>){
-    this.bindVisible(observable)
-}
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.combine", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.combine"))
-fun <T, B, C> Property<T>.new_combiner(
-    other: Property<B>,
-    combiner: (T, B) -> C
-): Property<C> {
-    return this.combine(other, combiner)
-}
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.android.removed", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.android.removed"))
-val View.new_removed:DisposeCondition
-    get() = removed
-
-@Deprecated("Use directly from RxKotlin Properties. Import com.lightningkite.rxkotlinproperty.rx.working", replaceWith = ReplaceWith("com.lightningkite.rxkotlinproperty.rx.working"))
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("subscribeBy", "com.lightningkite.rxkotlinproperty.subscribeBy"))
+inline fun <T> Property<T>.new_subscribeBy(noinline onError: (Throwable) -> Unit = { it -> it.printStackTrace() }, noinline onComplete: () -> Unit = {}, crossinline onNext: (T) -> Unit = { it -> }): Disposable = subscribeBy(onError, onComplete, onNext)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("forever", "com.lightningkite.rxkotlinproperty.forever"))
+fun <T : Disposable> T.new_forever(): T = this.forever()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("until","com.lightningkite.rxkotlinproperty.until"))
+fun <T : Disposable> T.new_until(condition: DisposeCondition): T = this.until(condition)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindString","com.lightningkite.rxkotlinproperty.android.bindString"))
+fun TextView.new_bindString(observable:ObservableProperty<String>) = this.bindString(observable)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindExists", "com.lightningkite.rxkotlinproperty.android.bindExists"))
+fun View.new_bindExists(observable:ObservableProperty<Boolean>) = this.bindExists(observable)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindVisible", "com.lightningkite.rxkotlinproperty.android.bindVisible"))
+fun View.new_bindVisible(observable:ObservableProperty<Boolean>) = this.bindVisible(observable)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("combine", "com.lightningkite.rxkotlinproperty.combine"))
+fun <T, B, C> Property<T>.new_combiner(other: Property<B>, combiner: (T, B) -> C): Property<C> = this.combine(other, combiner)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("removed", "com.lightningkite.rxkotlinproperty.android.removed"))
+val View.new_removed:DisposeCondition get() = this.removed
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("working", "com.lightningkite.rxkotlinproperty.rx.working"))
 fun <Element : Any> Single<Element>.new_working(observable: MutableProperty<Boolean>): Single<Element> = this.working(observable)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind","com.lightningkite.rxkotlinproperty.android.bind"))
+fun <T> RecyclerView.new_bind(data: Property<List<T>>, defaultValue: T, makeView: (Property<T>) -> View) = this.bind(data, defaultValue, makeView)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("map", "com.lightningkite.rxkotlinproperty.map"))
+fun <T, B> MutableProperty<T>.new_map(read: (T) -> B, write: (B) -> T): MutableProperty<B> = this.map(read, write)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("map", "com.lightningkite.rxkotlinproperty.map"))
+fun <T, B> Property<T>.new_map(read: (T) -> B): Property<B> = this.map(read)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("flatMap", "com.lightningkite.rxkotlinproperty.flatMap"))
+fun <T, B> Property<T>.new_flatMap(transformation: (T) -> Property<B>): FlatMappedProperty<T, B> = this.flatMap(transformation)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindStringRes", "com.lightningkite.rxkotlinproperty.android.bindStringRes"))
+fun TextView.new_bindStringRes(property: Property<StringResource?>) = this.bindStringRes(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("delay", "com.lightningkite.rxkotlinproperty.viewgenerators.delay"))
+fun new_delay(milliseconds: Long, action: () -> Unit) = delay(milliseconds, action)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindActive", "com.lightningkite.rxkotlinproperty.android.bindActive"))
+fun Button.new_bindActive(property: Property<Boolean>, activeBackground: Drawable, inactiveBackground: Drawable) = this.bindActive(property, activeBackground, inactiveBackground)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindActive", "com.lightningkite.rxkotlinproperty.android.bindActive"))
+fun Button.new_bindActive(property: Property<Boolean>, activeColorResource: ColorResource? = null, inactiveColorResource: ColorResource? = null) = this.bindActive(property, activeColorResource, inactiveColorResource)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("mapWithExisting", "com.lightningkite.rxkotlinproperty.mapWithExisting"))
+fun <T, B> MutableProperty<T>.new_mapWithExisting(read: (T) -> B, write: (T, B) -> T): MutableProperty<B> = this.mapWithExisting(read, write)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("showDialog", "com.lightningkite.rxkotlinproperty.viewgenerators.showDialog"))
+fun new_showDialog(request: DialogRequest) = showDialog(request)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("showDialog", "com.lightningkite.rxkotlinproperty.viewgenerators.showDialog"))
+fun new_showDialog(message: ViewString) = showDialog(message)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun RatingBar.new_bind(stars: Int, property: MutableProperty<Int>) = this.bind(stars, property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun RatingBar.new_bind(stars: Int, property: Property<Int>) = this.bind(stars, property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindFloat", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun RatingBar.new_bindFloat(stars: Int, property: Property<Float>) = this.bindFloat(stars, property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindFloat", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun RatingBar.new_bindFloat(stars: Int, property: MutableProperty<Float>) = this.bindFloat(stars, property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindSelect", "com.lightningkite.rxkotlinproperty.android.bindSelect"))
+fun <T> CompoundButton.new_bindSelect(value: T, property: MutableProperty<T>) = this.bindSelect(value, property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindSelectNullable", "com.lightningkite.rxkotlinproperty.android.bindSelectNullable"))
+fun <T> CompoundButton.new_bindSelectNullable(value: T, property: MutableProperty<T?>) = this.bindSelectNullable(value, property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindSelectInvert", "com.lightningkite.rxkotlinproperty.android.bindSelectInvert"))
+fun <T> CompoundButton.new_bindSelectInvert(value: T, property: MutableProperty<T?>) = this.bindSelectInvert(value, property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun CompoundButton.new_bind(property: MutableProperty<Boolean>) = this.bind(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("withWrite", "com.lightningkite.rxkotlinproperty.withWrite"))
+fun <T> Property<T>.new_withWrite(onWrite: (T) -> Unit): MutableProperty<T> = this.withWrite(onWrite)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindRefresh", "com.lightningkite.rxkotlinproperty.android.bindRefresh"))
+fun RecyclerView.new_bindRefresh(loading: Property<Boolean>, refresh: () -> Unit) = this.bindRefresh(loading, refresh)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindMulti", "com.lightningkite.rxkotlinproperty.android.bindMulti"))
+fun RecyclerView.new_bindMulti(data: Property<List<Any>>, typeHandlerSetup: (RVTypeHandler)->Unit) = this.bindMulti(data, typeHandlerSetup)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindMulti", "com.lightningkite.rxkotlinproperty.android.bindMulti"))
+fun <T> RecyclerView.new_bindMulti(data: Property<List<T>>, defaultValue: T, determineType: (T)->Int, makeView: (Int, Property<T>) -> View) = this.bindMulti(data, defaultValue, determineType, makeView)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun <T> LinearLayout.new_bind(data: Property<List<T>>, defaultValue: T, makeView: (Property<T>) -> View) = this.bind(data, defaultValue, makeView)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindHorizontal", "com.lightningkite.rxkotlinproperty.android.bindHorizontal"))
+fun <T> LinearLayout.new_bindHorizontal(data: Property<List<T>>, defaultValue: T, makeView: (Property<T>) -> View) = this.bindHorizontal(data, defaultValue, makeView)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindOnOffString", "com.lightningkite.rxkotlinproperty.android.bindOnOffString"))
+fun ToggleButton.new_bindOnOffString(property: Property<String>) = this.bindOnOffString(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("observable", "com.lightningkite.rxkotlinproperty.observable"))
+val <T> Property<T>.new_observable: Observable<Box<T>> get() = this.observable
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("observableNN", "com.lightningkite.rxkotlinproperty.observableNN"))
+val <T> Property<T>.new_observableNN: Observable<T> get() = this.observableNN
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("onChangeNN", "com.lightningkite.rxkotlinproperty.onChangeNN"))
+val <T> Property<T>.new_onChangeNN: Observable<T> get() = this.onChangeNN
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("spinnerTextColor", "com.lightningkite.rxkotlinproperty.android.spinnerTextColor"))
+var Spinner.new_spinnerTextColor: Int get() = this.spinnerTextColor; set(value) { this.spinnerTextColor = value }
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("spinnerTextSize", "com.lightningkite.rxkotlinproperty.android.spinnerTextSize"))
+var Spinner.new_spinnerTextSize: Double get() = this.spinnerTextSize; set(value) {this.spinnerTextSize = value}
+@Deprecated("Use directly from RxKotlin Propertiesk", replaceWith = ReplaceWith("bindStack", "com.lightningkite.rxkotlinproperty.android.bindStack"))
+fun <T: ViewGenerator> SwapView.new_bindStack(dependency: ActivityAccess, obs: PropertyStack<T>) = this.bindStack(dependency, obs)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("share", "com.lightningkite.rxkotlinproperty.share"))
+fun <T> Property<T>.new_share(startAsListening: Boolean = false): SharingProperty<T> = this.share(startAsListening)
+@Deprecated("Use the version from com.lightningkite.butterfly.views", replaceWith = ReplaceWith("reverseDirection", "com.lightningkite.butterfly.views.reverseDirection"))
+var RecyclerView.new_reverseDirection: Boolean get() = this.reverseDirection; set(value) {this.reverseDirection = value}
+@Deprecated("Use the version from com.lightningkite.butterfly.views", replaceWith = ReplaceWith("whenScrolledToEnd", "com.lightningkite.butterfly.views.whenScrolledToEnd"))
+fun RecyclerView.new_whenScrolledToEnd(action: () -> Unit) = this.whenScrolledToEnd(action)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun <T> Spinner.new_bind(options: Property<List<T>>, selected: MutableProperty<T>, toString: (T) -> String = { it.toString() }) = this.bind(options, selected, toString)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindString", "com.lightningkite.rxkotlinproperty.android.bindString"))
+fun <T> Spinner.new_bindString(options: Property<List<T>>, selected: MutableProperty<T>, toString: (T) -> Property<String>) = this.bindString(options, selected, toString)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindLoading", "com.lightningkite.rxkotlinproperty.android.bindLoading"))
+fun ViewFlipper.new_bindLoading(loading: ObservableProperty<Boolean>, color: ColorResource? = null) = this.bindLoading(loading, color)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun <T> ViewPager.new_bind(items: List<T>, showIndex: MutableObservableProperty<Int> = StandardObservableProperty(0), makeView: (T)->View) = this.bind(items, showIndex, makeView)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun <T> ViewPager.new_bind(data: ObservableProperty<List<T>>, defaultValue: T, showIndex: MutableObservableProperty<Int> = StandardObservableProperty(0), makeView: (ObservableProperty<T>)->View) = this.bind(data, defaultValue, showIndex, makeView)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asPropertyDefaultNull", "com.lightningkite.rxkotlinproperty.asPropertyDefaultNull"))
+fun <Element> Observable<Element>.new_asObservablePropertyDefaultNull(): Property<Element?> = this.asPropertyDefaultNull()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asProperty", "com.lightningkite.rxkotlinproperty.asProperty"))
+fun <Element> Observable<Element>.new_asObservableProperty(defaultValue: Element): Property<Element> = this.asProperty(defaultValue)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("serves", "com.lightningkite.rxkotlinproperty.serves"))
+fun <T> MutableProperty<T>.new_serves(until: DisposeCondition, other: MutableProperty<T>) = this.serves(until, other)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
+fun SeekBar.new_bind(start: Int, endInclusive: Int, property: MutableProperty<Int>) = this.bind(start, endInclusive, property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("joinToViewString", "com.lightningkite.rxkotlinproperty.viewgenerators.joinToViewString"))
+fun List<ViewString>.new_joinToViewString(separator: String = "\n"): ViewString = this.joinToViewString(separator)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("combined", "com.lightningkite.rxkotlinproperty.combined"))
+fun <IN, OUT> List<Property<IN>>.new_combined(combiner: (List<IN>) -> OUT): Property<OUT> = this.combined(combiner)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("combined", "com.lightningkite.rxkotlinproperty.combined"))
+fun <T> List<Property<T>>.new_combined(): Property<List<T>> = this.combined()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindString", "com.lightningkite.rxkotlinproperty.android.bindString"))
+fun EditText.new_bindString(property: MutableProperty<String>) = this.bindString(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindInteger", "com.lightningkite.rxkotlinproperty.android.bindInteger"))
+fun EditText.new_bindInteger(property: MutableProperty<Int>) = this.bindInteger(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindDouble", "com.lightningkite.rxkotlinproperty.android.bindDouble"))
+fun EditText.new_bindDouble(property: MutableProperty<Double>) = this.bindDouble(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindIntegerNullable", "com.lightningkite.rxkotlinproperty.android.bindIntegerNullable"))
+fun EditText.new_bindIntegerNullable(property: MutableProperty<Int?>) = this.bindIntegerNullable(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindDoubleNullable", "com.lightningkite.rxkotlinproperty.android.bindDoubleNullable"))
+fun EditText.new_bindDoubleNullable(property: MutableProperty<Double?>) = this.bindDoubleNullable(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("includes", "com.lightningkite.rxkotlinproperty.includes"))
+fun <E> new_includes(collection: MutableProperty<Set<E>>, element: E): MutableProperty<Boolean> = includes(collection, element)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("switchMap", "com.lightningkite.rxkotlinproperty.switchMap"))
+fun <T, B> Property<T>.new_switchMap(transformation: (T) -> Property<B>): FlatMappedProperty<T, B> = this.switchMap(transformation)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("switchMapNotNull", "com.lightningkite.rxkotlinproperty.switchMapNotNull"))
+fun <T: Any, B: Any> Property<T?>.new_switchMapNotNull(transformation: (T) -> Property<B?>): FlatMappedProperty<T?, B?> = this.switchMapNotNull(transformation)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("flatMapNotNull", "com.lightningkite.rxkotlinproperty.flatMapNotNull"))
+fun <T: Any, B: Any> Property<T?>.new_flatMapNotNull(transformation: (T) -> Property<B?>): FlatMappedProperty<T?, B?> = this.flatMapNotNull(transformation)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("switchMapMutable", "com.lightningkite.rxkotlinproperty.switchMapMutable"))
+fun <T, B> Property<T>.new_switchMapMutable(transformation: (T) -> MutableProperty<B>): MutableFlatMappedProperty<T, B> = this.switchMapMutable(transformation)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("flatMapMutable", "com.lightningkite.rxkotlinproperty.flatMapMutable"))
+fun <T, B> Property<T>.new_flatMapMutable(transformation: (T) -> MutableProperty<B>): MutableFlatMappedProperty<T, B> = this.flatMapMutable(transformation)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("animationFrame", "com.lightningkite.rxkotlinproperty.viewgenerators.animationFrame"))
+val new_animationFrame:PublishSubject<Float> get() = animationFrame

@@ -10,7 +10,7 @@ import com.lightningkite.rxkotlinproperty.viewgenerators.Log
 import com.lightningkite.rxkotlinproperty.viewgenerators.ViewGeneratorApplication
 
 
-@Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("ViewGeneratorApplication"))
+@Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("ViewGeneratorApplication", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewGeneratorApplication"))
 open class ButterflyApplication: Application() {
     companion object {
         fun setup(application: Application){

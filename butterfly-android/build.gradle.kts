@@ -64,7 +64,7 @@ android {
     defaultConfig {
         minSdkVersion(21)
         targetSdkVersion(30)
-        versionCode = 5
+        versionCode = 1
         versionName = "1.0.0"
     }
     compileOptions {
@@ -74,21 +74,21 @@ android {
 
 dependencies {
     implementation(kotlin("reflect"))
-    testImplementation("junit:junit:4.13.1")
+    testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    api("androidx.appcompat:appcompat:1.2.0")
-    api("com.google.android.material:material:1.2.1")
+    api("androidx.appcompat:appcompat:1.3.1")
+    api("com.google.android.material:material:1.4.0")
     api("androidx.preference:preference-ktx:1.1.1")
     api("androidx.recyclerview:recyclerview:1.2.1")
-    api("com.fasterxml.jackson.core:jackson-core:2.12.1")
-    api("com.fasterxml.jackson.core:jackson-annotations:2.12.1")
-    api("com.fasterxml.jackson.core:jackson-databind:2.12.1")
-    api("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.0")
+    api("com.fasterxml.jackson.core:jackson-core:2.12.4")
+    api("com.fasterxml.jackson.core:jackson-annotations:2.12.4")
+    api("com.fasterxml.jackson.core:jackson-databind:2.12.4")
+    api("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.4")
     api("com.squareup.okhttp3:okhttp:3.14.9")
     api("de.hdodenhof:circleimageview:2.2.0")
-    implementation("com.github.bumptech.glide:glide:4.11.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.squareup.picasso:picasso:2.71828")
     api("com.github.romandanylyk:PageIndicatorView:b1bad589b5")
     api("io.reactivex.rxjava2:rxkotlin:2.4.0")
