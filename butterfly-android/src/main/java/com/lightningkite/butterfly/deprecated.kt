@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import com.lightningkite.butterfly.deprecatedaliases.new_Log
 import com.lightningkite.butterfly.deprecatedaliases.new_animationFrame
 import com.lightningkite.butterfly.deprecatedaliases.new_delay
 import com.lightningkite.rxkotlinproperty.forever
@@ -114,5 +115,11 @@ typealias ApplicationAccess = com.lightningkite.rxkotlinproperty.viewgenerators.
 fun post(action: () -> Unit) {Handler(Looper.getMainLooper()).post(action)}
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("animationFrame", "com.lightningkite.rxkotlinproperty.viewgenerators.animationFrame"))
 val animationFrame: PublishSubject<Float> get() = new_animationFrame
-
-
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("Log", "com.lightningkite.rxkotlinproperty.viewgenerators.Log"))
+val Log = new_Log
+@Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("Box", "com.lightningkite.rxkotlinproperty.Box"))
+typealias Box<T> = com.lightningkite.rxkotlinproperty.Box<T>
+@Deprecated("Use the wrap function from Box in RxKotlin Property directly", replaceWith = ReplaceWith("Box.wrap", "com.lightningkite.rxkotlinproperty.Box"))
+fun <T> boxWrap(value: T): Box<T> {
+    return Box.wrap(value)
+}

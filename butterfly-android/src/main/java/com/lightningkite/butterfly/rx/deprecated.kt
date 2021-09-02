@@ -8,6 +8,7 @@ import com.lightningkite.butterfly.weak
 import com.lightningkite.rxkotlinproperty.DisposeCondition
 import com.lightningkite.rxkotlinproperty.MutableProperty
 import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.combineLatest
 import com.lightningkite.rxkotlinproperty.until
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -98,3 +99,13 @@ fun <T : Disposable> T.until(condition: DisposeCondition): T { condition.call(th
 val View.removed:DisposeCondition get() = new_removed
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("working", "com.lightningkite.rxkotlinproperty.rx.working"))
 fun <Element : Any> Single<Element>.working(observable: MutableProperty<Boolean>): Single<Element> = this.new_working(observable)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("mapNotNull", "com.lightningkite.rxkotlinproperty.mapNotNull"))
+fun <Element, Destination : Any> Observable<Element>.mapNotNull(transform: (Element) -> Destination?): Observable<Destination> = this.new_mapNotNull(transform)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("zip", "com.lightningkite.rxkotlinproperty.zip"))
+fun <IN : Any> List<Single<IN>>.zip(): Single<List<IN>> = this.new_zip()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("combineLatest", "com.lightningkite.rxkotlinproperty.combineLatest"))
+fun <Element : Any, R : Any, OUT : Any> Observable<Element>.combineLatest(observable: Observable<R>, function: (Element, R) -> OUT): Observable<OUT> = this.new_combineLatest(observable, function)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("combineLatest", "com.lightningkite.rxkotlinproperty.combineLatest"))
+fun <IN : Any, OUT : Any> List<Observable<IN>>.combineLatest(combine: (List<IN>) -> OUT): Observable<OUT> = this.new_combineLatest(combine)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("combineLatest", "com.lightningkite.rxkotlinproperty.combineLatest"))
+fun <IN : Any> List<Observable<IN>>.combineLatest(): Observable<List<IN>> = this.new_combineLatest()

@@ -63,10 +63,6 @@ fun ToggleButton.bindOnOffString(observable: ObservableProperty<String>) = this.
 fun <T: ViewGenerator> SwapView.bindStack(dependency: ActivityAccess, obs: PropertyStack<T>) = this.new_bindStack(dependency, obs)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindStringRes", "com.lightningkite.rxkotlinproperty.android.bindStringRes"))
 fun TextView.bindStringRes(observable: ObservableProperty<StringResource?>) = this.new_bindStringRes(observable)
-@Deprecated("Use the version from com.lightningkite.butterfly.views", replaceWith = ReplaceWith("reverseDirection","com.lightningkite.butterfly.views"))
-var RecyclerView.reverseDirection: Boolean get() = this.new_reverseDirection; set(value) { this.new_reverseDirection = value }
-@Deprecated("Use the version from com.lightningkite.butterfly.views", replaceWith = ReplaceWith("whenScrolledToEnd","com.lightningkite.butterfly.views"))
-fun RecyclerView.whenScrolledToEnd(action: () -> Unit) = this.new_whenScrolledToEnd(action)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
 fun <T> Spinner.bind(options: Property<List<T>>, selected: MutableProperty<T>, toString: (T) -> String = { it.toString() }) = this.new_bind(options, selected, toString)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindString", "com.lightningkite.rxkotlinproperty.android.bindString"))
@@ -91,6 +87,9 @@ fun EditText.bindDouble(property: MutableProperty<Double>) = this.new_bindDouble
 fun EditText.bindIntegerNullable(property: MutableProperty<Int?>) = this.new_bindIntegerNullable(property)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindDoubleNullable", "com.lightningkite.rxkotlinproperty.android.bindDoubleNullable"))
 fun EditText.bindDoubleNullable(property: MutableProperty<Double?>) = this.new_bindDoubleNullable(property)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindList", "com.lightningkite.rxkotlinproperty.android.bindList"))
+fun <T> AutoCompleteTextView.bindList(options: Property<List<T>>, toString: (T) -> String, onItemSelected: (T) -> Unit) = this.new_bindList(options, toString, onItemSelected)
+
 
 
 @JvmName("bindComplex")

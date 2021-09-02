@@ -2,13 +2,20 @@
 
 package com.lightningkite.butterfly.observables
 
+import android.widget.ProgressBar
 import com.lightningkite.butterfly.*
 import com.lightningkite.butterfly.deprecatedaliases.*
 import com.lightningkite.butterfly.rx.addWeak
 import com.lightningkite.rxkotlinproperty.*
 import com.lightningkite.rxkotlinproperty.Box
+import com.lightningkite.rxkotlinproperty.android.bindFloat
+import com.lightningkite.rxkotlinproperty.android.bindInt
+import com.lightningkite.rxkotlinproperty.android.bindLong
+import com.lightningkite.rxkotlinproperty.viewgenerators.backPressDismiss
+import com.lightningkite.rxkotlinproperty.viewgenerators.backPressPop
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -200,11 +207,22 @@ fun <T: Any, B: Any> Property<T?>.flatMapNotNull(transformation: (T) -> Property
 fun <T, B> Property<T>.switchMapMutable(transformation: (T) -> MutableProperty<B>): MutableFlatMappedProperty<T, B> = this.new_switchMapMutable(transformation)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("flatMapMutable", "com.lightningkite.rxkotlinproperty.flatMapMutable"))
 fun <T, B> Property<T>.flatMapMutable(transformation: (T) -> MutableProperty<B>): MutableFlatMappedProperty<T, B> = this.new_flatMapMutable(transformation)
-
-
-
-
-
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("plusRx", "com.lightningkite.rxkotlinproperty.plusRx"))
+fun <T> Property<T>.plusRx(operator: (Observable<Box<T>>) -> Observable<Box<T>>): Property<T> = this.new_plusRx(operator)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("distinctUntilChanged", "com.lightningkite.rxkotlinproperty.distinctUntilChanged"))
+fun <T> Property<T>.distinctUntilChanged(): Property<T> = this.new_distinctUntilChanged()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("backPressPop", "com.lightningkite.rxkotlinproperty.backPressPop"))
+fun <T:Any> PropertyStack<T>.backPressPop(): Boolean = this.new_backPressPop()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("backPressDismiss", "com.lightningkite.rxkotlinproperty.backPressDismiss"))
+fun <T:Any> PropertyStack<T>.backPressDismiss(): Boolean = this.new_backPressDismiss()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindFloat", "com.lightningkite.rxkotlinproperty.android.bindFloat"))
+fun ProgressBar.bindFloat(observable: Property<Float>) = this.new_bindFloat(observable)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("backPressDismiss", "com.lightningkite.rxkotlinproperty.android.bindInt"))
+fun ProgressBar.bindInt(observable: Property<Int>) = this.new_bindInt(observable)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("backPressDismiss", "com.lightningkite.rxkotlinproperty.android.bindLong"))
+fun ProgressBar.bindLong(observable: Property<Long>) = this.new_bindLong(observable)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asPropertyUnboxed", "com.lightningkite.rxkotlinproperty.asPropertyUnboxed"))
+fun <T> Observable<Box<T>>.asObservablePropertyUnboxed(defaultValue: T): Property<T> = this.asPropertyUnboxed(defaultValue)
 
 
 
