@@ -1,6 +1,7 @@
 package com.lightningkite.butterfly.location
 
 import android.location.Geocoder
+import com.lightningkite.rxkotlinproperty.android.resources.ViewStringRaw
 import com.lightningkite.rxkotlinproperty.viewgenerators.*
 
 

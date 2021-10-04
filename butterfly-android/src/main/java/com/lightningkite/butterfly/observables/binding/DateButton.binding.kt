@@ -5,10 +5,10 @@ import com.lightningkite.butterfly.time.*
 import com.lightningkite.butterfly.views.widget.DateButton
 import com.lightningkite.butterfly.views.widget.TimeButton
 import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.android.resources.ViewString
 import com.lightningkite.rxkotlinproperty.subscribeBy
 import com.lightningkite.rxkotlinproperty.until
 import com.lightningkite.rxkotlinproperty.viewgenerators.ActivityAccess
-import com.lightningkite.rxkotlinproperty.viewgenerators.ViewString
 import java.util.*
 
 /**
@@ -109,7 +109,7 @@ fun TimeButton.bindTimeAlone(date: MutableObservableProperty<TimeAlone>, minuteI
  *
  */
 fun DateButton.bindDateAloneNull(dependency: ActivityAccess, date: MutableObservableProperty<DateAlone?>, startText: ViewString) {
-    this.startText = startText.get(dependency)
+    this.startText = startText.get(dependency.context)
     date.subscribeBy { it ->
         this.date = it?.let { dateFrom(it, Date().timeAlone) }
     }.until(this.removed)

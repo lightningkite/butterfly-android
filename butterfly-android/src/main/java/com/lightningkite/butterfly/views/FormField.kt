@@ -4,8 +4,6 @@ package com.lightningkite.butterfly.views
 import com.lightningkite.butterfly.*
 import com.lightningkite.butterfly.observables.MutableObservableProperty
 import com.lightningkite.butterfly.observables.StandardObservableProperty
-import com.lightningkite.rxkotlinproperty.viewgenerators.ViewString
-import com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate
 
 
 class FormValidationError(

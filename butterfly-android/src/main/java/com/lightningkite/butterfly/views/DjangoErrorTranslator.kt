@@ -6,9 +6,6 @@ import com.lightningkite.butterfly.net.HttpResponseException
 import com.lightningkite.butterfly.net.code
 import com.lightningkite.butterfly.net.readText
 import com.lightningkite.rxkotlinproperty.android.StringResource
-import com.lightningkite.rxkotlinproperty.viewgenerators.ViewString
-import com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringRaw
-import com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringResource
 import io.reactivex.Single
 import java.lang.Exception
 import java.net.SocketTimeoutException

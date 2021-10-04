@@ -8,13 +8,20 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.google.android.exoplayer2.ui.PlayerView
+import com.lightningkite.butterfly.Video
 import com.lightningkite.butterfly.deprecatedaliases.*
 import com.lightningkite.butterfly.observables.MutableObservableProperty
 import com.lightningkite.butterfly.observables.ObservableProperty
 import com.lightningkite.butterfly.observables.StandardObservableProperty
 import com.lightningkite.butterfly.views.ColorResource
+import com.lightningkite.butterfly.views.StringResource
 import com.lightningkite.rxkotlinproperty.*
-import com.lightningkite.rxkotlinproperty.android.*
+import com.lightningkite.rxkotlinproperty.android.RVTypeHandler
+import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.android.resources.Image
+import com.lightningkite.rxkotlinproperty.android.resources.VideoPlayer
+import com.lightningkite.rxkotlinproperty.android.setRemovedCondition
 import com.lightningkite.rxkotlinproperty.viewgenerators.ActivityAccess
 import com.lightningkite.rxkotlinproperty.viewgenerators.SwapView
 import com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator
@@ -74,21 +81,34 @@ fun <T> ViewPager.bind(items: List<T>, showIndex: MutableObservableProperty<Int>
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
 fun <T> ViewPager.bind(data: ObservableProperty<List<T>>, defaultValue: T, showIndex: MutableObservableProperty<Int> = StandardObservableProperty(0), makeView: (ObservableProperty<T>)->View) = this.new_bind(data, defaultValue, showIndex, makeView)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("serves", "com.lightningkite.rxkotlinproperty.serves"))
-fun <T> MutableProperty<T>.serves(until: DisposeCondition, other: MutableProperty<T>) = this.new_serves(until, other)
+fun <T> MutableObservableProperty<T>.serves(until: DisposeCondition, other: MutableObservableProperty<T>) = this.new_serves(until, other)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.bind"))
 fun SeekBar.bind(start: Int, endInclusive: Int, observable: MutableObservableProperty<Int>) = this.new_bind(start, endInclusive, observable)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindString", "com.lightningkite.rxkotlinproperty.android.bindString"))
-fun EditText.bindString(property: MutableProperty<String>) = this.new_bindString(property)
+fun EditText.bindString(property: MutableObservableProperty<String>) = this.new_bindString(property)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindInteger", "com.lightningkite.rxkotlinproperty.android.bindInteger"))
-fun EditText.bindInteger(property: MutableProperty<Int>) = this.new_bindInteger(property)
+fun EditText.bindInteger(property: MutableObservableProperty<Int>) = this.new_bindInteger(property)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindDouble", "com.lightningkite.rxkotlinproperty.android.bindDouble"))
-fun EditText.bindDouble(property: MutableProperty<Double>) = this.new_bindDouble(property)
+fun EditText.bindDouble(property: MutableObservableProperty<Double>) = this.new_bindDouble(property)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindIntegerNullable", "com.lightningkite.rxkotlinproperty.android.bindIntegerNullable"))
-fun EditText.bindIntegerNullable(property: MutableProperty<Int?>) = this.new_bindIntegerNullable(property)
+fun EditText.bindIntegerNullable(property: MutableObservableProperty<Int?>) = this.new_bindIntegerNullable(property)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindDoubleNullable", "com.lightningkite.rxkotlinproperty.android.bindDoubleNullable"))
-fun EditText.bindDoubleNullable(property: MutableProperty<Double?>) = this.new_bindDoubleNullable(property)
+fun EditText.bindDoubleNullable(property: MutableObservableProperty<Double?>) = this.new_bindDoubleNullable(property)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindList", "com.lightningkite.rxkotlinproperty.android.bindList"))
-fun <T> AutoCompleteTextView.bindList(options: Property<List<T>>, toString: (T) -> String, onItemSelected: (T) -> Unit) = this.new_bindList(options, toString, onItemSelected)
+fun <T> AutoCompleteTextView.bindList(options: ObservableProperty<List<T>>, toString: (T) -> String, onItemSelected: (T) -> Unit) = this.new_bindList(options, toString, onItemSelected)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindImage", "com.lightningkite.rxkotlinproperty.android.resources.bindImage"))
+fun ImageView.bindImage(image: ObservableProperty<Image?>) = this.new_bindImage(image)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindVideoThumbnail", "com.lightningkite.rxkotlinproperty.android.resources.bindVideoThumbnail"))
+fun ImageView.bindVideoThumbnail(video: ObservableProperty<Video?>) = this.new_bindVideoThumbnail(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.resources.bind"))
+fun VideoPlayer.bind(video: ObservableProperty<Video?>) = this.new_bind(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.resources.bind"))
+fun PlayerView.bind(video: ObservableProperty<Video?>) = this.new_bind(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindAndStart", "com.lightningkite.rxkotlinproperty.android.resources.bindAndStart"))
+fun VideoPlayer.bindAndStart(video: ObservableProperty<Video?>) = this.new_bindAndStart(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindAndStart", "com.lightningkite.rxkotlinproperty.android.resources.bindAndStart"))
+fun PlayerView.bindAndStart(video: ObservableProperty<Video?>) = this.new_bindAndStart(video)
+
 
 
 

@@ -1,17 +1,24 @@
 package com.lightningkite.butterfly.deprecatedaliases
 
+import android.graphics.Bitmap
+import android.graphics.PointF
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.google.android.exoplayer2.ui.PlayerView
+import com.lightningkite.butterfly.net.HttpClient
 import com.lightningkite.butterfly.observables.MutableObservableProperty
 import com.lightningkite.butterfly.observables.ObservableProperty
 import com.lightningkite.butterfly.observables.StandardObservableProperty
-import com.lightningkite.butterfly.views.reverseDirection
-import com.lightningkite.butterfly.views.whenScrolledToEnd
 import com.lightningkite.rxkotlinproperty.*
 import com.lightningkite.rxkotlinproperty.android.*
+import com.lightningkite.rxkotlinproperty.android.ColorResource
+import com.lightningkite.rxkotlinproperty.android.StringResource
+import com.lightningkite.rxkotlinproperty.android.resources.*
+import com.lightningkite.rxkotlinproperty.android.resources.DrawableResource
 import com.lightningkite.rxkotlinproperty.viewgenerators.*
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -178,3 +185,33 @@ fun ProgressBar.new_bindInt(property: Property<Int>) = this.bindInt(property)
 fun ProgressBar.new_bindLong(property: Property<Long>) = this.bindLong(property)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindList", "com.lightningkite.rxkotlinproperty.android.bindList"))
 fun <T> AutoCompleteTextView.new_bindList(options: Property<List<T>>, toString: (T) -> String, onItemSelected: (T) -> Unit) = this.bindList(options, toString, onItemSelected)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindImage", "com.lightningkite.rxkotlinproperty.android.bindImage"))
+fun ImageView.new_bindImage(image: Property<Image?>) = this.bindImage(image)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindVideoThumbnail", "com.lightningkite.rxkotlinproperty.android.bindVideoThumbnail"))
+fun ImageView.new_bindVideoThumbnail(video: Property<Video?>) = this.bindVideoThumbnail(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("load", "com.lightningkite.rxkotlinproperty.android.load"))
+fun Image.new_load():Single<Bitmap> { return this.load(HttpClient.appContext) }
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.resources.bind"))
+fun VideoPlayer.new_bind(video: Property<Video?>) = this.bind(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bind", "com.lightningkite.rxkotlinproperty.android.resources.bind"))
+fun PlayerView.new_bind(video: Property<Video?>) = this.bind(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindAndStart", "com.lightningkite.rxkotlinproperty.android.resources.bindAndStart"))
+fun VideoPlayer.new_bindAndStart(video: Property<Video?>) = this.bindAndStart(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindAndStart", "com.lightningkite.rxkotlinproperty.android.resources.bindAndStart"))
+fun PlayerView.new_bindAndStart(video: Property<Video?>) = this.bindAndStart(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("thumbnail", "com.lightningkite.rxkotlinproperty.android.resources.thumbnail"))
+fun Video.new_thumbnail(timeMs: Long = 2000L, size: PointF? = null) = this.thumbnail(timeMs, size, HttpClient.appContext)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asImage", "com.lightningkite.rxkotlinproperty.android.resources.asImage"))
+fun String.new_asImage(): Image = this.asImage()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asImage", "com.lightningkite.rxkotlinproperty.android.resources.asImage"))
+fun Uri.new_asImage(): Image = this.asImage()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asImage", "com.lightningkite.rxkotlinproperty.android.resources.asImage"))
+fun Bitmap.new_asImage(): Image = this.asImage()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asImage", "com.lightningkite.rxkotlinproperty.android.resources.asImage"))
+fun DrawableResource.new_asImage(): Image = this.asImage()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asVideo", "com.lightningkite.rxkotlinproperty.android.resources.asVideo"))
+fun String.new_asVideo(): Video = this.asVideo()
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asVideo", "com.lightningkite.rxkotlinproperty.android.resources.asVideo"))
+fun Uri.new_asVideo(): Video = this.asVideo()
+
+

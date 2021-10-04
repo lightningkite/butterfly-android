@@ -6,12 +6,16 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
+import android.widget.ImageView
 import android.widget.Spinner
 import com.lightningkite.butterfly.deprecatedaliases.*
+import com.lightningkite.rxkotlinproperty.android.resources.Image
+import com.lightningkite.rxkotlinproperty.android.resources.Video
+import com.lightningkite.rxkotlinproperty.android.resources.setFromVideoThumbnail
+import com.lightningkite.rxkotlinproperty.android.resources.setImage
 import com.lightningkite.rxkotlinproperty.viewgenerators.*
 import com.lightningkite.rxkotlinproperty.viewgenerators.DialogRequest
 import com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator
-import com.lightningkite.rxkotlinproperty.viewgenerators.ViewString
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import java.lang.Exception
@@ -69,18 +73,18 @@ fun ActivityAccess.setSizeDrawable(drawable: Drawable, width: Int, height: Int):
 typealias ViewGenerator = com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator
 @Deprecated("Use directly from RxKotlin Property instead", ReplaceWith("ViewGenerator.Default", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator"))
 typealias DefaultViewGenerator = ViewGenerator.Default
-@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewString", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewString"))
-typealias ViewString = com.lightningkite.rxkotlinproperty.viewgenerators.ViewString
-@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringRaw", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringRaw"))
-typealias ViewStringRaw = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringRaw
-@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringResource", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringResource"))
-typealias ViewStringResource = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringResource
-@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringTemplate", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate"))
-typealias ViewStringTemplate = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringTemplate
-@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringComplex", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringComplex"))
-typealias ViewStringComplex = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringComplex
-@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringList", "com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringList"))
-typealias ViewStringList = com.lightningkite.rxkotlinproperty.viewgenerators.ViewStringList
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewString", "com.lightningkite.rxkotlinproperty.android.resources.ViewString"))
+typealias ViewString = com.lightningkite.rxkotlinproperty.android.resources.ViewString
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringRaw", "com.lightningkite.rxkotlinproperty.android.resources.ViewStringRaw"))
+typealias ViewStringRaw = com.lightningkite.rxkotlinproperty.android.resources.ViewStringRaw
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringResource", "com.lightningkite.rxkotlinproperty.android.resources.ViewStringResource"))
+typealias ViewStringResource = com.lightningkite.rxkotlinproperty.android.resources.ViewStringResource
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringTemplate", "com.lightningkite.rxkotlinproperty.android.resources.ViewStringTemplate"))
+typealias ViewStringTemplate = com.lightningkite.rxkotlinproperty.android.resources.ViewStringTemplate
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringComplex", "com.lightningkite.rxkotlinproperty.android.resources.ViewStringComplex"))
+typealias ViewStringComplex = com.lightningkite.rxkotlinproperty.android.resources.ViewStringComplex
+@Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ViewStringList", "com.lightningkite.rxkotlinproperty.android.resources.ViewStringList"))
+typealias ViewStringList = com.lightningkite.rxkotlinproperty.android.resources.ViewStringList
 @Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("DialogRequest", "com.lightningkite.rxkotlinproperty.viewgenerators.DialogRequest"))
 typealias DialogRequest = com.lightningkite.rxkotlinproperty.viewgenerators.DialogRequest
 @Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("EntryPoint", "com.lightningkite.rxkotlinproperty.viewgenerators.EntryPoint"))
@@ -103,3 +107,7 @@ var Spinner.spinnerTextColor: Int get() = this.new_spinnerTextColor; set(value) 
 var Spinner.spinnerTextSize: Double get() = this.new_spinnerTextSize; set(value) {this.new_spinnerTextSize = value}
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("joinToViewString", "com.lightningkite.rxkotlinproperty.viewgenerators.joinToViewString"))
 fun List<ViewString>.joinToViewString(separator: String = "\n"): ViewString = this.new_joinToViewString(separator)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("setImage", "com.lightningkite.rxkotlinproperty.android.resources.setImage"))
+fun ImageView.loadImage(image: Image?) = this.setImage(image)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("setFromVideoThumbnail", "com.lightningkite.rxkotlinproperty.android.resources.setFromVideoThumbnail"))
+fun ImageView.loadVideoThumbnail(video: Video?) = this.setFromVideoThumbnail(video)
