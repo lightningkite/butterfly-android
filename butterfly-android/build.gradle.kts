@@ -93,10 +93,7 @@ dependencies {
     api("com.github.romandanylyk:PageIndicatorView:b1bad589b5")
     api("io.reactivex.rxjava2:rxkotlin:2.4.0")
     api("io.reactivex.rxjava2:rxandroid:2.1.1")
-    api("com.lightningkite.rxkotlinproperty:rxkotlin-property:0.0.1")
-    api("com.lightningkite.rxkotlinproperty:rxkotlin-property-android:0.0.1")
-    api("com.lightningkite.rxkotlinproperty:rxkotlin-property-android-resources:0.0.1")
-    api("com.lightningkite.rxkotlinproperty:rxkotlin-property-view-generator:0.0.1")
+    api("com.lightningkite.rxkotlinproperty:view-generator:0.0.1")
 }
 
 tasks {
