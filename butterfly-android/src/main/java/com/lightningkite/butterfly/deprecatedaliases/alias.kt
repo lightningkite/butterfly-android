@@ -1,5 +1,6 @@
 package com.lightningkite.butterfly.deprecatedaliases
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
@@ -13,6 +14,7 @@ import com.lightningkite.butterfly.net.HttpClient
 import com.lightningkite.butterfly.observables.MutableObservableProperty
 import com.lightningkite.butterfly.observables.ObservableProperty
 import com.lightningkite.butterfly.observables.StandardObservableProperty
+import com.lightningkite.butterfly.views.focusAtStartup
 import com.lightningkite.rxkotlinproperty.*
 import com.lightningkite.rxkotlinproperty.android.*
 import com.lightningkite.rxkotlinproperty.android.ColorResource
@@ -24,6 +26,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
+import java.util.*
 
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("subscribeBy", "com.lightningkite.rxkotlinproperty.subscribeBy"))
 inline fun <T> Property<T>.new_subscribeBy(noinline onError: (Throwable) -> Unit = { it -> it.printStackTrace() }, noinline onComplete: () -> Unit = {}, crossinline onNext: (T) -> Unit = { it -> }): Disposable = subscribeBy(onError, onComplete, onNext)
@@ -213,5 +216,12 @@ fun DrawableResource.new_asImage(): Image = this.asImage()
 fun String.new_asVideo(): Video = this.asVideo()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asVideo", "com.lightningkite.rxkotlinproperty.android.resources.asVideo"))
 fun Uri.new_asVideo(): Video = this.asVideo()
-
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("focusAtStartup", "com.lightningkite.rxkotlinproperty.viewgenerators.focusAtStartup"))
+var View.new_focusAtStartup:Boolean
+    get() = this.focusAtStartup
+    set(value) { this.focusAtStartup = value }
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("dateSelectorDialog", "com.lightningkite.rxkotlinproperty.android.dateSelectorDialog"))
+fun Context.new_dateSelectorDialog(start: Date, onResult: (Date) -> Unit) = this.dateSelectorDialog(start, onResult)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("timeSelectorDialog", "com.lightningkite.rxkotlinproperty.android.timeSelectorDialog"))
+fun Context.new_timeSelectorDialog(start: Date, minuteInterval: Int = 1, onResult: (Date) -> Unit) = this.timeSelectorDialog(start, minuteInterval, onResult)
 

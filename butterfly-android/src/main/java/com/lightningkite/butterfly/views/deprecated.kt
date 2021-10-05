@@ -6,8 +6,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
+import android.view.View
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
+import android.widget.ToggleButton
 import com.lightningkite.butterfly.deprecatedaliases.*
 import com.lightningkite.rxkotlinproperty.android.resources.Image
 import com.lightningkite.rxkotlinproperty.android.resources.Video
@@ -111,3 +114,60 @@ fun List<ViewString>.joinToViewString(separator: String = "\n"): ViewString = th
 fun ImageView.loadImage(image: Image?) = this.setImage(image)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("setFromVideoThumbnail", "com.lightningkite.rxkotlinproperty.android.resources.setFromVideoThumbnail"))
 fun ImageView.loadVideoThumbnail(video: Video?) = this.setFromVideoThumbnail(video)
+
+@Deprecated("Use the built in setText instead.")
+var TextView.textResource: Int
+    get() = 0
+    set(value) {
+        setText(value)
+    }
+@Deprecated("Use the built in text or setText instead.")
+var TextView.textString: String
+    get() = text.toString()
+    set(value) {
+        this.text = value
+    }
+@Deprecated("Use the built in setText instead.")
+var ToggleButton.textResource: Int
+    get() = 0
+    set(value) {
+        setText(value)
+        textOn = resources.getString(value)
+        textOff = resources.getString(value)
+    }
+@Deprecated("User the built in setTextColor instead")
+fun TextView.setTextColorResource(color: ColorResource) {
+    setTextColor(color)
+}
+@Deprecated("Use both textOn and textOff separately")
+var ToggleButton.textString: String
+    get() = text.toString()
+    set(value) {
+        setText(value)
+        textOn = value
+        textOff = value
+    }
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("focusAtStartup", "com.lightningkite.rxkotlinproperty.viewgenerators.focusAtStartup"))
+var View.focusAtStartup: Boolean
+    get() = this.new_focusAtStartup
+    set(value) {
+        new_focusAtStartup = value
+    }
+@Deprecated("Use built in setBackgroundColor")
+fun View.setBackgroundColorResource(color: ColorResource) {
+    setBackgroundResource(color)
+}
+@Deprecated("Use the appropriate direct functions for this. That means setBackgroundColor or setBackgroundResource")
+var View.backgroundResource: Int
+    get() = 0
+    set(value) {
+        this.setBackgroundResource(value)
+    }
+@Deprecated("Use built in 'background' instead")
+var View.backgroundDrawable: Drawable?
+    get() = this.background
+    set(value) {
+        this.background = value
+    }
+@Deprecated("Do not use")
+fun newEmptyView(dependency: ActivityAccess): View = View(dependency.context)

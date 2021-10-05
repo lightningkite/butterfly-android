@@ -14,17 +14,21 @@ import com.lightningkite.butterfly.deprecatedaliases.*
 import com.lightningkite.butterfly.observables.MutableObservableProperty
 import com.lightningkite.butterfly.observables.ObservableProperty
 import com.lightningkite.butterfly.observables.StandardObservableProperty
+import com.lightningkite.butterfly.time.*
 import com.lightningkite.butterfly.views.ColorResource
 import com.lightningkite.butterfly.views.StringResource
+import com.lightningkite.butterfly.views.widget.DateButton
+import com.lightningkite.butterfly.views.widget.TimeButton
 import com.lightningkite.rxkotlinproperty.*
-import com.lightningkite.rxkotlinproperty.android.RVTypeHandler
-import com.lightningkite.rxkotlinproperty.android.removed
+import com.lightningkite.rxkotlinproperty.android.*
 import com.lightningkite.rxkotlinproperty.android.resources.Image
 import com.lightningkite.rxkotlinproperty.android.resources.VideoPlayer
-import com.lightningkite.rxkotlinproperty.android.setRemovedCondition
+import com.lightningkite.rxkotlinproperty.android.resources.ViewString
 import com.lightningkite.rxkotlinproperty.viewgenerators.ActivityAccess
 import com.lightningkite.rxkotlinproperty.viewgenerators.SwapView
 import com.lightningkite.rxkotlinproperty.viewgenerators.ViewGenerator
+import com.lightningkite.rxkotlinproperty.viewgenerators.get
+import java.util.*
 
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindString", "com.lightningkite.rxkotlinproperty.android.bindString"))
 fun TextView.bindString(observable:ObservableProperty<String>) = this.new_bindString(observable)
@@ -108,10 +112,33 @@ fun PlayerView.bind(video: ObservableProperty<Video?>) = this.new_bind(video)
 fun VideoPlayer.bindAndStart(video: ObservableProperty<Video?>) = this.new_bindAndStart(video)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("bindAndStart", "com.lightningkite.rxkotlinproperty.android.resources.bindAndStart"))
 fun PlayerView.bindAndStart(video: ObservableProperty<Video?>) = this.new_bindAndStart(video)
+@Deprecated("Use bindDate directly from RxKotlin Properties", replaceWith = ReplaceWith("bindDate", "com.lightningkite.rxkotlinproperty.android.bindDate"))
+fun DateButton.bind(date: MutableObservableProperty<Date>)  = this.bindDate(date)
+@Deprecated("Use bindTime directly from RxKotlin Properties", replaceWith = ReplaceWith("bindTime", "com.lightningkite.rxkotlinproperty.android.bindTime"))
+fun TimeButton.bind(date: MutableObservableProperty<Date>, minuteInterval: Int = 1) = this.bindTime(date, minuteInterval)
+@Deprecated("Use the extension function on Button instead", replaceWith = ReplaceWith("bindDateAlone", "com.lightningkite.butterfly.observables.binding.bindDateAlone"))
+fun DateButton.bindDateAloneNull(dependency: ActivityAccess, date: MutableObservableProperty<DateAlone?>, startText: ViewString) = this.bindDateAlone(date, startText.get(context))
 
 
-
-
+@Deprecated("Use the extension function on Button instead")
+fun DateButton.bindDateAlone(date: MutableObservableProperty<DateAlone>) {
+    date.subscribeBy { it ->
+        this.date = dateFrom(it, Date().timeAlone)
+    }.until(this.removed)
+    this.onDateEntered.subscribe { it ->
+        date.value = it.dateAlone
+    }.until(this.removed)
+}
+@Deprecated("Use the extension function on Button instead")
+fun TimeButton.bindTimeAlone(date: MutableObservableProperty<TimeAlone>, minuteInterval: Int = 1) {
+    this.minuteInterval = minuteInterval
+    date.subscribeBy { it ->
+        this.date = dateFrom(Date().dateAlone, it)
+    }.until(this.removed)
+    this.onDateEntered.subscribe { it ->
+        date.value = it.timeAlone
+    }.until(this.removed)
+}
 @JvmName("bindComplex")
 @Deprecated("Doesn't translate to web. Use the versions that have a toString rather than makeView.")
 fun <T> Spinner.bind(
