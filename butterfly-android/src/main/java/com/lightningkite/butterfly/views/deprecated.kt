@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.StateListDrawable
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
@@ -114,6 +115,12 @@ fun List<ViewString>.joinToViewString(separator: String = "\n"): ViewString = th
 fun ImageView.loadImage(image: Image?) = this.setImage(image)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("setFromVideoThumbnail", "com.lightningkite.rxkotlinproperty.android.resources.setFromVideoThumbnail"))
 fun ImageView.loadVideoThumbnail(video: Video?) = this.setFromVideoThumbnail(video)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("onCLick", "com.lightningkite.rxkotlinproperty.android.onCLick"))
+fun View.onClick(disabledMilliseconds: Long = 500, action: () -> Unit) = this.new_onClick(disabledMilliseconds, action)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("onLongClick", "com.lightningkite.rxkotlinproperty.android.onLongClick"))
+fun View.onLongClick(action: () -> Unit) = this.new_onLongClick(action)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("replace", "com.lightningkite.rxkotlinproperty.android.replace"))
+fun View.replace(other: View) = this.new_replace(other)
 
 @Deprecated("Use the built in setText instead.")
 var TextView.textResource: Int

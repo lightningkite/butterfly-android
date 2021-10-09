@@ -6,6 +6,7 @@ import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -224,4 +225,9 @@ var View.new_focusAtStartup:Boolean
 fun Context.new_dateSelectorDialog(start: Date, onResult: (Date) -> Unit) = this.dateSelectorDialog(start, onResult)
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("timeSelectorDialog", "com.lightningkite.rxkotlinproperty.android.timeSelectorDialog"))
 fun Context.new_timeSelectorDialog(start: Date, minuteInterval: Int = 1, onResult: (Date) -> Unit) = this.timeSelectorDialog(start, minuteInterval, onResult)
-
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("onCLick", "com.lightningkite.rxkotlinproperty.android.onCLick"))
+fun View.new_onClick(disabledMilliseconds: Long = 500, action: () -> Unit) = this.onClick(disabledMilliseconds, action)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("onLongClick", "com.lightningkite.rxkotlinproperty.android.onLongClick"))
+fun View.new_onLongClick(action: () -> Unit) = this.onLongClick(action)
+@Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("replace", "com.lightningkite.rxkotlinproperty.android.replace"))
+fun View.new_replace(other: View) = this.replace(other)
