@@ -16,18 +16,19 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.exoplayer2.ui.PlayerView
 import com.lightningkite.butterfly.R
 import com.lightningkite.rxkotlinproperty.android.dateSelectorDialog
 import com.lightningkite.rxkotlinproperty.android.timeSelectorDialog
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import java.text.DateFormat
 import java.util.*
 
 
 @Deprecated("Use the version from RxKotlin Properties Android instead", replaceWith = ReplaceWith("SwapView", "com.lightningkite.rxkotlinproperty.viewgenerators.SwapView"))
 typealias SwapView = com.lightningkite.rxkotlinproperty.viewgenerators.SwapView
-@Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("VideoPlayer", "com.lightningkite.rxkotlinproperty.android.resources.VideoPlayer"))
-typealias VideoPlayer = com.lightningkite.rxkotlinproperty.android.resources.VideoPlayer
+@Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("VideoPlayer", "com.google.android.exoplayer2.ui.PlayerView"))
+typealias VideoPlayer = PlayerView
 
 
 
@@ -128,7 +129,7 @@ class TimeButton(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     init {
         setOnClickListener {
-            context.timeSelectorDialog(date, minuteInterval) {
+            context.timeSelectorDialog(date) {
                 date = it
                 onDateEntered.onNext(it)
             }

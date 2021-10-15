@@ -19,7 +19,7 @@ plugins {
 }
 
 group = "com.lightningkite.butterfly"
-version = "1.0.0"
+version = "1.0.1"
 
 
 val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
@@ -68,6 +68,7 @@ android {
         versionName = "1.0.0"
     }
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
@@ -91,9 +92,11 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.squareup.picasso:picasso:2.71828")
     api("com.github.romandanylyk:PageIndicatorView:b1bad589b5")
-    api("io.reactivex.rxjava2:rxkotlin:2.4.0")
-    api("io.reactivex.rxjava2:rxandroid:2.1.1")
+    api("io.reactivex.rxjava3:rxandroid:3.0.0")
+    api("io.reactivex.rxjava3:rxjava:3.1.1")
+    api("io.reactivex.rxjava3:rxkotlin:3.0.1")
     api("com.lightningkite.rxkotlinproperty:view-generator:0.0.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }
 
 tasks {
@@ -119,7 +122,7 @@ afterEvaluate {
             val release by creating(MavenPublication::class) {
                 from(components["release"])
                 artifact(tasks.getByName("sourceJar"))
-                artifact(tasks.getByName("javadocJar"))
+//                artifact(tasks.getByName("javadocJar"))
                 groupId = project.group.toString()
                 artifactId = project.name
                 version = project.version.toString()
@@ -127,7 +130,7 @@ afterEvaluate {
             val debug by creating(MavenPublication::class) {
                 from(components["debug"])
                 artifact(tasks.getByName("sourceJar"))
-                artifact(tasks.getByName("javadocJar"))
+//                artifact(tasks.getByName("javadocJar"))
                 groupId = project.group.toString()
                 artifactId = project.name
                 version = project.version.toString()

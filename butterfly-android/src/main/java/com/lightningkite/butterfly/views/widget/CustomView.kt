@@ -12,8 +12,9 @@ import android.widget.FrameLayout
 import com.lightningkite.butterfly.PlatformSpecific
 import com.lightningkite.butterfly.R
 import com.lightningkite.butterfly.views.CustomViewDelegate
-import com.lightningkite.rxkotlinproperty.DisposableLambda
 import com.lightningkite.rxkotlinproperty.android.removed
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 import kotlin.math.min
 
 class CustomView @JvmOverloads constructor(
@@ -24,9 +25,9 @@ class CustomView @JvmOverloads constructor(
 
     init{
         setWillNotDraw(false)
-        this.removed.call(DisposableLambda {
+        this.removed += Disposable.fromAction {
             this.delegate = null
-        })
+        }
     }
 
     var delegate: CustomViewDelegate? = null

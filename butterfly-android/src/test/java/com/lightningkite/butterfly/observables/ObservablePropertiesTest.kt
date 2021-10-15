@@ -72,7 +72,7 @@ class ObservablePropertiesTest {
     }
 
     @Test fun flatMap(){
-        val source = StandardObservableProperty<MutableObservableProperty<String>>(StandardObservableProperty("a"))
+        val source = StandardObservableProperty<Subject<String>>(StandardObservableProperty("a"))
         var read = ""
         val r = source.flatMap { it }
         r.observableNN.subscribeBy { value ->
@@ -95,7 +95,7 @@ class ObservablePropertiesTest {
     }
 
     @Test fun flatMapMap(){
-        val source = StandardObservableProperty<MutableObservableProperty<String>>(StandardObservableProperty("a"))
+        val source = StandardObservableProperty<Subject<String>>(StandardObservableProperty("a"))
         var read = ""
         val r = source.flatMap { it.map { it + "x" } }
         r.observableNN.subscribeBy { value ->

@@ -6,8 +6,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import com.lightningkite.butterfly.views.widget.CustomView
 import com.lightningkite.butterfly.views.geometry.GFloat
-import com.lightningkite.rxkotlinproperty.DisposeCondition
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class CustomViewDelegate {
     var customView: CustomView? = null
@@ -24,15 +23,13 @@ abstract class CustomViewDelegate {
     fun invalidate() { customView?.invalidate() }
     fun postInvalidate() { customView?.postInvalidate() }
 
-    val toDispose: ArrayList<Disposable> = ArrayList()
-    private var _removed: DisposeCondition? = null
-    val removed: DisposeCondition get() = _removed!!
+    val toDispose = CompositeDisposable()
+    private var _removed: CompositeDisposable? = null
+    val removed: CompositeDisposable get() = _removed!!
     init {
-        _removed = DisposeCondition { it -> toDispose.add(it) }
+        _removed = toDispose
     }
     fun dispose() {
-        for(item in toDispose){
-            item.dispose()
-        }
+        toDispose.dispose()
     }
 }

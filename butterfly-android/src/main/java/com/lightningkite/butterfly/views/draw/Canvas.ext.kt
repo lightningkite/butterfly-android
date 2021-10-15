@@ -5,11 +5,13 @@ import com.lightningkite.butterfly.views.geometry.Align
 import com.lightningkite.butterfly.views.geometry.AlignPair
 import com.lightningkite.butterfly.views.geometry.GFloat
 
+@Deprecated("Use your own implementation if you really need it")
 fun Canvas.drawTextCentered(text: String, centerX: GFloat, centerY: GFloat, paint: Paint) {
     val textWidth = paint.measureText(text)
     val textHeightOffset = paint.fontMetrics.let { it.ascent + it.descent } / 2
     drawText(text, centerX - textWidth / 2, centerY - textHeightOffset, paint)
 }
+@Deprecated("Use your own implementation if you really need it")
 fun Canvas.drawText(text: String, x: GFloat, y: GFloat, gravity: AlignPair, paint: Paint) {
     val textWidth = paint.measureText(text)
     drawText(
@@ -29,7 +31,8 @@ fun Canvas.drawText(text: String, x: GFloat, y: GFloat, gravity: AlignPair, pain
 }
 
 
-var tempRect: RectF = RectF()
+private var tempRect: RectF = RectF()
+@Deprecated("Use your own implementation if you really need it")
 fun Canvas.drawBitmap(bitmap: Bitmap, left: GFloat, top: GFloat, right: GFloat, bottom: GFloat){
     tempRect.left = left
     tempRect.top = top

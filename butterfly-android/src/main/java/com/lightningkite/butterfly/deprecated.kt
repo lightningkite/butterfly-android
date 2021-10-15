@@ -5,7 +5,6 @@ import android.graphics.PointF
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import com.lightningkite.butterfly.deprecatedaliases.*
 import com.lightningkite.butterfly.net.HttpClient
 import com.lightningkite.rxkotlinproperty.android.resources.*
 import com.lightningkite.rxkotlinproperty.android.resources.ImageBitmap
@@ -15,118 +14,35 @@ import com.lightningkite.rxkotlinproperty.android.resources.ImageResource
 import com.lightningkite.rxkotlinproperty.android.resources.Video
 import com.lightningkite.rxkotlinproperty.android.resources.VideoReference
 import com.lightningkite.rxkotlinproperty.android.resources.VideoRemoteUrl
-import com.lightningkite.rxkotlinproperty.forever
+import com.lightningkite.rxkotlinproperty.viewgenerators.LogInterface
 import com.lightningkite.rxkotlinproperty.viewgenerators.animationFrame
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 
 @Deprecated("Please use the correct import.", ReplaceWith("Uri", "android.net.Uri"))
 typealias Uri = Uri
 
 
 @Deprecated("Use Rx Style instead")
-fun loadImage(image: Image, onResult: (Bitmap?) -> Unit) {
-    image.load().subscribe { result, fail ->
-        onResult(result)
-    }.forever()
-}
+fun loadImage(image: Image, onResult: (Bitmap?) -> Unit): Unit = no()
 
 @Deprecated("Use Rx Style instead")
-fun Image.load(onResult: (Bitmap?) -> Unit) {
-    load().subscribe { result, fail ->
-        onResult(result)
-    }.forever()
-}
+fun Image.load(onResult: (Bitmap?) -> Unit): Unit = no()
 
-@Deprecated("Weak references are not recommended.")
-fun <Z : AnyObject> captureWeak(capture: Z, lambda: @Escaping() (Z) -> Unit): () -> Unit {
-    val captured: Z? by weak(capture)
-    return label@{ ->
-        val actualCaptured = captured
-        if (actualCaptured == null) {
-            return@label
-        }
-        lambda(actualCaptured!!)
-    }
-}
-
-@Deprecated("Weak references are not recommended.")
-fun <Z : AnyObject, A> captureWeak(capture: Z, lambda: @Escaping() (Z, A) -> Unit): (A) -> Unit {
-    val captured: Z? by weak(capture)
-    return label@{ a ->
-        val actualCaptured = captured
-        if (actualCaptured == null) {
-            return@label
-        }
-        lambda(actualCaptured!!, a)
-    }
-}
-
-@Deprecated("Weak references are not recommended.")
-fun <Z : AnyObject, A, B> captureWeak(capture: Z, lambda: @Escaping() (Z, A, B) -> Unit): (A, B) -> Unit {
-    val captured: Z? by weak(capture)
-    return label@{ a, b ->
-        val actualCaptured = captured
-        if (actualCaptured == null) {
-            return@label
-        }
-        lambda(actualCaptured!!, a, b)
-    }
-}
-
-@Deprecated("Weak references are not recommended.")
-fun <Z : AnyObject, A, B, C> captureWeak(capture: Z, lambda: @Escaping() (Z, A, B, C) -> Unit): (A, B, C) -> Unit {
-    val captured: Z? by weak(capture)
-    return label@{ a, b, c ->
-        val actualCaptured = captured
-        if (actualCaptured == null) {
-            return@label
-        }
-        lambda(actualCaptured!!, a, b, c)
-    }
-}
-
-@Deprecated("Weak references are not recommended.")
-fun <Z : AnyObject, A, B, C, D> captureWeak(
-    capture: Z,
-    lambda: @Escaping() (Z, A, B, C, D) -> Unit
-): (A, B, C, D) -> Unit {
-    val captured: Z? by weak(capture)
-    return label@{ a, b, c, d ->
-        val actualCaptured = captured
-        if (actualCaptured == null) {
-            return@label
-        }
-        lambda(actualCaptured!!, a, b, c, d)
-    }
-}
-
-@Deprecated("Weak references are not recommended.")
-fun <Z : AnyObject, A, B, C, D, E> captureWeak(
-    capture: Z,
-    lambda: @Escaping() (Z, A, B, C, D, E) -> Unit
-): (A, B, C, D, E) -> Unit {
-    val captured: Z? by weak(capture)
-    return label@{ a, b, c, d, e ->
-        val actualCaptured = captured
-        if (actualCaptured == null) {
-            return@label
-        }
-        lambda(actualCaptured!!, a, b, c, d, e)
-    }
-}
+private fun no(): Nothing = throw NotImplementedError()
 
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("delay", "com.lightningkite.rxkotlinproperty.viewgenerators.delay"))
-fun delay(milliseconds: Long, action: () -> Unit) = new_delay(milliseconds, action)
+fun delay(milliseconds: Long, action: () -> Unit): Unit = no()
 @Deprecated("Use directly from RxKotlin Property View Generators", replaceWith = ReplaceWith("ApplicationAccess","com.lightningkite.rxkotlinproperty.viewgenerators.ApplicationAccess"))
 typealias ApplicationAccess = com.lightningkite.rxkotlinproperty.viewgenerators.ApplicationAccess
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("post", "com.lightningkite.rxkotlinproperty.viewgenerators.post"))
 fun post(action: () -> Unit) {Handler(Looper.getMainLooper()).post(action)}
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("animationFrame", "com.lightningkite.rxkotlinproperty.viewgenerators.animationFrame"))
-val animationFrame: PublishSubject<Float> get() = new_animationFrame
+val animationFrame: PublishSubject<Float>
+    get() = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("Log", "com.lightningkite.rxkotlinproperty.viewgenerators.Log"))
-val Log = new_Log
-@Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("Box", "com.lightningkite.rxkotlinproperty.Box"))
-typealias Box<T> = com.lightningkite.rxkotlinproperty.Box<T>
+val Log: LogInterface get() = no()
+@Deprecated("No longer exists in any way")
+typealias Box<T> = List<T>
 @Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("Image", "com.lightningkite.rxkotlinproperty.android.resources.Image"))
 typealias Image = com.lightningkite.rxkotlinproperty.android.resources.Image
 @Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("ImageReference", "com.lightningkite.rxkotlinproperty.android.resources.ImageReference"))
@@ -146,20 +62,191 @@ typealias VideoReference = com.lightningkite.rxkotlinproperty.android.resources.
 @Deprecated("Use RxKotlin Property", replaceWith = ReplaceWith("VideoRemoteUrl", "com.lightningkite.rxkotlinproperty.android.resources.VideoRemoteUrl"))
 typealias VideoRemoteUrl = com.lightningkite.rxkotlinproperty.android.resources.VideoRemoteUrl
 @Deprecated("Use the wrap function from Box in RxKotlin Property directly", replaceWith = ReplaceWith("Box.wrap", "com.lightningkite.rxkotlinproperty.Box"))
-fun <T> boxWrap(value: T): Box<T> = Box.wrap(value)
+fun <T> boxWrap(value: T): Box<T> = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("load", "com.lightningkite.rxkotlinproperty.android.resources.load"))
-fun Image.load() = this.new_load()
+fun Image.load(): Bitmap = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("thumbnail", "com.lightningkite.rxkotlinproperty.android.resources.thumbnail"))
-fun Video.thumbnail(timeMs: Long = 2000L, size: PointF? = null) = this.new_thumbnail(timeMs, size)
+fun Video.thumbnail(timeMs: Long = 2000L, size: PointF? = null): Image = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asImage", "com.lightningkite.rxkotlinproperty.android.resources.asImage"))
-fun String.asImage() = this.new_asImage()
+fun String.asImage(): Image = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asImage", "com.lightningkite.rxkotlinproperty.android.resources.asImage"))
-fun Uri.asImage() = this.new_asImage()
+fun Uri.asImage(): Image = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asImage", "com.lightningkite.rxkotlinproperty.android.resources.asImage"))
-fun Bitmap.asImage() = this.new_asImage()
+fun Bitmap.asImage(): Image = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asImage", "com.lightningkite.rxkotlinproperty.android.resources.asImage"))
-fun DrawableResource.asImage() = this.new_asImage()
+fun DrawableResource.asImage(): Image = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asVideo", "com.lightningkite.rxkotlinproperty.android.resources.asVideo"))
-fun String.asVideo(): Video = this.new_asVideo()
+fun String.asVideo(): Video = no()
 @Deprecated("Use directly from RxKotlin Properties", replaceWith = ReplaceWith("asVideo", "com.lightningkite.rxkotlinproperty.android.resources.asVideo"))
-fun Uri.asVideo(): Video = this.new_asVideo()
+fun Uri.asVideo(): Video = no()
+
+/**
+ *
+ * Modifies the string to make it a more readable. This is capitalize the first letter, remove . and underscores through the string.
+ *
+ */
+
+@Deprecated("Use your own implementation if you really need it")
+fun String.humanify(): String {
+    if(this.isEmpty()) return ""
+    return this[0].toUpperCase() + this.replace(".", " - ").replace(Regex("[A-Z]")){ result ->
+        " " + result.value
+    }.replace('_', ' ').trim()
+}
+
+/**
+ *  Returns a new string with all occurrences of [char] removed.
+ */
+@Deprecated("Use your own implementation if you really need it")
+fun String.remove(char:Char):String{
+    return splitToSequence(char).joinToString(separator = "")
+}
+/**
+ *  Returns a new string with all occurrences of [sequence] removed.
+ */
+@Deprecated("Use your own implementation if you really need it")
+fun String.remove(sequence:String):String{
+    return splitToSequence(sequence).joinToString(separator = "")
+}
+
+/**
+ *
+ * Modifies the string to make follow the snake case standard. Adds underscore before an uppercase char, and then makes them all lowercase.
+ *
+ */
+@Deprecated("Use your own implementation if you really need it")
+fun String.toSnakeCase(): String {
+    val builder = StringBuilder(this.length * 3 / 2)
+    for (char in this) {
+        if (char.isUpperCase()) {
+            builder.append('_')
+            builder.append(char.toLowerCase())
+        } else {
+            builder.appendln()
+            builder.append(char)
+        }
+    }
+    return builder.toString().trim('_')
+}
+
+@Deprecated("Use your own implementation if you really need it")
+fun String.formatList(arguments: List<Any?>) = this.format(*arguments.toTypedArray())
+
+@Deprecated("Use your own implementation if you really need it")
+fun <T> List<T>.withoutIndex(index: Int): List<T> {
+    return this.toMutableList().apply { removeAt(index) }
+}
+
+@Deprecated("Use your own implementation if you really need it")
+fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
+    var sum: Long = 0
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+
+@Deprecated("Use your own implementation if you really need it")
+inline fun <T, K : Comparable<K>> MutableList<T>.binaryInsertBy(
+    item: T,
+    crossinline selector: (T) -> K?
+) {
+    val index = binarySearchBy(selector(item), selector = selector)
+    if (index < 0) {
+        add(
+            index = -index - 1,
+            element = item
+        )
+    } else {
+        add(
+            index = index,
+            element = item
+        )
+    }
+}
+
+@Deprecated("Use your own implementation if you really need it")
+inline fun <T, K : Comparable<K>> MutableList<T>.binaryInsertByDistinct(
+    item: T,
+    crossinline selector: (T) -> K?
+): Boolean {
+    val index = binarySearchBy(selector(item), selector = selector)
+    if (index < 0) {
+        add(
+            index = -index - 1,
+            element = item
+        )
+        return true
+    } else {
+        return false
+    }
+}
+
+
+@Deprecated("Use your own implementation if you really need it")
+inline fun <T, K : Comparable<K>> List<T>.binaryFind(
+    key: K,
+    crossinline selector: (T) -> K?
+): T? {
+    val index = binarySearchBy(key, selector = selector)
+    if(index >= 0){
+        return this[index]
+    } else {
+        return null
+    }
+}
+
+
+@Deprecated("Use your own implementation if you really need it")
+inline fun <T, K : Comparable<K>> List<T>.binaryForEach(
+    lower: K,
+    upper: K,
+    crossinline selector: (T) -> K?,
+    action: (T)->Unit
+) {
+    var index = binarySearchBy(lower, selector = selector)
+    if(index < 0){
+        index = -index - 1
+    }
+    while(index < size){
+        val item = this[index]
+        val itemK = selector(item)
+        if(itemK == null || itemK > upper) break
+        action(item)
+        index++
+    }
+}
+
+@Deprecated("Use your own implementation if you really need it")
+fun Int.floorMod(other: Int): Int = (this % other + other) % other
+@Deprecated("Use your own implementation if you really need it")
+fun Int.floorDiv(other: Int): Int {
+    if(this < 0){
+        return this / other - 1
+    } else {
+        return this / other
+    }
+}
+
+@Deprecated("Use your own implementation if you really need it")
+fun Float.floorMod(other: Float): Float = (this % other + other) % other
+@Deprecated("Use your own implementation if you really need it")
+fun Float.floorDiv(other: Float): Float {
+    if(this < 0){
+        return this / other - 1
+    } else {
+        return this / other
+    }
+}
+
+
+@Deprecated("Use your own implementation if you really need it")
+fun Double.floorMod(other: Double): Double = (this % other + other) % other
+@Deprecated("Use your own implementation if you really need it")
+fun Double.floorDiv(other: Double): Double {
+    if(this < 0){
+        return this / other - 1
+    } else {
+        return this / other
+    }
+}

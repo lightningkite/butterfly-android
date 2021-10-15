@@ -4,6 +4,7 @@ import android.graphics.Shader
 import com.lightningkite.butterfly.views.geometry.GFloat
 
 
+@Deprecated("Use your own implementation if you really need it")
 fun newRadialGradient(
     centerX: GFloat,
     centerY: GFloat,
@@ -20,6 +21,7 @@ fun newRadialGradient(
     tile
 )
 
+@Deprecated("Use your own implementation if you really need it")
 fun newLinearGradient(
     x0: GFloat,
     y0: GFloat,

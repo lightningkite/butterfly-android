@@ -4,6 +4,7 @@ package com.lightningkite.butterfly.views.geometry
 import android.graphics.PointF
 import com.lightningkite.butterfly.views.geometry.Geometry
 
+@Deprecated("Use your own implementation if you really need it")
 data class PolygonF(val points: List<PointF>){
     fun contains(point: PointF): Boolean {
         val intersections = this.points.indices.count {

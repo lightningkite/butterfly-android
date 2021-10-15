@@ -1,6 +1,5 @@
 package com.lightningkite.butterfly.time
 
-import com.lightningkite.butterfly.time.ClockPartSize
 import com.lightningkite.butterfly.time.DateAlone
 import com.lightningkite.butterfly.time.TimeAlone
 import org.junit.Assert.assertEquals

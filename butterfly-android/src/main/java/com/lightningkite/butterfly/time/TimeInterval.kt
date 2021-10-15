@@ -1,24 +1,16 @@
 package com.lightningkite.butterfly.time
 
+import java.time.Duration
 
-
-inline class TimeInterval(val milliseconds: Long) {
-    val seconds: Double get() = milliseconds / 1000.0
-    val minutes: Double get() = seconds / 60.0
-    val hours: Double get() = minutes / 60.0
-    val days: Double get() = hours / 24.0
-    val approximateYears: Double get() = days / 365.25
-}
-
-fun Long.milliseconds(): TimeInterval =
-    TimeInterval(this.toLong())
-fun Int.milliseconds(): TimeInterval =
-    TimeInterval(this.toLong())
-fun Int.seconds(): TimeInterval =
-    TimeInterval(this.toLong() * 1000L)
-fun Int.minutes(): TimeInterval =
-    TimeInterval(this.toLong() * 60L * 1000L)
-fun Int.hours(): TimeInterval =
-    TimeInterval(this.toLong() * 60L * 60L * 1000L)
-fun Int.days(): TimeInterval =
-    TimeInterval(this.toLong() * 24L * 60L * 60L * 1000L)
+@Deprecated("Use Java 9 time", ReplaceWith("Duration.ofMillis(this)", "java.time.Duration"))
+fun Long.milliseconds(): Duration = throw NotImplementedError()
+@Deprecated("Use Java 9 time", ReplaceWith("Duration.ofMillis(this.toLong())", "java.time.Duration"))
+fun Int.milliseconds(): Duration = throw NotImplementedError()
+@Deprecated("Use Java 9 time", ReplaceWith("Duration.ofSeconds(this.toLong())", "java.time.Duration"))
+fun Int.seconds(): Duration = throw NotImplementedError()
+@Deprecated("Use Java 9 time", ReplaceWith("Duration.ofMinutes(this.toLong())", "java.time.Duration"))
+fun Int.minutes(): Duration = throw NotImplementedError()
+@Deprecated("Use Java 9 time", ReplaceWith("Duration.ofHours(this.toLong())", "java.time.Duration"))
+fun Int.hours(): Duration = throw NotImplementedError()
+@Deprecated("Use Java 9 time", ReplaceWith("Duration.ofDays(this.toLong())", "java.time.Duration"))
+fun Int.days(): Duration = throw NotImplementedError()

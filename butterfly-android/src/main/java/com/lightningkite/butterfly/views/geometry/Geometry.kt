@@ -1,8 +1,10 @@
 //! This file will translate using Khrysalis.
 package com.lightningkite.butterfly.views.geometry
 
+@Deprecated("Use your own implementation if you really need it")
 object Geometry {
 
+    @Deprecated("Use your own implementation if you really need it")
     fun rayIntersectsLine(
         rayX: GFloat,
         rayY: GFloat,

@@ -1,11 +1,13 @@
 //! This file will translate using Khrysalis.
 package com.lightningkite.butterfly.views.geometry
 
+@Deprecated("Use your own implementation if you really need it")
 @Suppress("EnumEntryName")
 enum class Align {
     start, center, end, fill
 }
 
+@Deprecated("Use your own implementation if you really need it")
 data class AlignPair(val horizontal: Align, val vertical: Align) {
 
     companion object{
