@@ -14,12 +14,12 @@ plugins {
     id("kotlin-android-extensions")
     id("maven")
     id("signing")
-    id("org.jetbrains.dokka") version "1.5.0"
+    id("org.jetbrains.dokka")
     `maven-publish`
 }
 
 group = "com.lightningkite.butterfly"
-version = "0.1.3"
+version = "0.2.0"
 
 
 val props = project.rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { stream ->
